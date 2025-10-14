@@ -1,11 +1,31 @@
 import os
+import subprocess
 
-os.system('dart run utils/compile_hetu.dart')
+try:
+    result = subprocess.run(
+        'dart run utils/compile_hetu.dart',
+        shell=True,
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True
+    )
+    print(result.stdout)  
 
-# os.system('dart run packages/hetu_script_dev_tools/bin/cli_tool.dart compile lib/main.ht packages/hetu_script/lib/precompiled_module.dart -a "hetuCoreModule"')
+    result = subprocess.run(
+        'dart pub global activate --source path packages/hetu_script_dev_tools',
+        shell=True,
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True
+    )
+    print(result.stdout)  
+    
+    err_code = os.system('dart pub global run hetu_script_dev_tools:cli_tool')
 
-# os.system('dart run packages/hetu_script_dev_tools/bin/cli_tool.dart compile lib/console/console.ht packages/hetu_script_dev_tools/lib/preincludes/preinclude_module.dart -a "consoleModule"')
-
-os.system('dart pub global activate --source path packages/hetu_script_dev_tools')
-
-os.system('dart pub global run hetu_script_dev_tools:cli_tool')
+    if err_code != 0:
+        print(f"Error: Command exited with code {err_code}")
+   
+except subprocess.CalledProcessError as e:
+    print(f"Error occurred: {e.stderr}")

@@ -551,6 +551,20 @@ class HTListClassBinding extends HTExternalClass {
     switch (id) {
       case 'List':
         return ({positionalArgs, namedArgs}) => List.from(positionalArgs);
+      case 'List.filled':
+        return ({positionalArgs, namedArgs}) => List.filled(
+            positionalArgs[0], positionalArgs[1],
+            growable: namedArgs['growable'] ?? false);
+      case 'List.generate':
+        return ({positionalArgs, namedArgs}) => List.generate(
+            positionalArgs[0],
+            (index) =>
+                (positionalArgs[1] as HTFunction).call(positionalArgs: [index]),
+            growable: namedArgs['growable'] ?? true);
+      case 'List.unmodifiable':
+        return ({positionalArgs, namedArgs}) =>
+            List.unmodifiable(positionalArgs.first);
+
       default:
         if (!ignoreUndefined) throw HTError.undefined(id);
     }
@@ -761,6 +775,38 @@ class HTSetClassBinding extends HTExternalClass {
   }
 }
 
+class HTMapEntryBinding extends HTExternalClass {
+  HTMapEntryBinding() : super('MapEntry');
+
+  @override
+  dynamic memberGet(String id,
+      {String? from, bool isRecursive = false, bool ignoreUndefined = false}) {
+    switch (id) {
+      case 'MapEntry':
+        return ({positionalArgs, namedArgs}) =>
+            MapEntry(positionalArgs[0], positionalArgs[1]);
+
+      default:
+        if (!ignoreUndefined) throw HTError.undefined(id);
+    }
+  }
+
+  @override
+  dynamic instanceMemberGet(dynamic instance, String id,
+      {bool ignoreUndefined = false}) {
+    switch (id) {
+      case 'key':
+        return instance.key;
+      case 'value':
+        return instance.value;
+      case 'toString':
+        return ({object, positionalArgs, namedArgs}) => object.toString();
+      default:
+        throw HTError.undefined(id);
+    }
+  }
+}
+
 class HTMapClassBinding extends HTExternalClass {
   HTMapClassBinding() : super('Map');
 
@@ -770,6 +816,25 @@ class HTMapClassBinding extends HTExternalClass {
     switch (id) {
       case 'Map':
         return ({positionalArgs, namedArgs}) => {};
+      case 'Map.unmodifiable':
+        return ({positionalArgs, namedArgs}) =>
+            Map.unmodifiable(positionalArgs.first);
+      case 'Map.fromIterable':
+        return ({positionalArgs, namedArgs}) => Map.fromIterable(
+              positionalArgs[0],
+              key: namedArgs['key'] != null
+                  ? (element) => (namedArgs['key'] as HTFunction)
+                      .call(positionalArgs: [element])
+                  : null,
+              value: namedArgs['value'] != null
+                  ? (element) => (namedArgs['value'] as HTFunction)
+                      .call(positionalArgs: [element])
+                  : null,
+            );
+      case 'Map.fromEntries':
+        return ({positionalArgs, namedArgs}) =>
+            Map.fromEntries(positionalArgs.first);
+
       default:
         if (!ignoreUndefined) throw HTError.undefined(id);
     }

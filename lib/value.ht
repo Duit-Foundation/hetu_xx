@@ -411,6 +411,12 @@ external class List extends Iterable {
 
   constructor (... args: any)
 
+  constructor filled(length: integer, fillValue, {growable: bool = false})
+
+  constructor generate(length: integer, generator: (integer) -> any, {growable: bool = true})
+
+  constructor unmodifiable(elements: Iterable)
+
   function addIfAbsent(value: any)
   
 	function add(value: any)
@@ -511,9 +517,31 @@ external class Set extends Iterable {
   function toSet() -> Set
 }
 
+external class MapEntry {
+
+  constructor (key: any, value: any)
+
+  get key -> any
+
+  get value -> any
+
+  function toString() -> string
+}
+
 external class Map {
 
   constructor
+
+  constructor unmodifiable(other: Map)
+
+  constructor fromIterable(other: Iterable, {
+    key: (any) -> any,
+    value: (any) -> any,
+  })
+
+  constructor fromIterables(keys: Iterable, values: Iterable)
+
+  constructor fromEntries(entries: Iterable)
 
   function toString() -> string
 

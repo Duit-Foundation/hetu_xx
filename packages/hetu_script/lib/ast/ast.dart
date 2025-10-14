@@ -429,7 +429,7 @@ class IdentifierExpr extends ASTNode {
     bool isMarked = false,
     bool isLocal = true,
     HTSource? source,
-  }) : this(idTok.literal,
+  }) : this(idTok.literal.toString(),
             isLocal: isLocal,
             source: source,
             line: idTok.line,
