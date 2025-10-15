@@ -1,8 +1,12 @@
-// Hetu Script
+// Hetu++
 // A lightweight scripting language for embedding in Flutter apps.
 //
 // Copyright (C) 2022 Shao, Ran
 // chengfubeiming@live.com
+// 
+// Copyright (c) 2025 Duit Foundation
+// duit.foundation.gmail.com
+//
 // Licensed under the MIT License.
 // http://www.opensource.org/licenses/mit-license.php
 
