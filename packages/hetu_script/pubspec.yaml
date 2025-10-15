@@ -4,7 +4,7 @@ version: 0.6.2
 homepage: https://github.com/hetu-script/hetu-script
 
 environment:
-  sdk: ^3.0.0
+  sdk: ^3.6.0
 
 dependencies:
   quiver: ^3.0.1
@@ -16,6 +16,6 @@ dependencies:
   fast_noise: ^2.0.0
 
 dev_dependencies:
-  lints: ^6.0.0
-  test: ^1.17.7
-  analyzer: ^7.0.0
+  lints: ^5.1.0
+  test: ^1.26.0
+  analyzer: ^7.7.0
