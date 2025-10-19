@@ -1,6 +1,5 @@
-// ignore_for_file: body_might_complete_normally_nullable
-
-import '../ast.dart';
+import "package:hetu_script/ast/abstract_ast_visitor.dart";
+import "package:hetu_script/ast/ast.dart";
 
 /// An AST visitor that will recursively visit all of the sub nodes in an AST
 /// structure. For example, using an instance of this class to visit a [Block]
@@ -9,309 +8,307 @@ import '../ast.dart';
 /// Subclasses that override a visit method must either invoke the overridden
 /// visit method or must explicitly ask the visited node to visit its children.
 /// Otherwise the children of the visited node might not be visited.
-abstract class RecursiveASTVisitor<T> implements AbstractASTVisitor<T> {
+abstract class RecursiveASTVisitor implements AbstractASTVisitor<void> {
   @override
-  T? visitCompilation(ASTCompilation node) {
+  void visitCompilation(ASTCompilation node) => node.subAccept(this);
+
+  @override
+  void visitSource(ASTSource node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitSource(ASTSource node) {
+  void visitComment(ASTComment node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitComment(ASTComment node) {
+  void visitEmptyLine(ASTEmptyLine node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitEmptyLine(ASTEmptyLine node) {
+  void visitEmptyExpr(ASTEmpty node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitEmptyExpr(ASTEmpty node) {
+  void visitNullExpr(ASTLiteralNull node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitNullExpr(ASTLiteralNull node) {
+  void visitBooleanExpr(ASTLiteralBoolean node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitBooleanExpr(ASTLiteralBoolean node) {
+  void visitIntLiteralExpr(ASTLiteralInteger node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitIntLiteralExpr(ASTLiteralInteger node) {
+  void visitFloatLiteralExpr(ASTLiteralFloat node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitFloatLiteralExpr(ASTLiteralFloat node) {
+  void visitStringLiteralExpr(ASTLiteralString node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitStringLiteralExpr(ASTLiteralString node) {
+  void visitStringInterpolationExpr(ASTStringInterpolation node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitStringInterpolationExpr(ASTStringInterpolation node) {
+  void visitIdentifierExpr(IdentifierExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitIdentifierExpr(IdentifierExpr node) {
+  void visitSpreadExpr(SpreadExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitSpreadExpr(SpreadExpr node) {
+  void visitCommaExpr(ParallelExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitCommaExpr(ParallelExpr node) {
+  void visitListExpr(ListExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitListExpr(ListExpr node) {
+  void visitInOfExpr(InOfExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitInOfExpr(InOfExpr node) {
+  void visitGroupExpr(GroupExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitGroupExpr(GroupExpr node) {
+  void visitIntrinsicTypeExpr(IntrinsicTypeExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitIntrinsicTypeExpr(IntrinsicTypeExpr node) {
+  void visitNominalTypeExpr(NominalTypeExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitNominalTypeExpr(NominalTypeExpr node) {
+  void visitParamTypeExpr(ParamTypeExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitParamTypeExpr(ParamTypeExpr node) {
+  void visitFunctionTypeExpr(FuncTypeExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitFunctionTypeExpr(FuncTypeExpr node) {
+  void visitFieldTypeExpr(FieldTypeExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitFieldTypeExpr(FieldTypeExpr node) {
+  void visitStructuralTypeExpr(StructuralTypeExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitStructuralTypeExpr(StructuralTypeExpr node) {
+  void visitGenericTypeParamExpr(GenericTypeParameterExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitGenericTypeParamExpr(GenericTypeParameterExpr node) {
+  void visitUnaryPrefixExpr(UnaryPrefixExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitUnaryPrefixExpr(UnaryPrefixExpr node) {
+  void visitUnaryPostfixExpr(UnaryPostfixExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitUnaryPostfixExpr(UnaryPostfixExpr node) {
+  void visitBinaryExpr(BinaryExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitBinaryExpr(BinaryExpr node) {
+  void visitTernaryExpr(TernaryExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitTernaryExpr(TernaryExpr node) {
+  void visitAssignExpr(AssignExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitAssignExpr(AssignExpr node) {
+  void visitMemberExpr(MemberExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitMemberExpr(MemberExpr node) {
+  void visitSubExpr(SubExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitSubExpr(SubExpr node) {
+  void visitCallExpr(CallExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitCallExpr(CallExpr node) {
+  void visitAssertStmt(AssertStmt node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitAssertStmt(AssertStmt node) {
+  void visitThrowStmt(ThrowStmt node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitThrowStmt(ThrowStmt node) {
+  void visitExprStmt(ExprStmt node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitExprStmt(ExprStmt node) {
+  void visitBlockStmt(BlockStmt node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitBlockStmt(BlockStmt node) {
+  void visitReturnStmt(ReturnStmt node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitReturnStmt(ReturnStmt node) {
+  void visitIf(IfExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitIf(IfExpr node) {
+  void visitWhileStmt(WhileStmt node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitWhileStmt(WhileStmt node) {
+  void visitDoStmt(DoStmt node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitDoStmt(DoStmt node) {
+  void visitForStmt(ForExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitForStmt(ForExpr node) {
+  void visitForRangeStmt(ForRangeExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitForRangeStmt(ForRangeExpr node) {
+  void visitSwitch(SwitchStmt node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitSwitch(SwitchStmt node) {
+  void visitBreakStmt(BreakStmt node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitBreakStmt(BreakStmt node) {
+  void visitContinueStmt(ContinueStmt node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitContinueStmt(ContinueStmt node) {
+  void visitDeleteStmt(DeleteStmt node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitDeleteStmt(DeleteStmt node) {
+  void visitDeleteMemberStmt(DeleteMemberStmt node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitDeleteMemberStmt(DeleteMemberStmt node) {
+  void visitDeleteSubStmt(DeleteSubStmt node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitDeleteSubStmt(DeleteSubStmt node) {
+  void visitImportExportDecl(ImportExportDecl node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitImportExportDecl(ImportExportDecl node) {
+  void visitNamespaceDecl(NamespaceDecl node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitNamespaceDecl(NamespaceDecl node) {
+  void visitTypeAliasDecl(TypeAliasDecl node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitTypeAliasDecl(TypeAliasDecl node) {
+  void visitVarDecl(VarDecl node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitVarDecl(VarDecl node) {
+  void visitDestructuringDecl(DestructuringDecl node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitDestructuringDecl(DestructuringDecl node) {
+  void visitParamDecl(ParamDecl node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitParamDecl(ParamDecl node) {
+  void visitReferConstructCallExpr(RedirectingConstructorCallExpr node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitReferConstructCallExpr(RedirectingConstructorCallExpr node) {
+  void visitFuncDecl(FuncDecl node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitFuncDecl(FuncDecl node) {
+  void visitClassDecl(ClassDecl node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitClassDecl(ClassDecl node) {
+  void visitEnumDecl(EnumDecl node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitEnumDecl(EnumDecl node) {
+  void visitStructDecl(StructDecl node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitStructDecl(StructDecl node) {
+  void visitStructObjField(StructObjField node) {
     node.subAccept(this);
   }
 
   @override
-  T? visitStructObjField(StructObjField node) {
-    node.subAccept(this);
-  }
-
-  @override
-  T? visitStructObjExpr(StructObjExpr node) {
+  void visitStructObjExpr(StructObjExpr node) {
     node.subAccept(this);
   }
 }

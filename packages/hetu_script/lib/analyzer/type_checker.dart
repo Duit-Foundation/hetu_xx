@@ -1,11 +1,8 @@
-// import '../type/nominal_type.dart';
-import '../ast/ast.dart';
-// import '../grammar/lexicon.dart';
-// import '../shared/stringify.dart';
-import '../type/type.dart';
-import '../lexicon/lexicon.dart';
-import '../lexicon/lexicon_hetu.dart';
-import '../type/nominal.dart';
+import "package:hetu_script/ast/index.dart";
+import "package:hetu_script/type/type.dart";
+import "package:hetu_script/lexicon/lexicon.dart";
+import "package:hetu_script/lexicon/lexicon_hetu.dart";
+import "package:hetu_script/type/nominal.dart";
 
 /// A interpreter that compute [HTType] out of [ASTNode]
 class HTTypeChecker implements AbstractASTVisitor<HTType> {
@@ -17,27 +14,27 @@ class HTTypeChecker implements AbstractASTVisitor<HTType> {
 
   @override
   HTType visitCompilation(ASTCompilation node) {
-    throw 'Don\'t use this on AstCompilation.';
+    throw "Don't use this on AstCompilation.";
   }
 
   @override
   HTType visitSource(ASTSource node) {
-    throw 'Don\'t use this on AstSource.';
+    throw "Don't use this on AstSource.";
   }
 
   @override
   HTType visitComment(ASTComment node) {
-    throw 'Not a value';
+    throw "Not a value";
   }
 
   @override
   HTType visitEmptyLine(ASTEmptyLine node) {
-    throw 'Not a value';
+    throw "Not a value";
   }
 
   @override
   HTType visitEmptyExpr(ASTEmpty node) {
-    throw 'Not a value';
+    throw "Not a value";
   }
 
   @override
@@ -47,27 +44,27 @@ class HTTypeChecker implements AbstractASTVisitor<HTType> {
 
   @override
   HTType visitBooleanExpr(ASTLiteralBoolean node) {
-    return HTNominalType(id: 'bool');
+    return HTNominalType(id: "bool");
   }
 
   @override
   HTType visitIntLiteralExpr(ASTLiteralInteger node) {
-    return HTNominalType(id: 'int');
+    return HTNominalType(id: "int");
   }
 
   @override
   HTType visitFloatLiteralExpr(ASTLiteralFloat node) {
-    return HTNominalType(id: 'float');
+    return HTNominalType(id: "float");
   }
 
   @override
   HTType visitStringLiteralExpr(ASTLiteralString node) {
-    return HTNominalType(id: 'string');
+    return HTNominalType(id: "string");
   }
 
   @override
   HTType visitStringInterpolationExpr(ASTStringInterpolation node) {
-    return HTNominalType(id: 'string');
+    return HTNominalType(id: "string");
   }
 
   @override

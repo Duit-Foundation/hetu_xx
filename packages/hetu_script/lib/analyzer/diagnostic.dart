@@ -1,8 +1,4 @@
-// Copyright (c) 2019, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
-import '../logger/message_severity.dart';
+import "package:hetu_script/logger/message_severity.dart";
 
 /// A diagnostic, as defined by the [Diagnostic Design Guidelines][guidelines]:
 ///
@@ -27,8 +23,12 @@ class HTDiagnostic {
   /// The severity associated with the diagnostic.
   final MessageSeverity severity;
 
-  HTDiagnostic(this.contextMessages, this.correctionMessage,
-      this.problemMessage, this.severity);
+  HTDiagnostic(
+    this.contextMessages,
+    this.correctionMessage,
+    this.problemMessage,
+    this.severity,
+  );
 }
 
 /// A single message associated with a [HTDiagnostic], consisting of the text of
@@ -49,5 +49,10 @@ class HTDiagnosticMessage {
   /// The text of the message.
   final String message;
 
-  HTDiagnosticMessage(this.filename, this.offset, this.length, this.message);
+  HTDiagnosticMessage(
+    this.filename,
+    this.offset,
+    this.length,
+    this.message,
+  );
 }

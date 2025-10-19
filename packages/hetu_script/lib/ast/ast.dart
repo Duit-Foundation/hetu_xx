@@ -1,16 +1,15 @@
-import 'package:pub_semver/pub_semver.dart';
+import "package:hetu_script/ast/abstract_ast_visitor.dart";
+import "package:pub_semver/pub_semver.dart";
 
-import '../declaration/namespace/declaration_namespace.dart';
-import '../parser/token.dart';
-import '../source/source.dart';
-import '../declaration/declaration.dart';
-import '../../resource/resource.dart' show HTResourceType;
-import '../../source/line_info.dart';
-import '../error/error.dart';
-import '../../common/internal_identifier.dart';
-import '../common/function_category.dart';
-
-part 'visitor/abstract_ast_visitor.dart';
+import "package:hetu_script/declaration/namespace/declaration_namespace.dart";
+import "package:hetu_script/parser/token.dart";
+import "package:hetu_script/source/source.dart";
+import "package:hetu_script/declaration/declaration.dart";
+import "package:hetu_script/resource/resource.dart" show HTResourceType;
+import "package:hetu_script/source/line_info.dart";
+import "package:hetu_script/error/error.dart";
+import "package:hetu_script/common/internal_identifier.dart";
+import "package:hetu_script/common/function_category.dart";
 
 /// An abstract node of an abstract syntax tree.
 abstract class ASTNode {
@@ -145,7 +144,7 @@ class ASTEmptyLine extends ASTAnnotation {
     super.length = 0,
   }) : super(
           InternalIdentifier.emptyLine,
-          content: '\n',
+          content: "\n",
           isDocumentation: false,
         );
 }

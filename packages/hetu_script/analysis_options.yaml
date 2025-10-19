@@ -1,28 +1,38 @@
-# This file configures the static analysis results for your project (errors,
-# warnings, and lints).
-#
-# This enables the 'recommended' set of lints from `package:lints`.
-# This set helps identify many issues that may lead to problems when running
-# or consuming Dart code, and enforces writing Dart using a single, idiomatic
-# style and format.
-#
-# If you want a smaller set of lints you can change this to specify
-# 'package:lints/core.yaml'. These are just the most critical lints
-# (the recommended set includes the core lints).
-# The core lints are also what is used by pub.dev for scoring packages.
-
 include: package:lints/recommended.yaml
-# Uncomment the following section to specify additional rules.
 
 linter:
   rules:
-    - unnecessary_breaks
-# analyzer:
-#   exclude:
-#     - path/to/excluded/files/**
+    # Error rules
+    - always_use_package_imports
+    - avoid_slow_async_io
+    - cancel_subscriptions
+    - close_sinks
+    - throw_in_finally
+    - avoid_catching_errors
+    - avoid_js_rounded_ints
+    - cast_nullable_to_non_nullable
+    - conditional_uri_does_not_exist
 
-# For more information about the core and recommended set of lints, see
-# https://dart.dev/go/core-lints
-
-# For additional information about configuring this file, see
-# https://dart.dev/guides/language/analysis-options
+    # Style rules
+    - require_trailing_commas
+    - prefer_double_quotes
+    - always_declare_return_types
+    - avoid_annotating_with_dynamic
+    - eol_at_end_of_file
+    - always_put_required_named_parameters_first
+    - avoid_bool_literals_in_conditional_expressions
+    - avoid_double_and_int_checks
+    - avoid_escaping_inner_quotes
+    - avoid_field_initializers_in_const_classes
+    - avoid_final_parameters
+    - avoid_null_checks_in_equality_operators
+    - avoid_setters_without_getters
+    - avoid_unused_constructor_parameters
+    - avoid_void_async
+    - leading_newlines_in_multiline_strings
+    - missing_whitespace_between_adjacent_strings
+    - omit_local_variable_types
+    - parameter_assignments
+    - unnecessary_parenthesis
+    - unnecessary_lambdas
+    - unnecessary_await_in_return

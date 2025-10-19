@@ -1,21 +1,20 @@
-import 'package:path/path.dart' as path;
+import "package:hetu_script/ast/index.dart";
+import "package:path/path.dart" as path;
 
-import '../source/source.dart';
-import '../resource/resource.dart';
-import '../resource/resource_context.dart';
-import '../resource/overlay/overlay_context.dart';
-import '../declaration/namespace/declaration_namespace.dart';
-import '../error/error.dart';
-import '../error/error_handler.dart';
-import '../ast/ast.dart';
-import 'analysis_result.dart';
-import 'analysis_error.dart';
-import '../ast/visitor/recursive_ast_visitor.dart';
-import '../constant/constant_interpreter.dart';
-import 'analyzer_impl.dart';
-import '../lexicon/lexicon.dart';
-import '../lexicon/lexicon_hetu.dart';
-import '../common/internal_identifier.dart';
+import "package:hetu_script/source/source.dart";
+import "package:hetu_script/resource/resource.dart";
+import "package:hetu_script/resource/resource_context.dart";
+import "package:hetu_script/resource/overlay/overlay_context.dart";
+import "package:hetu_script/declaration/namespace/declaration_namespace.dart";
+import "package:hetu_script/error/error.dart";
+import "package:hetu_script/error/error_handler.dart";
+import "package:hetu_script/analyzer/analysis_result.dart";
+import "package:hetu_script/analyzer/analysis_error.dart";
+import "package:hetu_script/constant/constant_interpreter.dart";
+import "package:hetu_script/analyzer/analyzer_impl.dart";
+import "package:hetu_script/lexicon/lexicon.dart";
+import "package:hetu_script/lexicon/lexicon_hetu.dart";
+import "package:hetu_script/common/internal_identifier.dart";
 
 /// Namespace that holds symbols for analyzing, the value is either the declaration AST or null.
 typedef AnalysisNamespace = HTDeclarationNamespace<ASTNode?>;
@@ -49,7 +48,7 @@ class AnalyzerConfig {
 /// A ast visitor that create declarative-only namespaces on all astnode,
 /// for analysis purpose, the true analyzer is another class,
 /// albeit its name, this is basically a resolver.
-class HTAnalyzer extends RecursiveASTVisitor<void> {
+class HTAnalyzer extends RecursiveASTVisitor {
   final errorProcessors = <ErrorProcessor>[];
 
   AnalyzerConfig config;
@@ -86,7 +85,9 @@ class HTAnalyzer extends RecursiveASTVisitor<void> {
         sourceContext = sourceContext ?? HTOverlayContext(),
         _lexicon = lexicon ?? HTLexiconHetu() {
     globalNamespace = HTDeclarationNamespace(
-        lexicon: _lexicon, id: InternalIdentifier.global);
+      lexicon: _lexicon,
+      id: InternalIdentifier.global,
+    );
     _currentNamespace = globalNamespace;
   }
 
@@ -132,7 +133,7 @@ class HTAnalyzer extends RecursiveASTVisitor<void> {
     );
     if (config.printPerformanceStatistics) {
       final tok = DateTime.now().millisecondsSinceEpoch;
-      print('analyzed [${compilation.entryFullname}]\t${tok - tik}ms');
+      print("analyzed [${compilation.entryFullname}]\t${tok - tik}ms");
     }
     return result;
   }
@@ -145,11 +146,12 @@ class HTAnalyzer extends RecursiveASTVisitor<void> {
       if (namespaces[source.fullName] != null) {
         _currentNamespace = namespaces[source.fullName]!;
       } else {
-        namespaces[source.fullName] = _currentNamespace =
-            HTDeclarationNamespace(
-                lexicon: _lexicon,
-                id: source.fullName,
-                closure: globalNamespace);
+        namespaces[source.fullName] =
+            _currentNamespace = HTDeclarationNamespace(
+          lexicon: _lexicon,
+          id: source.fullName,
+          closure: globalNamespace,
+        );
       }
     }
     for (final node in source.nodes) {
@@ -177,10 +179,11 @@ class HTAnalyzer extends RecursiveASTVisitor<void> {
     }
 
     final sourceAnalysisResult = HTSourceAnalysisResult(
-        parseResult: source,
-        analyzer: this,
-        errors: sourceErrors,
-        namespace: _currentNamespace);
+      parseResult: source,
+      analyzer: this,
+      errors: sourceErrors,
+      namespace: _currentNamespace,
+    );
 
     _currentAnalysisResults[sourceAnalysisResult.fullName] =
         sourceAnalysisResult;
@@ -193,12 +196,12 @@ class HTAnalyzer extends RecursiveASTVisitor<void> {
 
   @override
   void visitCompilation(ASTCompilation node) {
-    throw 'Use `analyzeCompilation()` instead of `visitCompilation()`.';
+    throw "Use `analyzeCompilation()` instead of `visitCompilation()`.";
   }
 
   @override
   void visitSource(ASTSource node) {
-    throw 'Use `resolve() & analyzer()` instead of `visitSource`.';
+    throw "Use `resolve() & analyzer()` instead of `visitSource`.";
   }
 
   @override
@@ -228,14 +231,17 @@ class HTAnalyzer extends RecursiveASTVisitor<void> {
       // handle self import error.
       final currentDir = path.dirname(_currentSource.fullName);
       final fromPath = sourceContext.getAbsolutePath(
-          key: node.fromPath!, dirName: currentDir);
+        key: node.fromPath!,
+        dirName: currentDir,
+      );
       if (_currentSource.fullName == fromPath) {
         final err = HTAnalysisError.importSelf(
-            filename: node.source!.fullName,
-            line: node.line,
-            column: node.column,
-            offset: node.offset,
-            length: node.length);
+          filename: node.source!.fullName,
+          line: node.line,
+          column: node.column,
+          offset: node.offset,
+          length: node.length,
+        );
         _currentErrors.add(err);
       }
     }
@@ -260,16 +266,22 @@ class HTAnalyzer extends RecursiveASTVisitor<void> {
   @override
   void visitVarDecl(VarDecl node) {
     node.subAccept(this);
-    _currentNamespace.define(node.id.id, node,
-        override: config.allowVariableShadowing);
+    _currentNamespace.define(
+      node.id.id,
+      node,
+      override: config.allowVariableShadowing,
+    );
   }
 
   @override
   void visitDestructuringDecl(DestructuringDecl node) {
     node.subAccept(this);
     for (final key in node.ids.keys) {
-      _currentNamespace.define(key.id, null,
-          override: config.allowVariableShadowing);
+      _currentNamespace.define(
+        key.id,
+        null,
+        override: config.allowVariableShadowing,
+      );
     }
   }
 
@@ -293,7 +305,10 @@ class HTAnalyzer extends RecursiveASTVisitor<void> {
     node.redirectingConstructorCall?.accept(this);
     final savedCurrrentNamespace = _currentNamespace;
     _currentNamespace = HTDeclarationNamespace(
-        lexicon: _lexicon, id: node.internalName, closure: _currentNamespace);
+      lexicon: _lexicon,
+      id: node.internalName,
+      closure: _currentNamespace,
+    );
     for (final param in node.paramDecls) {
       visitParamDecl(param);
     }

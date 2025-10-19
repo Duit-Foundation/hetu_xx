@@ -1,13 +1,13 @@
-import 'package:path/path.dart' as path;
-import 'package:pub_semver/pub_semver.dart';
+import "package:path/path.dart" as path;
+import "package:pub_semver/pub_semver.dart";
 
-import '../resource/resource.dart';
-import '../resource/resource_context.dart';
-import '../source/source.dart';
-import '../error/error.dart';
-import '../ast/ast.dart';
-import '../parser/parser.dart';
-import '../common/internal_identifier.dart';
+import "package:hetu_script/resource/resource.dart";
+import "package:hetu_script/resource/resource_context.dart";
+import "package:hetu_script/source/source.dart";
+import "package:hetu_script/error/error.dart";
+import "package:hetu_script/ast/ast.dart";
+import "package:hetu_script/parser/parser.dart";
+import "package:hetu_script/common/internal_identifier.dart";
 
 class BundlerConfig {
   bool normalizeImportPath;
@@ -62,8 +62,8 @@ class HTBundler {
                     .startsWith(InternalIdentifier.anonymousScript)
                 ? sourceContext.root
                 : path.dirname(astSource.fullName);
-            if (!currentDir.endsWith('/')) {
-              currentDir += '/';
+            if (!currentDir.endsWith("/")) {
+              currentDir += "/";
             }
             decl.fullFromPath = importFullName = sourceContext.getAbsolutePath(
                 key: decl.fromPath!, dirName: currentDir);
@@ -130,7 +130,7 @@ class HTBundler {
     );
     if (config.printPerformanceStatistics) {
       final tok = DateTime.now().millisecondsSinceEpoch;
-      print('hetu: ${tok - tik}ms\tto bundle\t[${source.fullName}]');
+      print("hetu: ${tok - tik}ms\tto bundle\t[${source.fullName}]");
     }
     return compilation;
   }
