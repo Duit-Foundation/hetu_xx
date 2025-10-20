@@ -1,5 +1,4 @@
 import 'package:hetu_script/hetu_script.dart';
-import 'package:hetu_script/values.dart';
 
 typedef DartFunction = int Function(int a, int b);
 

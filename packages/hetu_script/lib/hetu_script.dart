@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 // http://www.opensource.org/licenses/mit-license.php
 
+
 export "version.dart";
 export "locale/index.dart";
 export "type/index.dart";
@@ -25,3 +26,6 @@ export "source/index.dart";
 export "resource/index.dart";
 export "error/index.dart";
 export "logger/index.dart";
+export "external/index.dart";
+export "formatter/index.dart";
+export "analyzer/index.dart";
