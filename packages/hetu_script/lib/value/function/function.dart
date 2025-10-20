@@ -1,23 +1,11 @@
-import "package:hetu_script/declaration/abstract_parameter.dart";
-
-import "package:hetu_script/external/external_function.dart";
-import "package:hetu_script/error/error.dart";
-// import '../../source/source.dart';
-import "package:hetu_script/interpreter/interpreter.dart";
-import "package:hetu_script/bytecode/goto_info.dart";
-// import '../../type/type.dart';
-import "package:hetu_script/value/instance/instance_namespace.dart";
-import "package:hetu_script/value/class/class.dart";
-import "package:hetu_script/value/instance/instance.dart";
-import "package:hetu_script/value/struct/struct.dart";
-import "package:hetu_script/value/namespace/namespace.dart";
-import "package:hetu_script/declaration/function_declaration.dart";
-// import '../../declaration/generic/generic_type_parameter.dart';
-import "package:hetu_script/type/function.dart";
-import "package:hetu_script/value/object.dart";
-import "package:hetu_script/value/variable/variable.dart";
-import "package:hetu_script/common/function_category.dart";
-import "package:hetu_script/common/internal_identifier.dart";
+import "package:hetu_script/external/index.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/interpreter/index.dart";
+import "package:hetu_script/bytecode/index.dart";
+import "package:hetu_script/declaration/index.dart";
+import "package:hetu_script/type/index.dart";
+import "package:hetu_script/value/index.dart";
+import "package:hetu_script/common/index.dart";
 
 class RedirectingConstructor {
   /// id of super class's constructor

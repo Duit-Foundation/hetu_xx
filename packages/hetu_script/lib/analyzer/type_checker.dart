@@ -1,8 +1,6 @@
 import "package:hetu_script/ast/index.dart";
-import "package:hetu_script/type/type.dart";
-import "package:hetu_script/lexicon/lexicon.dart";
-import "package:hetu_script/lexicon/lexicon_hetu.dart";
-import "package:hetu_script/type/nominal.dart";
+import "package:hetu_script/type/index.dart";
+import "package:hetu_script/lexicon/index.dart";
 
 /// A interpreter that compute [HTType] out of [ASTNode]
 class HTTypeChecker implements AbstractASTVisitor<HTType> {

@@ -1,6 +1,5 @@
-import "package:hetu_script/parser/token.dart";
-import "package:hetu_script/lexicon/lexicon.dart";
-import "package:hetu_script/lexicon/lexicon_hetu.dart";
+import "package:hetu_script/parser/index.dart";
+import "package:hetu_script/lexicon/index.dart";
 
 abstract class HTLexer {
   HTLexicon lexicon;

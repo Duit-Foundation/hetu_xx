@@ -1,7 +1,7 @@
-import "package:hetu_script/error/error.dart";
-import "package:hetu_script/logger/message_severity.dart";
-import "package:hetu_script/analyzer/diagnostic.dart";
-import "package:hetu_script/locale/locale.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/logger/index.dart";
+import "package:hetu_script/analyzer/index.dart";
+import "package:hetu_script/locale/index.dart";
 
 /// An implementation of [HTError] that used by [HTAnalyzer].
 /// The format of the printed error content is different from [HTError].

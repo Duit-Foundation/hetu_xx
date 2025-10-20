@@ -1,6 +1,6 @@
 import "package:characters/characters.dart";
-import "package:hetu_script/lexer/lexer.dart";
-import "package:hetu_script/parser/token.dart";
+import "package:hetu_script/lexer/index.dart";
+import "package:hetu_script/parser/index.dart";
 
 /// Utility methods on String to check whether it's empty,
 /// i.e. contains only white space characters.

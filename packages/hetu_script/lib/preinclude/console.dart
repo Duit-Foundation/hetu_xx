@@ -1,7 +1,5 @@
-import "package:hetu_script/logger/message_severity.dart";
-import "package:hetu_script/lexicon/lexicon.dart";
-import "package:hetu_script/logger/logger.dart";
-import "package:hetu_script/logger/console_logger.dart";
+import "package:hetu_script/lexicon/index.dart";
+import "package:hetu_script/logger/index.dart";
 
 class Console {
   HTLexicon lexicon;

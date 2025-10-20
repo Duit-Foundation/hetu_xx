@@ -1,8 +1,4 @@
-// import '../../type/type.dart';
-// import '../../source/source.dart';
-// import '../namespace/declaration_namespace.dart';
-import "package:hetu_script/declaration/variable_declaration.dart";
-import "package:hetu_script/declaration/abstract_parameter.dart";
+import "package:hetu_script/declaration/index.dart";
 
 class HTParameterDeclaration extends HTVariableDeclaration
     implements HTAbstractParameter {

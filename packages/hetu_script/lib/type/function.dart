@@ -1,8 +1,7 @@
 import "package:quiver/core.dart";
 
-import "package:hetu_script/declaration/abstract_type_declaration.dart";
-import "package:hetu_script/type/type.dart";
-import "package:hetu_script/declaration/generic_type_parameter.dart";
+import "package:hetu_script/declaration/index.dart";
+import "package:hetu_script/type/index.dart";
 
 class HTParameterType {
   final HTType declType;

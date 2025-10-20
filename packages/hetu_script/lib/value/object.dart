@@ -1,7 +1,6 @@
 import "package:hetu_script/error/index.dart";
 import "package:hetu_script/type/index.dart";
 
-
 /// The encapsulated null object, used when try to interact with a null value.
 class _HTNull with HTObject {
   const _HTNull();

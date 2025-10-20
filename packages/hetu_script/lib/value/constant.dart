@@ -1,5 +1,5 @@
-import "package:hetu_script/constant/global_constant_table.dart";
-import "package:hetu_script/declaration/declaration.dart";
+import "package:hetu_script/constant/index.dart";
+import "package:hetu_script/declaration/index.dart";
 
 class HTConstantValue extends HTDeclaration {
   @override

@@ -1,19 +1,10 @@
 import "dart:collection";
-
 import "package:quiver/core.dart";
-
-import "package:hetu_script/error/error.dart";
-import "package:hetu_script/type/type.dart";
-import "package:hetu_script/type/nominal.dart";
-import "package:hetu_script/value/function/function.dart";
-import "package:hetu_script/value/class/class.dart";
-import "package:hetu_script/value/instance/cast.dart";
-import "package:hetu_script/value/namespace/namespace.dart";
-import "package:hetu_script/value/object.dart";
-import "package:hetu_script/value/instance/instance_namespace.dart";
-import "package:hetu_script/interpreter/interpreter.dart";
-import "package:hetu_script/common/internal_identifier.dart";
-import "package:hetu_script/common/function_category.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/type/index.dart";
+import "package:hetu_script/value/index.dart";
+import "package:hetu_script/interpreter/index.dart";
+import "package:hetu_script/common/index.dart";
 
 /// The Dart implementation of the instance in Hetu.
 /// [HTInstance] carries all decl from its super classes.

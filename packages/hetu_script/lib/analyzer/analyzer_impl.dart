@@ -1,8 +1,7 @@
-import "package:hetu_script/analyzer/analysis_error.dart";
-import "package:hetu_script/analyzer/type_checker.dart";
+import "package:hetu_script/analyzer/index.dart";
 import "package:hetu_script/ast/index.dart";
-import "package:hetu_script/error/error.dart";
-import "package:hetu_script/lexicon/lexicon.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/lexicon/index.dart";
 
 /// A Ast interpreter for static analysis.
 class HTAnalyzerImpl implements AbstractASTVisitor<void> {

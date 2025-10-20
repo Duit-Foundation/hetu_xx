@@ -1,12 +1,10 @@
-import "package:hetu_script/ast/ast.dart";
-import "package:hetu_script/resource/resource_manager.dart";
-import "package:hetu_script/resource/resource_context.dart";
-import "package:hetu_script/source/source.dart";
-import "package:hetu_script/error/error_handler.dart";
-import "package:hetu_script/analyzer/analysis_result.dart";
-import "package:hetu_script/analyzer/analyzer.dart";
-import "package:hetu_script/bundler/bundler.dart";
-import "package:hetu_script/parser/parser_hetu.dart";
+import "package:hetu_script/ast/index.dart";
+import "package:hetu_script/resource/index.dart";
+import "package:hetu_script/source/index.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/analyzer/index.dart";
+import "package:hetu_script/bundler/index.dart";
+import "package:hetu_script/parser/index.dart";
 
 class HTAnalysisManager {
   final HTErrorHandlerCallback? errorHandler;

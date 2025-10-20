@@ -1,8 +1,7 @@
 import "package:hetu_script/ast/index.dart";
-import "package:hetu_script/lexicon/lexicon.dart";
-import "package:hetu_script/lexicon/lexicon_hetu.dart";
-import "package:hetu_script/analyzer/analysis_error.dart";
-import "package:hetu_script/error/error.dart";
+import "package:hetu_script/lexicon/index.dart";
+import "package:hetu_script/analyzer/index.dart";
+import "package:hetu_script/error/index.dart";
 
 /// A interpreter that computes the value of a constant expression before compilation.
 /// If the AstNode provided is non-constant value, do nothing.

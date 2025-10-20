@@ -1,15 +1,12 @@
+import "package:path/path.dart" as path;
 import "package:hetu_script/ast/index.dart";
 import "package:hetu_script/common/index.dart";
 import "package:hetu_script/declaration/index.dart";
-import "package:hetu_script/parser/parser.dart";
-import "package:path/path.dart" as path;
-
-import "package:hetu_script/parser/token.dart";
-import "package:hetu_script/error/error.dart";
-import "package:hetu_script/resource/resource.dart";
-import "package:hetu_script/resource/resource_context.dart";
+import "package:hetu_script/parser/index.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/resource/index.dart";
 import "package:hetu_script/version.dart";
-import "package:hetu_script/locale/locale.dart";
+import "package:hetu_script/locale/index.dart";
 
 /// Default parser implementation used by Hetu.
 class HTParserHetu extends HTParser {

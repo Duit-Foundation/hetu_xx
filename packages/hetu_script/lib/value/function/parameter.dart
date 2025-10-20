@@ -1,7 +1,6 @@
 import "package:hetu_script/declaration/index.dart";
 import "package:hetu_script/value/variable/variable.dart";
 
-
 // TODO: parameter's initializer must be a const expression.
 
 /// An implementation of [HTVariable] for function parameter declaration.

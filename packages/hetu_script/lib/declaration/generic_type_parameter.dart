@@ -1,4 +1,4 @@
-import "package:hetu_script/type/type.dart";
+import "package:hetu_script/type/index.dart";
 
 /// A Generic Type Parameter could be:
 /// ```

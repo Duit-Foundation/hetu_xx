@@ -5,12 +5,10 @@ import "package:hetu_script/ast/index.dart";
 import "package:pub_semver/pub_semver.dart";
 
 import "package:hetu_script/version.dart";
-import "package:hetu_script/lexicon/lexicon.dart";
-import "package:hetu_script/lexicon/lexicon_hetu.dart";
-import "package:hetu_script/bytecode/op_code.dart";
-import "package:hetu_script/constant/global_constant_table.dart";
-import "package:hetu_script/common/function_category.dart";
-import "package:hetu_script/common/internal_identifier.dart";
+import "package:hetu_script/lexicon/index.dart";
+import "package:hetu_script/bytecode/index.dart";
+import "package:hetu_script/constant/index.dart";
+import "package:hetu_script/common/index.dart";
 
 /// Collection of config of a compiler.
 class CompilerConfig {

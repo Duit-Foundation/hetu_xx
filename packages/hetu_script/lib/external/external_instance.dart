@@ -1,12 +1,8 @@
 import "package:hetu_script/error/index.dart";
-import "package:hetu_script/external/external_class.dart";
-import "package:hetu_script/interpreter/interpreter.dart";
-import "package:hetu_script/type/external.dart";
-import "package:hetu_script/type/nominal.dart";
-import "package:hetu_script/type/type.dart";
-import "package:hetu_script/value/class/class.dart";
-import "package:hetu_script/value/function/function.dart";
-import "package:hetu_script/value/object.dart";
+import "package:hetu_script/external/index.dart";
+import "package:hetu_script/interpreter/index.dart";
+import "package:hetu_script/type/index.dart";
+import "package:hetu_script/value/index.dart";
 
 /// Class for external object.
 class HTExternalInstance<T> with HTObject, InterpreterRef {

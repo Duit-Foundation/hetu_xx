@@ -1,9 +1,7 @@
-import "package:hetu_script/declaration/declaration_namespace.dart";
-import "package:hetu_script/source/source.dart";
-import "package:hetu_script/source/line_info.dart";
-import "package:hetu_script/ast/ast.dart";
-import "package:hetu_script/analyzer/analyzer.dart";
-import "package:hetu_script/analyzer/analysis_error.dart";
+import "package:hetu_script/declaration/index.dart";
+import "package:hetu_script/source/index.dart";
+import "package:hetu_script/ast/index.dart";
+import "package:hetu_script/analyzer/index.dart";
 
 class HTSourceAnalysisResult {
   final ASTSource parseResult;

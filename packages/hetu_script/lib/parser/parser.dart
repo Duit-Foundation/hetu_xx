@@ -1,12 +1,10 @@
-import "package:hetu_script/ast/ast.dart";
-import "package:hetu_script/source/source.dart";
-import "package:hetu_script/parser/token.dart";
-import "package:hetu_script/lexicon/lexicon.dart";
-import "package:hetu_script/lexer/lexer.dart";
-import "package:hetu_script/lexer/lexer_hetu.dart";
-import "package:hetu_script/parser/token_reader.dart";
-import "package:hetu_script/error/error.dart";
-import "package:hetu_script/resource/resource.dart" show HTResourceType;
+import "package:hetu_script/ast/index.dart";
+import "package:hetu_script/source/index.dart";
+import "package:hetu_script/parser/index.dart";
+import "package:hetu_script/lexicon/index.dart";
+import "package:hetu_script/lexer/index.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/resource/index.dart" show HTResourceType;
 
 /// Determines how to parse a piece of code
 enum ParseStyle {

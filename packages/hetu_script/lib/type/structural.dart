@@ -1,5 +1,5 @@
-import "package:hetu_script/type/type.dart";
-import "package:hetu_script/value/namespace/namespace.dart";
+import "package:hetu_script/type/index.dart";
+import "package:hetu_script/value/index.dart";
 
 /// A type checks interfaces rather than type ids.
 class HTStructuralType extends HTType {

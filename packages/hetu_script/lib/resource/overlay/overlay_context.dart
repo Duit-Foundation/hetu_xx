@@ -1,8 +1,8 @@
 import "package:path/path.dart" as path;
 
-import "package:hetu_script/error/error.dart";
-import "package:hetu_script/source/source.dart";
-import "package:hetu_script/resource/resource_context.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/source/index.dart";
+import "package:hetu_script/resource/index.dart";
 
 /// [HTOverlayContext] are a virtual set of files that
 /// not neccessarily exists as physical files.

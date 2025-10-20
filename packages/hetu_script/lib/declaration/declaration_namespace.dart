@@ -1,9 +1,7 @@
-import "package:hetu_script/error/error.dart";
-// import '../../source/source.dart';
-import "package:hetu_script/declaration/declaration.dart";
-import "package:hetu_script/value/object.dart";
-import "package:hetu_script/value/unresolved_import.dart";
-import "package:hetu_script/lexicon/lexicon.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/declaration/index.dart";
+import "package:hetu_script/value/index.dart";
+import "package:hetu_script/lexicon/index.dart";
 
 /// A semantic namespace that holds symbol for resolving.
 class HTDeclarationNamespace<T> extends HTDeclaration with HTObject {

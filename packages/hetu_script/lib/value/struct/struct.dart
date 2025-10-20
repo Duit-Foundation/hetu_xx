@@ -1,19 +1,10 @@
-import "package:hetu_script/value/struct/named_struct.dart";
-import "package:hetu_script/value/variable/variable.dart";
-import "package:hetu_script/value/object.dart";
-import "package:hetu_script/value/function/function.dart";
-// import '../../value/namespace/namespace.dart';
-// import '../../shared/stringify.dart' as util;
-import "package:hetu_script/utils/json.dart" as util;
-import "package:hetu_script/type/type.dart";
-import "package:hetu_script/type/structural.dart";
-import "package:hetu_script/error/error.dart";
-import "package:hetu_script/interpreter/interpreter.dart";
-// import '../../declaration/declaration.dart';
-import "package:hetu_script/common/internal_identifier.dart";
-import "package:hetu_script/common/function_category.dart";
-import "package:hetu_script/value/namespace/namespace.dart";
-import "package:hetu_script/declaration/declaration.dart";
+import "package:hetu_script/utils/index.dart" as util;
+import "package:hetu_script/type/index.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/interpreter/index.dart";
+import "package:hetu_script/common/index.dart";
+import "package:hetu_script/value/index.dart";
+import "package:hetu_script/declaration/index.dart";
 
 /// A prototype based dynamic object.
 /// You can define and delete members in runtime.

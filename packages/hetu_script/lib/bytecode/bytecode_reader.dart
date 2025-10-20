@@ -1,7 +1,7 @@
 import "dart:typed_data";
 import "dart:convert";
 
-import "package:hetu_script/bytecode/op_code.dart";
+import "package:hetu_script/bytecode/index.dart";
 
 /// An utility class to read bytes and return the actual value.
 mixin BytecodeReader {

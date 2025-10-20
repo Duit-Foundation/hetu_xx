@@ -1,4 +1,4 @@
-import "package:hetu_script/common/internal_identifier.dart";
+import "package:hetu_script/common/index.dart";
 
 class Token {
   /// `end_of_file` token lexeme.

@@ -1,7 +1,7 @@
 import "package:meta/meta.dart";
 
-import "package:hetu_script/type/type.dart";
-import "package:hetu_script/declaration/declaration.dart";
+import "package:hetu_script/type/index.dart";
+import "package:hetu_script/declaration/index.dart";
 
 class HTVariableDeclaration extends HTDeclaration {
   final HTType? _declType;

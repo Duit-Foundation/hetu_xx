@@ -1,5 +1,5 @@
-import "package:hetu_script/type/type.dart";
-import "package:hetu_script/declaration/declaration.dart";
+import "package:hetu_script/type/index.dart";
+import "package:hetu_script/declaration/index.dart";
 
 /// A interface shared by parameter declaration and parameter
 /// this is to fix mulitple inheritance issue.

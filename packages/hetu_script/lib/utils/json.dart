@@ -1,4 +1,4 @@
-import "package:hetu_script/value/struct/struct.dart";
+import "package:hetu_script/value/index.dart";
 
 bool isJsonDataType(object) {
   if (object == null ||

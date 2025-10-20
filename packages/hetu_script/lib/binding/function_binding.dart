@@ -2,7 +2,7 @@ import "dart:math" as math;
 
 import "package:quiver/iterables.dart";
 import "package:fast_noise/fast_noise.dart";
-import "package:hetu_script/utils/math.dart";
+import "package:hetu_script/utils/index.dart";
 
 /// Core exernal functions for use globally in Hetu script.
 final Map<String, Function> preincludeFunctions = {

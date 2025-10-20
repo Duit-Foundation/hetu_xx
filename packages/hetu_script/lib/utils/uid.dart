@@ -1,6 +1,6 @@
 import "dart:math";
 
-import "package:hetu_script/utils/crc32b.dart";
+import "package:hetu_script/utils/index.dart";
 
 /// Get a random UUID
 String randomUUID() {

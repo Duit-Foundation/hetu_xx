@@ -1,9 +1,9 @@
-import "package:hetu_script/external/external_class.dart";
-import "package:hetu_script/error/error.dart";
-import "package:hetu_script/interpreter/interpreter.dart";
-import "package:hetu_script/bytecode/goto_info.dart";
-import "package:hetu_script/value/namespace/namespace.dart";
-import "package:hetu_script/declaration/variable_declaration.dart";
+import "package:hetu_script/external/index.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/interpreter/index.dart";
+import "package:hetu_script/bytecode/index.dart";
+import "package:hetu_script/value/index.dart";
+import "package:hetu_script/declaration/index.dart";
 
 /// Variable is a binding between an symbol and a value
 class HTVariable extends HTVariableDeclaration with InterpreterRef, GotoInfo {

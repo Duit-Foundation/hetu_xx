@@ -1,15 +1,12 @@
-import "package:hetu_script/ast/abstract_ast_visitor.dart";
 import "package:pub_semver/pub_semver.dart";
 
-import "package:hetu_script/declaration/declaration_namespace.dart";
-import "package:hetu_script/parser/token.dart";
-import "package:hetu_script/source/source.dart";
-import "package:hetu_script/declaration/declaration.dart";
-import "package:hetu_script/resource/resource.dart" show HTResourceType;
-import "package:hetu_script/source/line_info.dart";
-import "package:hetu_script/error/error.dart";
-import "package:hetu_script/common/internal_identifier.dart";
-import "package:hetu_script/common/function_category.dart";
+import "package:hetu_script/ast/index.dart";
+import "package:hetu_script/declaration/index.dart";
+import "package:hetu_script/parser/index.dart";
+import "package:hetu_script/source/index.dart";
+import "package:hetu_script/resource/index.dart" show HTResourceType;
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/common/index.dart";
 
 /// An abstract node of an abstract syntax tree.
 abstract class ASTNode {

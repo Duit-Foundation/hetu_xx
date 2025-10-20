@@ -1,4 +1,4 @@
-import "package:hetu_script/value/function/function.dart";
+import "package:hetu_script/value/index.dart";
 
 /// Typedef of external function for binding.
 /// Can be used on normal external function or external method of a script class,

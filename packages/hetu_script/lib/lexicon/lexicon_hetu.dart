@@ -1,4 +1,4 @@
-import "package:hetu_script/lexicon/lexicon.dart";
+import "package:hetu_script/lexicon/index.dart";
 
 /// Default lexicon implementation used by Hetu.
 /// Most of the lexicon are borrowed from Javascript.

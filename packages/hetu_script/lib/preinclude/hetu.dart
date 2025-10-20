@@ -1,36 +1,24 @@
 import "dart:typed_data";
 
 import "package:hetu_script/lexicon/index.dart";
-import "package:hetu_script/value/variable/variable.dart";
 import "package:pub_semver/pub_semver.dart";
-
 import "package:hetu_script/version.dart";
-import "package:hetu_script/ast/ast.dart";
-import "package:hetu_script/value/namespace/namespace.dart";
-import "package:hetu_script/analyzer/analyzer.dart";
-import "package:hetu_script/interpreter/interpreter.dart";
-import "package:hetu_script/resource/resource.dart" show HTResourceType;
-import "package:hetu_script/resource/resource_context.dart";
-import "package:hetu_script/resource/overlay/overlay_context.dart";
-import "package:hetu_script/source/source.dart";
-import "package:hetu_script/bytecode/compiler.dart";
-import "package:hetu_script/logger/message_severity.dart";
-import "package:hetu_script/binding/function_binding.dart";
+import "package:hetu_script/ast/index.dart";
+import "package:hetu_script/analyzer/index.dart";
+import "package:hetu_script/interpreter/index.dart";
+import "package:hetu_script/source/index.dart";
+import "package:hetu_script/bytecode/index.dart";
 import "package:hetu_script/precompiled_module.dart";
-import "package:hetu_script/locale/locale.dart";
-import "package:hetu_script/external/external_function.dart";
-import "package:hetu_script/external/external_class.dart";
-import "package:hetu_script/binding/class_binding.dart";
-import "package:hetu_script/lexer/lexer.dart";
-import "package:hetu_script/parser/parser.dart";
-import "package:hetu_script/parser/parser_hetu.dart";
-import "package:hetu_script/resource/resource.dart";
-import "package:hetu_script/bundler/bundler.dart";
-import "package:hetu_script/logger/logger.dart";
-import "package:hetu_script/logger/console_logger.dart";
-import "package:hetu_script/preinclude/console.dart";
-import "package:hetu_script/value/struct/struct.dart";
-import "package:hetu_script/value/function/function.dart";
+import "package:hetu_script/locale/index.dart";
+import "package:hetu_script/external/index.dart";
+import "package:hetu_script/binding/index.dart";
+import "package:hetu_script/lexer/index.dart";
+import "package:hetu_script/parser/index.dart";
+import "package:hetu_script/resource/index.dart";
+import "package:hetu_script/bundler/index.dart";
+import "package:hetu_script/logger/index.dart";
+import "package:hetu_script/preinclude/index.dart";
+import "package:hetu_script/value/index.dart";
 
 /// The config of hetu environment, this implements all config of components used by this environment.
 class HetuConfig

@@ -1,4 +1,4 @@
-import "package:hetu_script/logger/message_severity.dart";
+import "package:hetu_script/logger/index.dart";
 
 /// A diagnostic, as defined by the [Diagnostic Design Guidelines][guidelines]:
 ///

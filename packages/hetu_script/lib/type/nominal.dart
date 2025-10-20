@@ -1,10 +1,8 @@
 import "package:quiver/core.dart";
 
-import "package:hetu_script/error/error.dart";
-import "package:hetu_script/declaration/class_declaration.dart";
-import "package:hetu_script/declaration/declaration_namespace.dart";
-import "package:hetu_script/declaration/type_alias_declaration.dart";
-import "package:hetu_script/type/type.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/declaration/index.dart";
+import "package:hetu_script/type/index.dart";
 
 /// A type checks ids and its super types.
 ///

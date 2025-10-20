@@ -1,8 +1,6 @@
-import "package:hetu_script/error/error.dart";
-import "package:hetu_script/value/function/function.dart";
-import "package:hetu_script/value/namespace/namespace.dart";
-import "package:hetu_script/value/class/class.dart";
-import "package:hetu_script/common/internal_identifier.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/value/index.dart";
+import "package:hetu_script/common/index.dart";
 
 /// A implementation of [HTNamespace] for [HTClass].
 /// For interpreter searching for symbols within static methods.

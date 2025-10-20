@@ -1,13 +1,9 @@
-// import '../../source/source.dart';
-import "package:hetu_script/declaration/declaration.dart";
-import "package:hetu_script/value/namespace/namespace.dart";
-import "package:hetu_script/value/struct/struct.dart";
-import "package:hetu_script/error/error.dart";
-import "package:hetu_script/interpreter/interpreter.dart";
-import "package:hetu_script/bytecode/goto_info.dart";
-import "package:hetu_script/value/function/function.dart";
-// import '../../type/type.dart';
-import "package:hetu_script/common/internal_identifier.dart";
+import "package:hetu_script/declaration/index.dart";
+import "package:hetu_script/value/index.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/interpreter/index.dart";
+import "package:hetu_script/bytecode/index.dart";
+import "package:hetu_script/common/index.dart";
 
 /// Unlike class and function, the declaration of a struct is a value
 /// and struct object does not extends from this.

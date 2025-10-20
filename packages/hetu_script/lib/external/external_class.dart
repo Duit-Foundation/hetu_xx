@@ -1,5 +1,5 @@
 import "package:hetu_script/error/index.dart";
-import "package:hetu_script/value/object.dart";
+import "package:hetu_script/value/index.dart";
 
 /// Namespace class of low level external dart functions for Hetu to use.
 abstract class HTExternalClass with HTObject {

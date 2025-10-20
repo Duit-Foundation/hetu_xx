@@ -1,10 +1,7 @@
-import "package:hetu_script/error/error.dart";
-import "package:hetu_script/interpreter/interpreter.dart";
-import "package:hetu_script/type/type.dart";
-import "package:hetu_script/type/nominal.dart";
-import "package:hetu_script/value/class/class.dart";
-import "package:hetu_script/value/object.dart";
-import "package:hetu_script/value/instance/instance.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/interpreter/index.dart";
+import "package:hetu_script/type/index.dart";
+import "package:hetu_script/value/index.dart";
 
 /// The implementation of a certain type cast of a object
 class HTCast with HTObject, InterpreterRef {

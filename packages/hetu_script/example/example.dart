@@ -4,7 +4,7 @@ void main() {
   final hetu = Hetu();
   hetu.init(
     externalFunctions: {
-      "hello": () => {"greetings": "greetings from Dart!"},
+      "hello": () => <String, String>{"greetings": "greetings from Dart!"},
     },
   );
   var hetuValue = hetu.eval(r"""

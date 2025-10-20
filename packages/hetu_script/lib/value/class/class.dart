@@ -1,16 +1,10 @@
-import "package:hetu_script/external/external_class.dart";
-import "package:hetu_script/error/error.dart";
-import "package:hetu_script/interpreter/interpreter.dart";
-import "package:hetu_script/type/type.dart";
-// import '../declaration.dart';
-import "package:hetu_script/value/namespace/namespace.dart";
-import "package:hetu_script/value/function/function.dart";
-import "package:hetu_script/value/instance/instance.dart";
-import "package:hetu_script/declaration/class_declaration.dart";
-import "package:hetu_script/value/object.dart";
-import "package:hetu_script/value/class/class_namespace.dart";
-import "package:hetu_script/type/nominal.dart";
-import "package:hetu_script/common/internal_identifier.dart";
+import "package:hetu_script/external/index.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/interpreter/index.dart";
+import "package:hetu_script/declaration/index.dart";
+import "package:hetu_script/value/index.dart";
+import "package:hetu_script/type/index.dart";
+import "package:hetu_script/common/index.dart";
 
 /// The Dart implementation of the class declaration in Hetu.
 class HTClass extends HTClassDeclaration with HTObject, InterpreterRef {

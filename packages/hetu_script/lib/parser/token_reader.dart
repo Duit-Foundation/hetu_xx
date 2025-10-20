@@ -1,9 +1,6 @@
-// import '../source/source.dart';
-import "package:hetu_script/locale/locale.dart";
-
-import "package:hetu_script/error/error.dart";
-// import '../error/error_handler.dart';
-import "package:hetu_script/parser/token.dart";
+import "package:hetu_script/locale/index.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/parser/index.dart";
 
 /// Mixin for handling a token list.
 mixin TokenReader {

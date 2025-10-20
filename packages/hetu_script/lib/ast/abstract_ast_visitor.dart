@@ -1,4 +1,4 @@
-import "package:hetu_script/ast/ast.dart";
+import "package:hetu_script/ast/index.dart";
 
 /// An object that can be used to visit an AST structure.
 ///

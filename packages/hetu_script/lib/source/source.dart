@@ -3,10 +3,9 @@ import "dart:math" as math;
 import "package:hetu_script/common/index.dart";
 import "package:path/path.dart" as path;
 
-import "package:hetu_script/source/line_info.dart";
-import "package:hetu_script/resource/resource.dart";
-import "package:hetu_script/utils/crc32b.dart";
-
+import "package:hetu_script/source/index.dart";
+import "package:hetu_script/resource/index.dart";
+import "package:hetu_script/utils/index.dart";
 
 /// A piece of code, with extra informations like:
 /// [fullName], [type], [lineInfo], etc.

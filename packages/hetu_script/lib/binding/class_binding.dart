@@ -3,17 +3,13 @@ import "dart:convert";
 import "dart:collection";
 
 import "package:characters/characters.dart";
-import "package:hetu_script/utils/math.dart";
-import "package:hetu_script/external/external_class.dart";
-import "package:hetu_script/error/error.dart";
-import "package:hetu_script/utils/uid.dart";
-import "package:hetu_script/utils/crc32b.dart";
-import "package:hetu_script/value/function/function.dart";
-import "package:hetu_script/preinclude/console.dart";
-import "package:hetu_script/utils/json.dart";
-import "package:hetu_script/lexicon/lexicon.dart";
-import "package:hetu_script/locale/locale.dart";
-import "package:hetu_script/utils/collection.dart";
+import "package:hetu_script/utils/index.dart";
+import "package:hetu_script/external/index.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/value/index.dart";
+import "package:hetu_script/preinclude/index.dart";
+import "package:hetu_script/lexicon/index.dart";
+import "package:hetu_script/locale/index.dart";
 
 class HTNumberClassBinding extends HTExternalClass {
   HTNumberClassBinding() : super("number");

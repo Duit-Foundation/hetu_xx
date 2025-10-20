@@ -1,6 +1,6 @@
-import "package:hetu_script/locale/locale.dart";
-import "package:hetu_script/analyzer/analyzer.dart";
-import "package:hetu_script/logger/message_severity.dart";
+import "package:hetu_script/locale/index.dart";
+import "package:hetu_script/analyzer/index.dart";
+import "package:hetu_script/logger/index.dart";
 
 part "error_processor.dart";
 

@@ -1,6 +1,6 @@
 import "package:path/path.dart" as path;
 
-import "package:hetu_script/resource/resource.dart";
+import "package:hetu_script/resource/index.dart";
 
 /// A filter used by source context for reading files with certain extensions and/or within certain folders.
 class HTFilterConfig {

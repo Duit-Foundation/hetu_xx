@@ -1,14 +1,8 @@
 import "package:meta/meta.dart";
 
-import "package:hetu_script/type/type.dart";
-import "package:hetu_script/type/function.dart";
-import "package:hetu_script/declaration/abstract_type_declaration.dart";
-import "package:hetu_script/declaration/declaration.dart";
-// import '../namespace/declaration_namespace.dart';
-import "package:hetu_script/declaration/abstract_parameter.dart";
-import "package:hetu_script/declaration/generic_type_parameter.dart";
-// import '../../value/object.dart';
-import "package:hetu_script/common/function_category.dart";
+import "package:hetu_script/type/index.dart";
+import "package:hetu_script/declaration/index.dart";
+import "package:hetu_script/common/index.dart";
 
 class HTFunctionDeclaration extends HTDeclaration
     implements HasGenericTypeParameter {

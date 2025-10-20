@@ -1,7 +1,7 @@
 import "package:hetu_script/declaration/index.dart";
 import "package:hetu_script/external/index.dart";
-import "package:hetu_script/interpreter/interpreter.dart";
-import "package:hetu_script/value/object.dart";
+import "package:hetu_script/interpreter/index.dart";
+import "package:hetu_script/value/index.dart";
 
 class HTExternalEnum extends HTDeclaration with HTObject, InterpreterRef {
   HTExternalClass? externalClass;

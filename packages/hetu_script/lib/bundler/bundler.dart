@@ -1,13 +1,12 @@
 import "package:path/path.dart" as path;
 import "package:pub_semver/pub_semver.dart";
 
-import "package:hetu_script/resource/resource.dart";
-import "package:hetu_script/resource/resource_context.dart";
-import "package:hetu_script/source/source.dart";
-import "package:hetu_script/error/error.dart";
-import "package:hetu_script/ast/ast.dart";
-import "package:hetu_script/parser/parser.dart";
-import "package:hetu_script/common/internal_identifier.dart";
+import "package:hetu_script/resource/index.dart";
+import "package:hetu_script/source/index.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/ast/index.dart";
+import "package:hetu_script/parser/index.dart";
+import "package:hetu_script/common/index.dart";
 
 class BundlerConfig {
   bool normalizeImportPath;

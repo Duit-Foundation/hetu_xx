@@ -1,7 +1,5 @@
 import "package:hetu_script/type/type.dart";
-import "package:hetu_script/declaration/generic_type_parameter.dart";
-import "package:hetu_script/declaration/declaration.dart";
-import "package:hetu_script/declaration/abstract_type_declaration.dart";
+import "package:hetu_script/declaration/index.dart";
 
 /// Similar to variable, but the value is a type.
 /// And can have generic type parameters.

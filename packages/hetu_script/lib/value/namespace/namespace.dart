@@ -1,9 +1,8 @@
-import "package:hetu_script/declaration/declaration_namespace.dart";
-import "package:hetu_script/declaration/declaration.dart";
-import "package:hetu_script/error/error.dart";
-import "package:hetu_script/type/type.dart";
-import "package:hetu_script/value/function/function.dart";
-import "package:hetu_script/common/internal_identifier.dart";
+import "package:hetu_script/declaration/index.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/type/index.dart";
+import "package:hetu_script/value/index.dart";
+import "package:hetu_script/common/index.dart";
 
 /// A namespace that will return the actual value of the declaration.
 class HTNamespace extends HTDeclarationNamespace<dynamic> {

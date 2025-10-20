@@ -1,4 +1,4 @@
-import "package:hetu_script/source/computer.dart";
+import "package:hetu_script/source/index.dart";
 
 /// The location of a character represented as a line and column pair.
 class CharacterLocation {

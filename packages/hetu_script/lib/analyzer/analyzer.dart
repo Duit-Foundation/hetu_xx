@@ -1,20 +1,14 @@
-import "package:hetu_script/ast/index.dart";
 import "package:path/path.dart" as path;
 
-import "package:hetu_script/source/source.dart";
-import "package:hetu_script/resource/resource.dart";
-import "package:hetu_script/resource/resource_context.dart";
-import "package:hetu_script/resource/overlay/overlay_context.dart";
-import "package:hetu_script/declaration/declaration_namespace.dart";
-import "package:hetu_script/error/error.dart";
-import "package:hetu_script/error/error_handler.dart";
-import "package:hetu_script/analyzer/analysis_result.dart";
-import "package:hetu_script/analyzer/analysis_error.dart";
-import "package:hetu_script/constant/constant_interpreter.dart";
-import "package:hetu_script/analyzer/analyzer_impl.dart";
-import "package:hetu_script/lexicon/lexicon.dart";
-import "package:hetu_script/lexicon/lexicon_hetu.dart";
-import "package:hetu_script/common/internal_identifier.dart";
+import "package:hetu_script/ast/index.dart";
+import "package:hetu_script/source/index.dart";
+import "package:hetu_script/resource/index.dart";
+import "package:hetu_script/declaration/index.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/analyzer/index.dart";
+import "package:hetu_script/constant/index.dart";
+import "package:hetu_script/lexicon/index.dart";
+import "package:hetu_script/common/index.dart";
 
 /// Namespace that holds symbols for analyzing, the value is either the declaration AST or null.
 typedef AnalysisNamespace = HTDeclarationNamespace<ASTNode?>;
