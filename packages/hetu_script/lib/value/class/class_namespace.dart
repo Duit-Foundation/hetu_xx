@@ -1,9 +1,9 @@
-import '../../error/error.dart';
+import "package:hetu_script/error/error.dart";
 // import '../../source/source.dart';
-import '../function/function.dart';
-import '../namespace/namespace.dart';
-import 'class.dart';
-import '../../common/internal_identifier.dart';
+import "package:hetu_script/value/function/function.dart";
+import "package:hetu_script/value/namespace/namespace.dart";
+import "package:hetu_script/value/class/class.dart";
+import "package:hetu_script/common/internal_identifier.dart";
 
 /// A implementation of [HTNamespace] for [HTClass].
 /// For interpreter searching for symbols within static methods.
@@ -29,7 +29,7 @@ class HTClassNamespace extends HTNamespace {
     bool asDeclaration = false,
   }) {
     final getter = '${InternalIdentifier.getter}$id';
-    final externalStatic = '$id.$id';
+    final externalStatic = "$id.$id";
 
     if (symbols.containsKey(id)) {
       final decl = symbols[id]!;
@@ -58,7 +58,7 @@ class HTClassNamespace extends HTNamespace {
       return closure!.memberGet(id,
           from: from,
           isRecursive: isRecursive,
-          ignoreUndefined: ignoreUndefined);
+          ignoreUndefined: ignoreUndefined,);
     }
 
     if (!ignoreUndefined) {
@@ -69,7 +69,7 @@ class HTClassNamespace extends HTNamespace {
   @override
   bool memberSet(
     String id,
-    dynamic value, {
+    value, {
     String? from,
     bool isRecursive = true,
     bool ignoreUndefined = false,
@@ -99,7 +99,7 @@ class HTClassNamespace extends HTNamespace {
       return closure!.memberSet(id, value,
           from: from,
           isRecursive: isRecursive,
-          ignoreUndefined: ignoreUndefined);
+          ignoreUndefined: ignoreUndefined,);
     }
 
     if (!ignoreUndefined) {

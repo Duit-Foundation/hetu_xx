@@ -1,5 +1,5 @@
-import '../logger/message_severity.dart';
-import 'logger.dart';
+import "package:hetu_script/logger/message_severity.dart";
+import "package:hetu_script/logger/logger.dart";
 
 class HTConsoleLogger extends HTLogger {
   const HTConsoleLogger();

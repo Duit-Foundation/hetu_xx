@@ -1,8 +1,8 @@
 // import '../../type/type.dart';
 // import '../../source/source.dart';
 // import '../namespace/declaration_namespace.dart';
-import '../variable/variable_declaration.dart';
-import 'abstract_parameter.dart';
+import "package:hetu_script/declaration/variable_declaration.dart";
+import "package:hetu_script/declaration/abstract_parameter.dart";
 
 class HTParameterDeclaration extends HTVariableDeclaration
     implements HTAbstractParameter {
@@ -34,8 +34,7 @@ class HTParameterDeclaration extends HTVariableDeclaration
   void initialize() {}
 
   @override
-  HTParameterDeclaration clone() {
-    return HTParameterDeclaration(
+  HTParameterDeclaration clone() => HTParameterDeclaration(
       id: id!,
       closure: closure,
       declType: declType,
@@ -44,5 +43,4 @@ class HTParameterDeclaration extends HTVariableDeclaration
       isNamed: isNamed,
       isInitialization: isInitialization,
     );
-  }
 }

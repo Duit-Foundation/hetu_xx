@@ -1,7 +1,7 @@
-import 'package:path/path.dart' as path;
+import "package:path/path.dart" as path;
 
-import '../error/error.dart';
-import 'resource_context.dart';
+import "package:hetu_script/error/error.dart";
+import "package:hetu_script/resource/resource_context.dart";
 
 typedef RootUpdatedCallback = void Function();
 

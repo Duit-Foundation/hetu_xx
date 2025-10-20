@@ -1,5 +1,5 @@
-import '../constant/global_constant_table.dart';
-import '../declaration/declaration.dart';
+import "package:hetu_script/constant/global_constant_table.dart";
+import "package:hetu_script/declaration/declaration.dart";
 
 class HTConstantValue extends HTDeclaration {
   @override
@@ -15,10 +15,9 @@ class HTConstantValue extends HTDeclaration {
     required String id,
     required this.type,
     required this.index,
-    super.classId,
+    required this.globalConstantTable, super.classId,
     super.documentation,
     super.isTopLevel = false,
-    required this.globalConstantTable,
     super.isPrivate,
   }) : super(id: id);
 
@@ -26,9 +25,7 @@ class HTConstantValue extends HTDeclaration {
   void resolve() {}
 
   @override
-  dynamic get value {
-    return globalConstantTable.getGlobalConstant(type, index);
-  }
+  dynamic get value => globalConstantTable.getGlobalConstant(type, index);
 
   @override
   HTConstantValue clone() => this;

@@ -1,16 +1,16 @@
-import '../../external/external_class.dart';
-import '../../error/error.dart';
-import '../../interpreter/interpreter.dart';
-import '../../type/type.dart';
+import "package:hetu_script/external/external_class.dart";
+import "package:hetu_script/error/error.dart";
+import "package:hetu_script/interpreter/interpreter.dart";
+import "package:hetu_script/type/type.dart";
 // import '../declaration.dart';
-import '../../value/namespace/namespace.dart';
-import '../function/function.dart';
-import '../../value/instance/instance.dart';
-import '../../declaration/class/class_declaration.dart';
-import '../object.dart';
-import 'class_namespace.dart';
-import '../../type/nominal.dart';
-import '../../common/internal_identifier.dart';
+import "package:hetu_script/value/namespace/namespace.dart";
+import "package:hetu_script/value/function/function.dart";
+import "package:hetu_script/value/instance/instance.dart";
+import "package:hetu_script/declaration/class_declaration.dart";
+import "package:hetu_script/value/object.dart";
+import "package:hetu_script/value/class/class_namespace.dart";
+import "package:hetu_script/type/nominal.dart";
+import "package:hetu_script/common/internal_identifier.dart";
 
 /// The Dart implementation of the class declaration in Hetu.
 class HTClass extends HTClassDeclaration with HTObject, InterpreterRef {
@@ -79,7 +79,7 @@ class HTClass extends HTClassDeclaration with HTObject, InterpreterRef {
     super.resolve();
     if (superType != null) {
       superClass = namespace.memberGet(superType!.id!,
-          from: namespace.fullName, isRecursive: true);
+          from: namespace.fullName, isRecursive: true,);
     }
     if (isExternal) {
       externalClass = interpreter.fetchExternalClass(id!);
@@ -96,7 +96,7 @@ class HTClass extends HTClassDeclaration with HTObject, InterpreterRef {
         interpreter,
         id: id,
         classId: classId,
-        closure: closure != null ? closure as HTNamespace : null,
+        closure: closure != null ? closure! as HTNamespace : null,
         source: source,
         genericTypeParameters: genericTypeParameters,
         superType: superType,
@@ -140,7 +140,7 @@ class HTClass extends HTClassDeclaration with HTObject, InterpreterRef {
   /// for symbol searching, use the same name method on [HTClassNamespace] instead.
   @override
   dynamic memberGet(String id,
-      {String? from, bool isRecursive = false, bool ignoreUndefined = true}) {
+      {String? from, bool isRecursive = false, bool ignoreUndefined = true,}) {
     final getter = '${InternalIdentifier.getter}$id';
     final constructor = this.id != id
         ? '${InternalIdentifier.namedConstructorPrefix}$id'
@@ -203,19 +203,19 @@ class HTClass extends HTClassDeclaration with HTObject, InterpreterRef {
       throw HTError.undefined(id,
           filename: interpreter.currentFile,
           line: interpreter.currentLine,
-          column: interpreter.currentColumn);
+          column: interpreter.currentColumn,);
     }
   }
 
   /// Set the value of a static member of this [HTClass] via memberGet operator '.'
   /// for symbol searching, use the same name method on [HTClassNamespace] instead.
   @override
-  void memberSet(String id, dynamic value,
-      {String? from, bool defineIfAbsent = false}) {
+  void memberSet(String id, value,
+      {String? from, bool defineIfAbsent = false,}) {
     final setter = '${InternalIdentifier.setter}$id';
 
     if (isExternal) {
-      externalClass!.memberSet('$id.$id', value);
+      externalClass!.memberSet("$id.$id", value);
       return;
     } else {
       if (namespace.symbols.containsKey(id)) {
@@ -251,7 +251,7 @@ class HTClass extends HTClassDeclaration with HTObject, InterpreterRef {
     throw HTError.undefined(id,
         filename: interpreter.currentFile,
         line: interpreter.currentLine,
-        column: interpreter.currentColumn);
+        column: interpreter.currentColumn,);
   }
 
   /// Call a static function of this [HTClass].
@@ -275,7 +275,7 @@ class HTClass extends HTClassDeclaration with HTObject, InterpreterRef {
         throw HTError.notCallable(funcName,
             filename: interpreter.currentFile,
             line: interpreter.currentLine,
-            column: interpreter.currentColumn);
+            column: interpreter.currentColumn,);
       }
     } catch (error, stackTrace) {
       if (interpreter.config.processError) {
@@ -287,8 +287,8 @@ class HTClass extends HTClassDeclaration with HTObject, InterpreterRef {
   }
 
   String help() {
-    StringBuffer buffer = StringBuffer();
-    buffer.writeln('class $id');
+    var buffer = StringBuffer();
+    buffer.writeln("class $id");
     buffer.write(namespace.help(displayNamespaceName: false));
     return buffer.toString();
   }

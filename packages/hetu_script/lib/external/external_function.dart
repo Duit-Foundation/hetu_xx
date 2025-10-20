@@ -1,7 +1,4 @@
-// import '../type/type.dart';
-import '../value/function/function.dart';
-// import '../value/object.dart';
-// import '../value/namespace/namespace.dart';
+import "package:hetu_script/value/function/function.dart";
 
 /// Typedef of external function for binding.
 /// Can be used on normal external function or external method of a script class,
@@ -11,6 +8,7 @@ typedef HTExternalFunction = dynamic Function({
 });
 
 typedef HTExternalMethod = dynamic Function({
+  // ignore: avoid_annotating_with_dynamic
   dynamic object,
   List<dynamic> positionalArgs,
   Map<String, dynamic> namedArgs,

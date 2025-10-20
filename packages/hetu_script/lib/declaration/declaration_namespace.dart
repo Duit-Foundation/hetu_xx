@@ -1,9 +1,9 @@
-import '../../error/error.dart';
+import "package:hetu_script/error/error.dart";
 // import '../../source/source.dart';
-import '../../declaration/declaration.dart';
-import '../../value/object.dart';
-import '../../value/unresolved_import.dart';
-import '../../lexicon/lexicon.dart';
+import "package:hetu_script/declaration/declaration.dart";
+import "package:hetu_script/value/object.dart";
+import "package:hetu_script/value/unresolved_import.dart";
+import "package:hetu_script/lexicon/lexicon.dart";
 
 /// A semantic namespace that holds symbol for resolving.
 class HTDeclarationNamespace<T> extends HTDeclaration with HTObject {
@@ -28,26 +28,25 @@ class HTDeclarationNamespace<T> extends HTDeclaration with HTObject {
   bool willExportAll = true;
 
   HTDeclarationNamespace({
-    super.id,
+    required this.lexicon, super.id,
     super.classId,
     super.closure,
     super.source,
     super.documentation,
-    required this.lexicon,
     super.isPrivate,
   }) {
     // calculate the full name of this namespace
     _fullName = displayName;
     var curSpace = closure;
     while (curSpace != null) {
-      _fullName = '${curSpace.displayName}.$fullName';
+      _fullName = "${curSpace.displayName}.$fullName";
       curSpace = curSpace.closure;
     }
   }
 
   @override
   bool contains(String id,
-      {bool isPrivate = false, String? from, bool recursive = false}) {
+      {bool isPrivate = false, String? from, bool recursive = false,}) {
     if (symbols.containsKey(id)) {
       if (isPrivate && from != null && !from.startsWith(fullName)) {
         throw HTError.privateMember(id);
@@ -64,8 +63,8 @@ class HTDeclarationNamespace<T> extends HTDeclaration with HTObject {
   /// define a declaration in this namespace,
   /// the defined id could be different from declaration's id
   @override
-  void define(String id, dynamic decl,
-      {bool override = false, bool throws = true}) {
+  void define(String id, decl,
+      {bool override = false, bool throws = true,}) {
     if (!symbols.containsKey(id)) {
       symbols[id] = decl;
     } else {
@@ -150,8 +149,8 @@ class HTDeclarationNamespace<T> extends HTDeclaration with HTObject {
       {bool clone = false,
       bool export = false,
       Set<String> showList = const {},
-      bool idOnly = false}) {
-    bool process(String key, dynamic decl) {
+      bool idOnly = false,}) {
+    bool process(String key, decl) {
       if (!other.willExportAll) {
         if (!other.exports.contains(decl?.id)) {
           return false;
@@ -195,7 +194,7 @@ class HTDeclarationNamespace<T> extends HTDeclaration with HTObject {
         id: id,
         classId: classId,
         closure: closure,
-        source: source);
+        source: source,);
     cloned.symbols.addAll(symbols);
     cloned.imports.addAll(imports);
     cloned.exports.addAll(exports);

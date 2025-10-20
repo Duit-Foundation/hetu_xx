@@ -1,7 +1,7 @@
-import 'package:meta/meta.dart';
+import "package:meta/meta.dart";
 
-import '../../type/type.dart';
-import '../declaration.dart';
+import "package:hetu_script/type/type.dart";
+import "package:hetu_script/declaration/declaration.dart";
 
 class HTVariableDeclaration extends HTDeclaration {
   final HTType? _declType;
@@ -34,11 +34,11 @@ class HTVariableDeclaration extends HTDeclaration {
       super.isMutable = false,
       super.isTopLevel = false,
       super.isField = false,
-      this.lateFinalize = false})
+      this.lateFinalize = false,})
       : _declType = declType,
         super(id: id) {
-    if (_declType != null && _declType!.isResolved) {
-      _resolvedDeclType = _declType!;
+    if (_declType != null && _declType.isResolved) {
+      _resolvedDeclType = _declType;
     }
   }
 
@@ -50,7 +50,7 @@ class HTVariableDeclaration extends HTDeclaration {
     }
     if (resolveType && closure != null) {
       if (_declType != null) {
-        _resolvedDeclType = _declType!.resolve(closure!);
+        _resolvedDeclType = _declType.resolve(closure!);
       }
     }
     _isResolved = true;
@@ -66,5 +66,5 @@ class HTVariableDeclaration extends HTDeclaration {
       isExternal: isExternal,
       isStatic: isStatic,
       isMutable: isMutable,
-      isTopLevel: isTopLevel);
+      isTopLevel: isTopLevel,);
 }

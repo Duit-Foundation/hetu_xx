@@ -1,5 +1,4 @@
-import "package:hetu_script/ast/abstract_ast_visitor.dart";
-import "package:hetu_script/ast/ast.dart";
+import "package:hetu_script/ast/index.dart";
 
 /// An AST visitor that will recursively visit all of the sub nodes in an AST
 /// structure. For example, using an instance of this class to visit a [Block]
@@ -10,7 +9,9 @@ import "package:hetu_script/ast/ast.dart";
 /// Otherwise the children of the visited node might not be visited.
 abstract class RecursiveASTVisitor implements AbstractASTVisitor<void> {
   @override
-  void visitCompilation(ASTCompilation node) => node.subAccept(this);
+  void visitCompilation(ASTCompilation node) {
+    node.subAccept(this);
+  }
 
   @override
   void visitSource(ASTSource node) {

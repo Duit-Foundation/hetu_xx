@@ -1,13 +1,13 @@
 // import '../../source/source.dart';
-import '../../declaration/declaration.dart';
-import '../../value/namespace/namespace.dart';
-import 'struct.dart';
-import '../../error/error.dart';
-import '../../interpreter/interpreter.dart';
-import '../../bytecode/goto_info.dart';
-import '../function/function.dart';
+import "package:hetu_script/declaration/declaration.dart";
+import "package:hetu_script/value/namespace/namespace.dart";
+import "package:hetu_script/value/struct/struct.dart";
+import "package:hetu_script/error/error.dart";
+import "package:hetu_script/interpreter/interpreter.dart";
+import "package:hetu_script/bytecode/goto_info.dart";
+import "package:hetu_script/value/function/function.dart";
 // import '../../type/type.dart';
-import '../../common/internal_identifier.dart';
+import "package:hetu_script/common/internal_identifier.dart";
 
 /// Unlike class and function, the declaration of a struct is a value
 /// and struct object does not extends from this.
@@ -73,13 +73,13 @@ class HTNamedStruct extends HTDeclaration with InterpreterRef, GotoInfo {
         file: file,
         module: module,
         ip: staticDefinitionIp!,
-        namespace: closure != null ? closure as HTNamespace : null,
+        namespace: closure != null ? closure! as HTNamespace : null,
       ),
     );
     if (closure != null) {
       if (prototypeId != null) {
         static.prototype = closure!.memberGet(prototypeId!,
-            from: closure!.fullName, isRecursive: true);
+            from: closure!.fullName, isRecursive: true,);
       } else if (id != interpreter.lexicon.idGlobalPrototype) {
         static.prototype = interpreter.globalNamespace
             .memberGet(interpreter.lexicon.idGlobalPrototype);
@@ -90,7 +90,7 @@ class HTNamedStruct extends HTDeclaration with InterpreterRef, GotoInfo {
         file: file,
         module: module,
         ip: ip!,
-        namespace: closure != null ? closure as HTNamespace : null,
+        namespace: closure != null ? closure! as HTNamespace : null,
       ),
     );
     _self!.prototype = static;
@@ -123,7 +123,7 @@ class HTNamedStruct extends HTDeclaration with InterpreterRef, GotoInfo {
         interpreter: interpreter,
         file: file,
         module: module,
-        closure: closure != null ? closure as HTNamespace : null,
+        closure: closure != null ? closure! as HTNamespace : null,
         source: source,
         prototypeId: prototypeId,
         isTopLevel: isTopLevel,

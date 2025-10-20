@@ -1,12 +1,12 @@
-import 'dart:math' as math;
+import "dart:math" as math;
 
-import 'package:path/path.dart' as path;
+import "package:path/path.dart" as path;
 
 // import '../grammar/lexicon.dart';
-import 'line_info.dart';
-import '../resource/resource.dart';
-import '../utils/crc32b.dart';
-import '../common/internal_identifier.dart';
+import "package:hetu_script/source/line_info.dart";
+import "package:hetu_script/resource/resource.dart";
+import "package:hetu_script/utils/crc32b.dart";
+import "package:hetu_script/common/internal_identifier.dart";
 
 /// A piece of code, with extra informations like:
 /// [fullName], [type], [lineInfo], etc.
@@ -50,13 +50,13 @@ class HTSource {
     } else {
       final hash = crcString(content);
       final nameBuilder = StringBuffer();
-      nameBuilder.write('${InternalIdentifier.anonymousScript}_$hash: ');
+      nameBuilder.write("${InternalIdentifier.anonymousScript}_$hash: ");
       var firstLine =
-          content.trimLeft().replaceAll(RegExp(r'\s+'), ' ').trimRight();
+          content.trimLeft().replaceAll(RegExp(r"\s+"), " ").trimRight();
       nameBuilder.write(firstLine.substring(
-          0, math.min(_anonymousScriptNameLengthLimit, firstLine.length)));
+          0, math.min(_anonymousScriptNameLengthLimit, firstLine.length),),);
       if (firstLine.length > _anonymousScriptNameLengthLimit) {
-        nameBuilder.write('...');
+        nameBuilder.write("...");
       }
       fullName = nameBuilder.toString();
     }
@@ -75,5 +75,5 @@ class HTJsonSource {
   final dynamic value;
 
   const HTJsonSource(
-      {required this.fullName, required this.module, required this.value});
+      {required this.fullName, required this.module, required this.value,});
 }

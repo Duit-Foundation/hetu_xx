@@ -82,9 +82,7 @@ final Map<String, Function> preincludeFunctions = {
     final int octaves = namedArgs["octaves"] ?? 3;
     final noiseTypeString = namedArgs["noiseType"];
     final noiseType = NoiseType.values.singleWhere(
-      (item) {
-        return item.name == noiseTypeString;
-      },
+      (item) => item.name == noiseTypeString,
       orElse: () => NoiseType.valueFractal,
     );
     return noise2(

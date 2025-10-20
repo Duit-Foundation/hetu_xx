@@ -1,6 +1,6 @@
-import '../value/struct/struct.dart';
+import "package:hetu_script/value/struct/struct.dart";
 
-bool isJsonDataType(dynamic object) {
+bool isJsonDataType(object) {
   if (object == null ||
       object is num ||
       object is bool ||
@@ -59,7 +59,7 @@ Map<String, dynamic> jsonifyStruct(HTStruct struct, {HTStruct? from}) {
   return output;
 }
 
-dynamic jsonify(dynamic value, {bool deep = true}) {
+dynamic jsonify(value, {bool deep = true}) {
   if (value is Iterable) {
     if (deep) {
       return jsonifyList(value);
@@ -71,7 +71,7 @@ dynamic jsonify(dynamic value, {bool deep = true}) {
       return list;
     }
   } else if (value is Map) {
-    final Map<String, dynamic> map = {};
+    final map = <String, dynamic>{};
     for (final key in value.keys) {
       if (deep) {
         map[key.toString()] = jsonify(value[key]);
@@ -84,7 +84,7 @@ dynamic jsonify(dynamic value, {bool deep = true}) {
     if (deep) {
       return jsonifyStruct(value);
     } else {
-      final Map<String, dynamic> map = {};
+      final map = <String, dynamic>{};
       for (final key in value.keys) {
         map[key.toString()] = value[key];
       }

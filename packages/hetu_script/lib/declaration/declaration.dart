@@ -1,9 +1,8 @@
-import '../error/error.dart';
-// import '../grammar/HTLocale.current.dart';
-import '../source/source.dart';
-import '../source/source_range.dart';
-import '../type/type.dart';
-import 'namespace/declaration_namespace.dart';
+import "package:hetu_script/declaration/index.dart";
+import "package:hetu_script/errors.dart";
+import "package:hetu_script/source/source.dart";
+import "package:hetu_script/source/source_range.dart";
+import "package:hetu_script/types.dart";
 
 /// Declaration is a semantic entity in the program that
 /// represents things that are declared with a name
@@ -13,7 +12,7 @@ import 'namespace/declaration_namespace.dart';
 abstract class HTDeclaration {
   final String? id;
 
-  String get displayName => id ?? '';
+  String get displayName => id ?? "";
 
   final bool _isPrivate;
 
@@ -78,7 +77,7 @@ abstract class HTDeclaration {
 
   dynamic get value => this;
 
-  set value(dynamic newVal) {
+  set value(newVal) {
     throw HTError.immutable(displayName);
   }
 

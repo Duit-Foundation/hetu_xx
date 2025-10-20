@@ -1,4 +1,4 @@
-import '../parser/token.dart';
+import "package:hetu_script/parser/token.dart";
 
 abstract class SemanticElement {
   SemanticElement();

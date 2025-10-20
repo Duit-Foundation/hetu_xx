@@ -1,8 +1,8 @@
-import 'package:quiver/core.dart';
+import "package:quiver/core.dart";
 
-import '../declaration/type/abstract_type_declaration.dart';
-import 'type.dart';
-import '../declaration/generic/generic_type_parameter.dart';
+import "package:hetu_script/declaration/abstract_type_declaration.dart";
+import "package:hetu_script/type/type.dart";
+import "package:hetu_script/declaration/generic_type_parameter.dart";
 
 class HTParameterType {
   final HTType declType;
@@ -19,10 +19,7 @@ class HTParameterType {
   final String? id;
 
   const HTParameterType({
-    this.id,
-    required this.declType,
-    required this.isOptional,
-    required this.isVariadic,
+    required this.declType, required this.isOptional, required this.isVariadic, this.id,
   });
 }
 
@@ -51,9 +48,7 @@ class HTFunctionType extends HTType implements HasGenericTypeParameter {
         _returnType = returnType;
 
   @override
-  bool operator ==(Object other) {
-    return other is HTFunctionType && hashCode == other.hashCode;
-  }
+  bool operator ==(Object other) => other is HTFunctionType && hashCode == other.hashCode;
 
   @override
   int get hashCode {

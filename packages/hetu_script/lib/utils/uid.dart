@@ -1,13 +1,13 @@
-import 'dart:math';
+import "dart:math";
 
-import 'crc32b.dart';
+import "package:hetu_script/utils/crc32b.dart";
 
 /// Get a random UUID
 String randomUUID() {
-  final output = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
-      .replaceAllMapped(RegExp('[xy]'), (match) {
+  final output = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
+      .replaceAllMapped(RegExp("[xy]"), (match) {
     final random = (Random().nextDouble() * 16).floor();
-    return (match.group(0) == 'x' ? random : (random & 0x3) | 0x8)
+    return (match.group(0) == "x" ? random : (random & 0x3) | 0x8)
         .toRadixString(16);
   });
   return output;
@@ -16,10 +16,10 @@ String randomUUID() {
 /// Get a random id consists by number and letters.
 String randomUID({int length = 4, bool withTime = false}) {
   assert(length >= 1);
-  final dt = withTime ? '${crcTimestamp()}_' : '';
+  final dt = withTime ? "${crcTimestamp()}_" : "";
   if (length < 15) {
     final id = ((Random().nextDouble() + 1) *
-            int.parse('0x1'.padRight(length + 3, '0')))
+            int.parse("0x1".padRight(length + 3, "0")))
         .truncate()
         .toRadixString(16)
         .substring(1);
@@ -38,7 +38,7 @@ String randomUID({int length = 4, bool withTime = false}) {
 /// Get a random id consists by number.
 String randomNID({int length = 8, bool withTime = false}) {
   assert(length >= 1);
-  final dt = withTime ? datetime() : '';
+  final dt = withTime ? datetime() : "";
   final r = Random();
   final output = StringBuffer();
   for (var i = 0; i < length; ++i) {
@@ -54,6 +54,4 @@ String datetime() {
   return '${now.year}${now.month.toString().padLeft(2, '0')}${now.day.toString().padLeft(2, '0')}${now.hour.toString().padLeft(2, '0')}${now.minute.toString().padLeft(2, '0')}${now.second.toString().padLeft(2, '0')}${now.millisecond.toString().padLeft(3, '0')}${now.microsecond.toString().padLeft(3, '0')}';
 }
 
-String timestamp() {
-  return DateTime.now().millisecondsSinceEpoch.toString();
-}
+String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();

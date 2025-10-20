@@ -1,4 +1,4 @@
-import 'message_severity.dart';
+import "package:hetu_script/logger/message_severity.dart";
 
 abstract class HTLogger {
   const HTLogger();

@@ -1,19 +1,19 @@
-import '../struct/named_struct.dart';
-import '../variable/variable.dart';
-import '../object.dart';
-import '../function/function.dart';
+import "package:hetu_script/value/struct/named_struct.dart";
+import "package:hetu_script/value/variable/variable.dart";
+import "package:hetu_script/value/object.dart";
+import "package:hetu_script/value/function/function.dart";
 // import '../../value/namespace/namespace.dart';
 // import '../../shared/stringify.dart' as util;
-import '../../utils/json.dart' as util;
-import '../../type/type.dart';
-import '../../type/structural.dart';
-import '../../error/error.dart';
-import '../../interpreter/interpreter.dart';
+import "package:hetu_script/utils/json.dart" as util;
+import "package:hetu_script/type/type.dart";
+import "package:hetu_script/type/structural.dart";
+import "package:hetu_script/error/error.dart";
+import "package:hetu_script/interpreter/interpreter.dart";
 // import '../../declaration/declaration.dart';
-import '../../common/internal_identifier.dart';
-import '../../common/function_category.dart';
-import '../../value/namespace/namespace.dart';
-import '../../declaration/declaration.dart';
+import "package:hetu_script/common/internal_identifier.dart";
+import "package:hetu_script/common/function_category.dart";
+import "package:hetu_script/value/namespace/namespace.dart";
+import "package:hetu_script/declaration/declaration.dart";
 
 /// A prototype based dynamic object.
 /// You can define and delete members in runtime.
@@ -60,12 +60,16 @@ class HTStruct with HTObject {
       this.prototype,
       this.isPrototypeRoot = false,
       Map<String, dynamic>? fields,
-      this.closure})
+    this.closure,
+  })
       : id = id ??
             '${InternalIdentifier.anonymousStruct}${structLiteralIndex++}',
         _fields = fields ?? {} {
     namespace = HTNamespace(
-        lexicon: interpreter.lexicon, id: this.id, closure: closure);
+      lexicon: interpreter.lexicon,
+      id: this.id,
+      closure: closure,
+    );
     namespace.define(
       interpreter.lexicon.kThis,
       HTVariable(
@@ -91,9 +95,7 @@ class HTStruct with HTObject {
   // }
 
   /// Check if this struct has the key in its own _fields
-  bool containsKey(String? id) {
-    return _fields.containsKey(id);
-  }
+  bool containsKey(String? id) => _fields.containsKey(id);
 
   /// Check if this struct has the key in its own _fields or its prototypes' _fields
   @override
@@ -119,6 +121,7 @@ class HTStruct with HTObject {
     _fields.clear();
   }
 
+  // ignore: avoid_annotating_with_dynamic
   void removeWhere(bool Function(String key, dynamic value) test) {
     _fields.removeWhere(test);
   }
@@ -132,16 +135,18 @@ class HTStruct with HTObject {
   }
 
   @override
-  void define(String id, dynamic value,
-      {bool override = false, bool throws = true}) {
+  void define(
+    String id,
+    value, {
+    bool override = false,
+    bool throws = true,
+  }) {
     _fields[id] = value;
   }
 
-  dynamic operator [](dynamic key) {
-    return memberGet(key);
-  }
+  dynamic operator [](key) => memberGet(key);
 
-  void operator []=(dynamic key, dynamic value) {
+  void operator []=(key, value) {
     memberSet(key, value);
   }
 
@@ -162,18 +167,12 @@ class HTStruct with HTObject {
 
   @override
   dynamic memberGet(
-    dynamic id, {
+    id, {
     String? from,
     bool isRecursive = false,
     bool ignoreUndefined = true,
     HTStruct? caller,
   }) {
-    if (id == null) {
-      return null;
-    }
-    if (id is! String) {
-      id = id.toString();
-    }
     if (id == InternalIdentifier.prototype) {
       return prototype;
     }
@@ -234,14 +233,12 @@ class HTStruct with HTObject {
   }
 
   @override
-  bool memberSet(dynamic id, dynamic value,
-      {String? from, bool defineIfAbsent = true}) {
-    if (id == null) {
-      throw HTError.nullSubSetKey();
-    }
-    if (id is! String) {
-      id = id.toString();
-    }
+  bool memberSet(
+    id,
+    value, {
+    String? from,
+    bool defineIfAbsent = true,
+  }) {
     if (id == InternalIdentifier.prototype) {
       if (value is! HTStruct) {
         throw HTError.notStruct();
@@ -265,7 +262,7 @@ class HTStruct with HTObject {
           !from.startsWith(namespace.fullName)) {
         throw HTError.privateMember(id);
       }
-      HTFunction func = _fields[setter] as HTFunction;
+      var func = _fields[setter] as HTFunction;
       func.namespace = namespace;
       func.instance = this;
       func.call(positionalArgs: [value]);
@@ -286,10 +283,10 @@ class HTStruct with HTObject {
   }
 
   @override
-  dynamic subGet(dynamic id, {String? from}) => memberGet(id, from: from);
+  dynamic subGet(id, {String? from}) => memberGet(id, from: from);
 
   @override
-  void subSet(dynamic id, dynamic value, {String? from}) =>
+  void subSet(id, value, {String? from}) =>
       memberSet(id, value, from: from);
 
   /// return a deep copy of this struct.
@@ -332,8 +329,8 @@ class HTStruct with HTObject {
   }
 
   String help() {
-    StringBuffer buffer = StringBuffer();
-    buffer.writeln('struct $id');
+    var buffer = StringBuffer();
+    buffer.writeln("struct $id");
     buffer.write(interpreter.lexicon.stringify(valueType));
     return buffer.toString();
   }

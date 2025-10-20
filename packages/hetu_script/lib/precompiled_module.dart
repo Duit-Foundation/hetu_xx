@@ -27563,5 +27563,5 @@ final hetuCoreModule = [
   0,
   21,
   25,
-  26
+  26,
 ];

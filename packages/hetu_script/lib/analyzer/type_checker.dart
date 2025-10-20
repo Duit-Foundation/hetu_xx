@@ -38,237 +38,155 @@ class HTTypeChecker implements AbstractASTVisitor<HTType> {
   }
 
   @override
-  HTType visitNullExpr(ASTLiteralNull node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitNullExpr(ASTLiteralNull node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitBooleanExpr(ASTLiteralBoolean node) {
-    return HTNominalType(id: "bool");
-  }
+  HTType visitBooleanExpr(ASTLiteralBoolean node) => HTNominalType(id: "bool");
 
   @override
-  HTType visitIntLiteralExpr(ASTLiteralInteger node) {
-    return HTNominalType(id: "int");
-  }
+  HTType visitIntLiteralExpr(ASTLiteralInteger node) =>
+      HTNominalType(id: "int");
 
   @override
-  HTType visitFloatLiteralExpr(ASTLiteralFloat node) {
-    return HTNominalType(id: "float");
-  }
+  HTType visitFloatLiteralExpr(ASTLiteralFloat node) =>
+      HTNominalType(id: "float");
 
   @override
-  HTType visitStringLiteralExpr(ASTLiteralString node) {
-    return HTNominalType(id: "string");
-  }
+  HTType visitStringLiteralExpr(ASTLiteralString node) =>
+      HTNominalType(id: "string");
 
   @override
-  HTType visitStringInterpolationExpr(ASTStringInterpolation node) {
-    return HTNominalType(id: "string");
-  }
+  HTType visitStringInterpolationExpr(ASTStringInterpolation node) =>
+      HTNominalType(id: "string");
 
   @override
-  HTType visitIdentifierExpr(IdentifierExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitIdentifierExpr(IdentifierExpr node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitSpreadExpr(SpreadExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitSpreadExpr(SpreadExpr node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitCommaExpr(ParallelExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitCommaExpr(ParallelExpr node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitListExpr(ListExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitListExpr(ListExpr node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitInOfExpr(InOfExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitInOfExpr(InOfExpr node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitGroupExpr(GroupExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitGroupExpr(GroupExpr node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitIntrinsicTypeExpr(IntrinsicTypeExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitIntrinsicTypeExpr(IntrinsicTypeExpr node) =>
+      HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitNominalTypeExpr(NominalTypeExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitNominalTypeExpr(NominalTypeExpr node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitParamTypeExpr(ParamTypeExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitParamTypeExpr(ParamTypeExpr node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitFunctionTypeExpr(FuncTypeExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitFunctionTypeExpr(FuncTypeExpr node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitFieldTypeExpr(FieldTypeExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitFieldTypeExpr(FieldTypeExpr node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitStructuralTypeExpr(StructuralTypeExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitStructuralTypeExpr(StructuralTypeExpr node) =>
+      HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitGenericTypeParamExpr(GenericTypeParameterExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitGenericTypeParamExpr(GenericTypeParameterExpr node) =>
+      HTTypeAny(_lexicon.kAny);
 
   /// -e, !e，++e, --e
   @override
-  HTType visitUnaryPrefixExpr(UnaryPrefixExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitUnaryPrefixExpr(UnaryPrefixExpr node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitUnaryPostfixExpr(UnaryPostfixExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitUnaryPostfixExpr(UnaryPostfixExpr node) =>
+      HTTypeAny(_lexicon.kAny);
 
   /// *, /, ~/, %, +, -, <, >, <=, >=, ==, !=, &&, ||
   @override
-  HTType visitBinaryExpr(BinaryExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitBinaryExpr(BinaryExpr node) => HTTypeAny(_lexicon.kAny);
 
   /// e1 ? e2 : e3
   @override
-  HTType visitTernaryExpr(TernaryExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitTernaryExpr(TernaryExpr node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitAssignExpr(AssignExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitAssignExpr(AssignExpr node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitMemberExpr(MemberExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitMemberExpr(MemberExpr node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitSubExpr(SubExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitSubExpr(SubExpr node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitCallExpr(CallExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitCallExpr(CallExpr node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitAssertStmt(AssertStmt node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitAssertStmt(AssertStmt node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitThrowStmt(ThrowStmt node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitThrowStmt(ThrowStmt node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitExprStmt(ExprStmt node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitExprStmt(ExprStmt node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitBlockStmt(BlockStmt node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitBlockStmt(BlockStmt node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitReturnStmt(ReturnStmt node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitReturnStmt(ReturnStmt node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitIf(IfExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitIf(IfExpr node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitWhileStmt(WhileStmt node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitWhileStmt(WhileStmt node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitDoStmt(DoStmt node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitDoStmt(DoStmt node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitForStmt(ForExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitForStmt(ForExpr node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitForRangeStmt(ForRangeExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitForRangeStmt(ForRangeExpr node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitSwitch(SwitchStmt node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitSwitch(SwitchStmt node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitBreakStmt(BreakStmt node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitBreakStmt(BreakStmt node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitContinueStmt(ContinueStmt node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitContinueStmt(ContinueStmt node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitDeleteStmt(DeleteStmt node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitDeleteStmt(DeleteStmt node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitDeleteMemberStmt(DeleteMemberStmt node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitDeleteMemberStmt(DeleteMemberStmt node) =>
+      HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitDeleteSubStmt(DeleteSubStmt node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitDeleteSubStmt(DeleteSubStmt node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitImportExportDecl(ImportExportDecl node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitImportExportDecl(ImportExportDecl node) =>
+      HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitNamespaceDecl(NamespaceDecl node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitNamespaceDecl(NamespaceDecl node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitTypeAliasDecl(TypeAliasDecl node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitTypeAliasDecl(TypeAliasDecl node) => HTTypeAny(_lexicon.kAny);
 
   // @override
   // HTType visitConstDecl(ConstDecl node) {
@@ -277,52 +195,34 @@ class HTTypeChecker implements AbstractASTVisitor<HTType> {
   // }
 
   @override
-  HTType visitVarDecl(VarDecl node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitVarDecl(VarDecl node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitDestructuringDecl(DestructuringDecl node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitDestructuringDecl(DestructuringDecl node) =>
+      HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitParamDecl(ParamDecl node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitParamDecl(ParamDecl node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitReferConstructCallExpr(RedirectingConstructorCallExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitReferConstructCallExpr(RedirectingConstructorCallExpr node) =>
+      HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitFuncDecl(FuncDecl node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitFuncDecl(FuncDecl node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitClassDecl(ClassDecl node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitClassDecl(ClassDecl node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitEnumDecl(EnumDecl node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitEnumDecl(EnumDecl node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitStructDecl(StructDecl node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitStructDecl(StructDecl node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitStructObjExpr(StructObjExpr node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitStructObjExpr(StructObjExpr node) => HTTypeAny(_lexicon.kAny);
 
   @override
-  HTType visitStructObjField(StructObjField node) {
-    return HTTypeAny(_lexicon.kAny);
-  }
+  HTType visitStructObjField(StructObjField node) => HTTypeAny(_lexicon.kAny);
 }

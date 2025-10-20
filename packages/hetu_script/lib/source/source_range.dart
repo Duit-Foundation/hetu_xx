@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:math' as math;
+import "dart:math" as math;
 
 /// A source range defines a range of characters within source code.
 class SourceRange {
@@ -27,11 +27,9 @@ class SourceRange {
   int get hashCode => 31 * offset + length;
 
   @override
-  bool operator ==(Object other) {
-    return other is SourceRange &&
+  bool operator ==(Object other) => other is SourceRange &&
         other.offset == offset &&
         other.length == length;
-  }
 
   /// Return `true` if [x] is in the interval `[offset, offset + length]`.
   bool contains(int x) => offset <= x && x <= offset + length;
@@ -47,9 +45,7 @@ class SourceRange {
       offset <= otherRange.offset && otherRange.end <= end;
 
   /// Return `true` if this source range ends inside the [otherRange].
-  bool endsIn(SourceRange otherRange) {
-    return otherRange.contains(end);
-  }
+  bool endsIn(SourceRange otherRange) => otherRange.contains(end);
 
   /// Return a source range covering [delta] characters before the start of this
   /// source range and [delta] characters after the end of this source range.
@@ -91,5 +87,5 @@ class SourceRange {
   bool startsIn(SourceRange otherRange) => otherRange.contains(offset);
 
   @override
-  String toString() => '[offset=$offset, length=$length]';
+  String toString() => "[offset=$offset, length=$length]";
 }

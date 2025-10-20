@@ -29,9 +29,7 @@ mixin BytecodeReader {
   }
 
   /// Fetch a bool value from the bytes list
-  bool readBool() {
-    return bytes[ip++] == 0 ? false : true;
-  }
+  bool readBool() => bytes[ip++] != 0;
 
   /// Fetch a uint8 from the bytes list
   int readUint8() {

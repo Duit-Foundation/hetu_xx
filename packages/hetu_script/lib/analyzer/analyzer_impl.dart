@@ -1,4 +1,3 @@
-import "package:hetu_script/ast/ast.dart";
 import "package:hetu_script/analyzer/analysis_error.dart";
 import "package:hetu_script/analyzer/type_checker.dart";
 import "package:hetu_script/ast/index.dart";

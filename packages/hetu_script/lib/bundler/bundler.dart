@@ -30,9 +30,9 @@ class HTBundler {
   final HTResourceContext<HTSource> sourceContext;
 
   HTBundler({
-    BundlerConfig? config,
     required this.sourceContext,
     required this.parser,
+    BundlerConfig? config,
   }) : config = config ?? BundlerConfig();
 
   /// Parse a string content and generate a library,
@@ -66,7 +66,9 @@ class HTBundler {
               currentDir += "/";
             }
             decl.fullFromPath = importFullName = sourceContext.getAbsolutePath(
-                key: decl.fromPath!, dirName: currentDir);
+              key: decl.fromPath!,
+              dirName: currentDir,
+            );
           } else {
             decl.fullFromPath = importFullName = decl.fromPath!;
           }
@@ -92,21 +94,25 @@ class HTBundler {
               sourceParseErrors.add(error);
             } else {
               final convertedError = HTError.sourceProviderError(
-                  decl.fromPath!, astSource.fullName,
-                  filename: source.fullName,
-                  line: decl.line,
-                  column: decl.column,
-                  offset: decl.offset,
-                  length: decl.length);
-              sourceParseErrors.add(convertedError);
-            }
-          } else {
-            final convertedError = HTError.extern(error.toString(),
+                decl.fromPath!,
+                astSource.fullName,
                 filename: source.fullName,
                 line: decl.line,
                 column: decl.column,
                 offset: decl.offset,
-                length: decl.length);
+                length: decl.length,
+              );
+              sourceParseErrors.add(convertedError);
+            }
+          } else {
+            final convertedError = HTError.extern(
+              error.toString(),
+              filename: source.fullName,
+              line: decl.line,
+              column: decl.column,
+              offset: decl.offset,
+              length: decl.length,
+            );
             sourceParseErrors.add(convertedError);
           }
         }

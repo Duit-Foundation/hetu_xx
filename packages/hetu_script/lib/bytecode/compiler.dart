@@ -385,19 +385,13 @@ class HTCompiler implements AbstractASTVisitor<Uint8List> {
   }
 
   @override
-  Uint8List visitComment(ASTComment expr) {
-    return Uint8List(0);
-  }
+  Uint8List visitComment(ASTComment expr) => Uint8List(0);
 
   @override
-  Uint8List visitEmptyLine(ASTEmptyLine expr) {
-    return Uint8List(0);
-  }
+  Uint8List visitEmptyLine(ASTEmptyLine expr) => Uint8List(0);
 
   @override
-  Uint8List visitEmptyExpr(ASTEmpty expr) {
-    return Uint8List(0);
-  }
+  Uint8List visitEmptyExpr(ASTEmpty expr) => Uint8List(0);
 
   @override
   Uint8List visitNullExpr(ASTLiteralNull expr) {

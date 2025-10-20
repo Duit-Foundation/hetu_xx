@@ -32,7 +32,7 @@ class HTConstantInterpreter extends RecursiveASTVisitor {
     var text = node.text;
     for (var i = 0; i < interpolations.length; ++i) {
       text = text.replaceAll(
-        '${_lexicon.stringInterpolationStart}$i${_lexicon.stringInterpolationEnd}',
+        "${_lexicon.stringInterpolationStart}$i${_lexicon.stringInterpolationEnd}",
         interpolations[i],
       );
     }

@@ -1,10 +1,10 @@
-import 'package:quiver/core.dart';
+import "package:quiver/core.dart";
 
-import '../error/error.dart';
-import '../declaration/class/class_declaration.dart';
-import '../declaration/namespace/declaration_namespace.dart';
-import '../declaration/type/type_alias_declaration.dart';
-import 'type.dart';
+import "package:hetu_script/error/error.dart";
+import "package:hetu_script/declaration/class_declaration.dart";
+import "package:hetu_script/declaration/declaration_namespace.dart";
+import "package:hetu_script/declaration/type_alias_declaration.dart";
+import "package:hetu_script/type/type.dart";
 
 /// A type checks ids and its super types.
 ///
@@ -55,9 +55,7 @@ class HTNominalType extends HTType {
   // }
 
   @override
-  bool operator ==(Object other) {
-    return other is HTNominalType && hashCode == other.hashCode;
-  }
+  bool operator ==(Object other) => other is HTNominalType && hashCode == other.hashCode;
 
   @override
   int get hashCode {
@@ -124,7 +122,7 @@ class HTNominalType extends HTType {
     assert(id != null);
     assert(klass == null);
 
-    HTDeclarationNamespace nsp = namespace;
+    var nsp = namespace;
     if (namespacesWithin.isNotEmpty) {
       for (final id in namespacesWithin) {
         nsp = nsp.memberGet(id, from: namespace.fullName, isRecursive: true);

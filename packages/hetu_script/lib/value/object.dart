@@ -1,9 +1,5 @@
-// import 'package:hetu_script/declaration/declaration.dart';
-// import 'package:hetu_script/value/function/function.dart';
-
-import '../error/error.dart';
-// import '../lexicon/lexicon.dart';
-import '../type/type.dart';
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/types.dart";
 
 /// The encapsulated null object, used when try to interact with a null value.
 class _HTNull with HTObject {
@@ -19,7 +15,7 @@ mixin HTObject {
 
   bool contains(String id) => false;
 
-  void define(String id, dynamic value, {bool override = false}) {
+  void define(String id, value, {bool override = false}) {
     throw HTError.undefined(id);
   }
 
@@ -29,7 +25,7 @@ mixin HTObject {
   /// ```
   /// [id] must be of String type.
   dynamic memberGet(String id,
-      {String? from, bool isRecursive = false, bool ignoreUndefined = false}) {
+      {String? from, bool isRecursive = false, bool ignoreUndefined = false,}) {
     throw HTError.undefined(id);
   }
 
@@ -38,8 +34,8 @@ mixin HTObject {
   /// object.id = value
   /// ```
   /// [id] must be of String type.
-  void memberSet(String id, dynamic value,
-      {String? from, bool defineIfAbsent = false}) {
+  void memberSet(String id, value,
+      {String? from, bool defineIfAbsent = false,}) {
     throw HTError.undefined(id);
   }
 
@@ -48,16 +44,14 @@ mixin HTObject {
   /// object[id]
   /// ```
   /// [id] is of dynamic type, and will be converted to String by [toString] method.
-  dynamic subGet(dynamic id, {String? from}) {
-    return memberGet(id.toString(), from: from, ignoreUndefined: true);
-  }
+  dynamic subGet(id, {String? from}) => memberGet(id.toString(), from: from, ignoreUndefined: true);
 
   /// Assign a value to a member by the [id], in the form of
   /// ```
   /// object[id] = value
   /// ```
   /// [id] is of dynamic type, and will be converted to String by [toString] method.
-  void subSet(dynamic id, dynamic value, {String? from}) {
+  void subSet(id, value, {String? from}) {
     memberSet(id.toString(), value, from: from);
   }
 }

@@ -1,19 +1,19 @@
-import 'dart:collection';
+import "dart:collection";
 
-import 'package:quiver/core.dart';
+import "package:quiver/core.dart";
 
-import '../../error/error.dart';
-import '../../type/type.dart';
-import '../../type/nominal.dart';
-import '../function/function.dart';
-import '../class/class.dart';
-import 'cast.dart';
-import '../../value/namespace/namespace.dart';
-import '../object.dart';
-import 'instance_namespace.dart';
-import '../../interpreter/interpreter.dart';
-import '../../common/internal_identifier.dart';
-import '../../common/function_category.dart';
+import "package:hetu_script/error/error.dart";
+import "package:hetu_script/type/type.dart";
+import "package:hetu_script/type/nominal.dart";
+import "package:hetu_script/value/function/function.dart";
+import "package:hetu_script/value/class/class.dart";
+import "package:hetu_script/value/instance/cast.dart";
+import "package:hetu_script/value/namespace/namespace.dart";
+import "package:hetu_script/value/object.dart";
+import "package:hetu_script/value/instance/instance_namespace.dart";
+import "package:hetu_script/interpreter/interpreter.dart";
+import "package:hetu_script/common/internal_identifier.dart";
+import "package:hetu_script/common/function_category.dart";
 
 /// The Dart implementation of the instance in Hetu.
 /// [HTInstance] carries all decl from its super classes.
@@ -42,7 +42,7 @@ class HTInstance with HTObject, InterpreterRef {
 
   /// Create a default [HTInstance] instance.
   HTInstance(HTClass klass, HTInterpreter interpreter,
-      {List<HTType> typeArgs = const [], Map<String, dynamic>? jsonObject})
+      {List<HTType> typeArgs = const [], Map<String, dynamic>? jsonObject,})
       : index = klass.instanceIndex,
         valueType = HTNominalType(klass: klass, typeArgs: typeArgs) {
     this.interpreter = interpreter;
@@ -54,7 +54,7 @@ class HTInstance with HTObject, InterpreterRef {
         id: InternalIdentifier.instance,
         instance: this,
         classId: curKlass.id,
-        closure: klass.namespace);
+        closure: klass.namespace,);
     HTInstanceNamespace? curNamespace = myNsp;
     while (curKlass != null && curNamespace != null) {
       // 继承类成员，所有超类的成员都会分别保存
@@ -86,7 +86,7 @@ class HTInstance with HTObject, InterpreterRef {
             instance: this,
             runtimeInstanceNamespace: myNsp,
             classId: curKlass.id,
-            closure: curKlass.namespace);
+            closure: curKlass.namespace,);
         curNamespace.next = next;
         // next.prev = curNamespace;
       } else {
@@ -97,13 +97,11 @@ class HTInstance with HTObject, InterpreterRef {
     }
   }
 
-  String getTypeString() {
-    return '${InternalIdentifier.instanceOf} $classId';
-  }
+  String getTypeString() => "${InternalIdentifier.instanceOf} $classId";
 
   @override
   String toString() {
-    final func = memberGet('toString', ignoreUndefined: true);
+    final func = memberGet("toString", ignoreUndefined: true);
     if (func is HTFunction) {
       return func.call();
     } else if (func is Function) {
@@ -232,7 +230,7 @@ class HTInstance with HTObject, InterpreterRef {
   @override
   void memberSet(
     String id,
-    dynamic value, {
+    value, {
     String? from,
     bool defineIfAbsent = false,
     String? cast,
@@ -306,7 +304,7 @@ class HTInstance with HTObject, InterpreterRef {
   dynamic invoke(String funcName,
       {List<dynamic> positionalArgs = const [],
       Map<String, dynamic> namedArgs = const {},
-      List<HTType> typeArgs = const []}) {
+      List<HTType> typeArgs = const [],}) {
     try {
       HTFunction func = memberGet(funcName);
       func.resolve();
@@ -343,8 +341,8 @@ class HTInstance with HTObject, InterpreterRef {
   }
 
   String help() {
-    StringBuffer buffer = StringBuffer();
-    buffer.writeln('instance of $classId');
+    var buffer = StringBuffer();
+    buffer.writeln("instance of $classId");
     buffer.write(namespace.help(displayNamespaceName: false));
     return buffer.toString();
   }

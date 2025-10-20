@@ -307,9 +307,8 @@ class HTBooleanClassBinding extends HTExternalClass {
   }) {
     switch (id) {
       case "bool.parse":
-        return ({positionalArgs, namedArgs}) {
-          return positionalArgs.first.toLowerCase() == "true";
-        };
+        return ({positionalArgs, namedArgs}) =>
+            positionalArgs.first.toLowerCase() == "true";
       default:
         if (!ignoreUndefined) throw HTError.undefined(id);
     }
@@ -461,23 +460,20 @@ class HTIterableClassBinding extends HTExternalClass {
       case "map":
         return ({object, positionalArgs, namedArgs}) {
           HTFunction func = positionalArgs.first;
-          return object.map((element) {
-            return func.call(positionalArgs: [element]);
-          });
+          return object.map((element) => func.call(positionalArgs: [element]));
         };
       case "where":
         return ({object, positionalArgs, namedArgs}) {
           HTFunction func = positionalArgs.first;
-          return object.where((element) {
-            return func.call(positionalArgs: [element]) as bool;
-          });
+          return object
+              .where((element) => func.call(positionalArgs: [element]) as bool);
         };
       case "expand":
         return ({object, positionalArgs, namedArgs}) {
           HTFunction func = positionalArgs.first;
-          return instance.expand((element) {
-            return func.call(positionalArgs: [element]) as Iterable;
-          });
+          return instance.expand(
+            (element) => func.call(positionalArgs: [element]) as Iterable,
+          );
         };
       case "contains":
         return ({object, positionalArgs, namedArgs}) =>
@@ -485,24 +481,24 @@ class HTIterableClassBinding extends HTExternalClass {
       case "reduce":
         return ({object, positionalArgs, namedArgs}) {
           HTFunction func = positionalArgs.first;
-          return object.reduce((value, element) {
-            return func.call(positionalArgs: [value, element]);
-          });
+          return object.reduce(
+            (value, element) => func.call(positionalArgs: [value, element]),
+          );
         };
       case "fold":
         return ({object, positionalArgs, namedArgs}) {
           final initialValue = positionalArgs[0];
           HTFunction func = positionalArgs[1];
-          return object.fold(initialValue, (value, element) {
-            return func.call(positionalArgs: [value, element]);
-          });
+          return object.fold(
+            initialValue,
+            (value, element) => func.call(positionalArgs: [value, element]),
+          );
         };
       case "every":
         return ({object, positionalArgs, namedArgs}) {
           HTFunction func = positionalArgs.first;
-          return object.every((element) {
-            return func.call(positionalArgs: [element]) as bool;
-          });
+          return object
+              .every((element) => func.call(positionalArgs: [element]) as bool);
         };
       case "join":
         return ({object, positionalArgs, namedArgs}) =>
@@ -510,9 +506,8 @@ class HTIterableClassBinding extends HTExternalClass {
       case "any":
         return ({object, positionalArgs, namedArgs}) {
           HTFunction func = positionalArgs.first;
-          return object.any((element) {
-            return func.call(positionalArgs: [element]) as bool;
-          });
+          return object
+              .any((element) => func.call(positionalArgs: [element]) as bool);
         };
       case "toList":
         return ({object, positionalArgs, namedArgs}) => object.toList();
@@ -530,9 +525,9 @@ class HTIterableClassBinding extends HTExternalClass {
       case "takeWhile":
         return ({object, positionalArgs, namedArgs}) {
           HTFunction func = positionalArgs.first;
-          return object.takeWhile((element) {
-            return func.call(positionalArgs: [element]) as bool;
-          });
+          return object.takeWhile(
+            (element) => func.call(positionalArgs: [element]) as bool,
+          );
         };
       case "skip":
         return ({object, positionalArgs, namedArgs}) =>
@@ -540,9 +535,9 @@ class HTIterableClassBinding extends HTExternalClass {
       case "skipWhile":
         return ({object, positionalArgs, namedArgs}) {
           HTFunction func = positionalArgs.first;
-          return object.skipWhile((element) {
-            return func.call(positionalArgs: [element]) as bool;
-          });
+          return object.skipWhile(
+            (element) => func.call(positionalArgs: [element]) as bool,
+          );
         };
       case "first":
         return instance.isNotEmpty ? instance.first : null;
@@ -555,12 +550,8 @@ class HTIterableClassBinding extends HTExternalClass {
           HTFunction func = positionalArgs.first;
           HTFunction? orElse = namedArgs["orElse"];
           return object.firstWhere(
-            (element) {
-              return func.call(positionalArgs: [element]) as bool;
-            },
-            orElse: () {
-              return orElse != null ? orElse() : null;
-            },
+            (element) => func.call(positionalArgs: [element]) as bool,
+            orElse: () => orElse != null ? orElse() : null,
           );
         };
       case "lastWhere":
@@ -568,12 +559,8 @@ class HTIterableClassBinding extends HTExternalClass {
           HTFunction func = positionalArgs.first;
           HTFunction? orElse = namedArgs["orElse"];
           return object.lastWhere(
-            (element) {
-              return func.call(positionalArgs: [element]) as bool;
-            },
-            orElse: () {
-              return orElse != null ? orElse() : null;
-            },
+            (element) => func.call(positionalArgs: [element]) as bool,
+            orElse: () => orElse != null ? orElse() : null,
           );
         };
       case "singleWhere":
@@ -581,12 +568,8 @@ class HTIterableClassBinding extends HTExternalClass {
           HTFunction func = positionalArgs.first;
           HTFunction? orElse = namedArgs["orElse"];
           return object.singleWhere(
-            (element) {
-              return func.call(positionalArgs: [element]) as bool;
-            },
-            orElse: () {
-              return orElse != null ? orElse() : null;
-            },
+            (element) => func.call(positionalArgs: [element]) as bool,
+            orElse: () => orElse != null ? orElse() : null,
           );
         };
       case "elementAt":
@@ -690,9 +673,7 @@ class HTListClassBinding extends HTExternalClass {
           // ignore: avoid_annotating_with_dynamic
           int Function(dynamic, dynamic)? sortFunc;
           if (func != null) {
-            sortFunc = (a, b) {
-              return func.call(positionalArgs: [a, b]) as int;
-            };
+            sortFunc = (a, b) => func.call(positionalArgs: [a, b]) as int;
           }
           object.sort(sortFunc);
         };
@@ -703,9 +684,7 @@ class HTListClassBinding extends HTExternalClass {
           HTFunction func = positionalArgs.first;
           int start = positionalArgs[1];
           return object.indexWhere(
-            (element) {
-              return func.call(positionalArgs: [element]) as bool;
-            },
+            (element) => func.call(positionalArgs: [element]) as bool,
             start,
           );
         };
@@ -714,25 +693,23 @@ class HTListClassBinding extends HTExternalClass {
           HTFunction func = positionalArgs.first;
           int? start = positionalArgs[1];
           return object.lastIndexWhere(
-            (element) {
-              return func.call(positionalArgs: [element]) as bool;
-            },
+            (element) => func.call(positionalArgs: [element]) as bool,
             start,
           );
         };
       case "removeWhere":
         return ({object, positionalArgs, namedArgs}) {
           HTFunction func = positionalArgs.first;
-          object.removeWhere((element) {
-            return func.call(positionalArgs: [element]) as bool;
-          });
+          object.removeWhere(
+            (element) => func.call(positionalArgs: [element]) as bool,
+          );
         };
       case "retainWhere":
         return ({object, positionalArgs, namedArgs}) {
           HTFunction func = positionalArgs.first;
-          object.retainWhere((element) {
-            return func.call(positionalArgs: [element]) as bool;
-          });
+          object.retainWhere(
+            (element) => func.call(positionalArgs: [element]) as bool,
+          );
         };
       case "getRange":
         return ({object, positionalArgs, namedArgs}) =>
@@ -833,16 +810,16 @@ class HTSetClassBinding extends HTExternalClass {
       case "removeWhere":
         return ({object, positionalArgs, namedArgs}) {
           HTFunction func = positionalArgs.first;
-          object.removeWhere((element) {
-            return func.call(positionalArgs: [element]) as bool;
-          });
+          object.removeWhere(
+            (element) => func.call(positionalArgs: [element]) as bool,
+          );
         };
       case "retainWhere":
         return ({object, positionalArgs, namedArgs}) {
           HTFunction func = positionalArgs.first;
-          object.retainWhere((element) {
-            return func.call(positionalArgs: [element]) as bool;
-          });
+          object.retainWhere(
+            (element) => func.call(positionalArgs: [element]) as bool,
+          );
         };
       case "containsAll":
         return ({object, positionalArgs, namedArgs}) =>
@@ -1033,10 +1010,8 @@ class HTRandomClassBinding extends HTExternalClass {
       case "nextDouble":
         return ({object, positionalArgs, namedArgs}) => object.nextDouble();
       case "nearInt":
-        return ({object, positionalArgs, namedArgs}) {
-          return (object as math.Random)
-              .nearInt(positionalArgs.first, exponent: namedArgs["exponent"]);
-        };
+        return ({object, positionalArgs, namedArgs}) => (object as math.Random)
+            .nearInt(positionalArgs.first, exponent: namedArgs["exponent"]);
       case "distantInt":
         return ({object, positionalArgs, namedArgs}) => (object as math.Random)
             .distantInt(positionalArgs.first, exponent: namedArgs["exponent"]);
@@ -1104,16 +1079,13 @@ class HTFutureClassBinding extends HTExternalClass {
           // });
         };
       case "Future.value":
-        return ({object, positionalArgs, namedArgs}) {
-          return Future.value(positionalArgs.first);
-        };
+        return ({object, positionalArgs, namedArgs}) =>
+            Future.value(positionalArgs.first);
       case "Future.delayed":
-        return ({object, positionalArgs, namedArgs}) {
-          return Future.delayed(
-            Duration(milliseconds: (positionalArgs[0] * 1000).truncate()),
-            () => positionalArgs[1]?.call(),
-          );
-        };
+        return ({object, positionalArgs, namedArgs}) => Future.delayed(
+              Duration(milliseconds: (positionalArgs[0] * 1000).truncate()),
+              () => positionalArgs[1]?.call(),
+            );
       default:
         if (!ignoreUndefined) throw HTError.undefined(id);
     }
@@ -1149,23 +1121,17 @@ class HTCryptoClassBinding extends HTExternalClass {
   }) {
     switch (id) {
       case "crypto.randomUUID":
-        return ({positionalArgs, namedArgs}) {
-          return randomUUID();
-        };
+        return ({positionalArgs, namedArgs}) => randomUUID();
       case "crypto.randomUID":
-        return ({positionalArgs, namedArgs}) {
-          return randomUID(
-            length: namedArgs["length"],
-            withTime: namedArgs["withTime"],
-          );
-        };
+        return ({positionalArgs, namedArgs}) => randomUID(
+              length: namedArgs["length"],
+              withTime: namedArgs["withTime"],
+            );
       case "crypto.randomNID":
-        return ({positionalArgs, namedArgs}) {
-          return randomNID(
-            length: namedArgs["length"],
-            withTime: namedArgs["withTime"],
-          );
-        };
+        return ({positionalArgs, namedArgs}) => randomNID(
+              length: namedArgs["length"],
+              withTime: namedArgs["withTime"],
+            );
       case "crypto.crcString":
         return ({positionalArgs, namedArgs}) {
           String data = positionalArgs[0];

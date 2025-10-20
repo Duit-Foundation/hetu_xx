@@ -5,7 +5,7 @@ import "package:hetu_script/source/source.dart";
 import "package:hetu_script/resource/resource.dart";
 import "package:hetu_script/resource/resource_context.dart";
 import "package:hetu_script/resource/overlay/overlay_context.dart";
-import "package:hetu_script/declaration/namespace/declaration_namespace.dart";
+import "package:hetu_script/declaration/declaration_namespace.dart";
 import "package:hetu_script/error/error.dart";
 import "package:hetu_script/error/error_handler.dart";
 import "package:hetu_script/analyzer/analysis_result.dart";

@@ -1,10 +1,7 @@
-import 'package:meta/meta.dart';
-
-import '../../type/type.dart';
-import '../declaration.dart';
-import '../type/abstract_type_declaration.dart';
-import '../generic/generic_type_parameter.dart';
-import '../../common/internal_identifier.dart';
+import "package:hetu_script/common/index.dart";
+import "package:meta/meta.dart";
+import "package:hetu_script/declarations.dart";
+import "package:hetu_script/types.dart";
 
 class HTClassDeclaration extends HTDeclaration
     implements HasGenericTypeParameter {
@@ -55,7 +52,7 @@ class HTClassDeclaration extends HTDeclaration
     this.isAbstract = false,
     this.isEnum = false,
   }) : _unresolvedSuperType = superType {
-    if (_unresolvedSuperType != null && _unresolvedSuperType!.isResolved) {
+    if (_unresolvedSuperType != null && _unresolvedSuperType.isResolved) {
       _resolvedSuperType = _unresolvedSuperType;
     }
   }
@@ -67,23 +64,24 @@ class HTClassDeclaration extends HTDeclaration
       return;
     }
     if ((closure != null) && (_unresolvedSuperType != null)) {
-      _resolvedSuperType = _unresolvedSuperType!.resolve(closure!);
+      _resolvedSuperType = _unresolvedSuperType.resolve(closure!);
     }
     _isResolved = true;
   }
 
   @override
   HTClassDeclaration clone() => HTClassDeclaration(
-      id: id,
-      classId: classId,
-      closure: closure,
-      source: source,
-      genericTypeParameters: genericTypeParameters,
-      superType: superType,
-      implementsTypes: implementsTypes,
-      withTypes: withTypes,
-      isExternal: isExternal,
-      isAbstract: isAbstract,
-      isEnum: isEnum,
-      isTopLevel: isTopLevel);
+        id: id,
+        classId: classId,
+        closure: closure,
+        source: source,
+        genericTypeParameters: genericTypeParameters,
+        superType: superType,
+        implementsTypes: implementsTypes,
+        withTypes: withTypes,
+        isExternal: isExternal,
+        isAbstract: isAbstract,
+        isEnum: isEnum,
+        isTopLevel: isTopLevel,
+      );
 }

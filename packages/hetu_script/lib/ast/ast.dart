@@ -1,7 +1,7 @@
 import "package:hetu_script/ast/abstract_ast_visitor.dart";
 import "package:pub_semver/pub_semver.dart";
 
-import "package:hetu_script/declaration/namespace/declaration_namespace.dart";
+import "package:hetu_script/declaration/declaration_namespace.dart";
 import "package:hetu_script/parser/token.dart";
 import "package:hetu_script/source/source.dart";
 import "package:hetu_script/declaration/declaration.dart";
@@ -178,9 +178,9 @@ class ASTSource extends ASTNode {
 
   ASTSource({
     required this.nodes,
+    required super.source,
     this.imports = const [],
     this.errors = const [],
-    required super.source,
     super.line = 0,
     super.column = 0,
     super.offset = 0,
@@ -425,16 +425,17 @@ class IdentifierExpr extends ASTNode {
 
   IdentifierExpr.fromToken(
     Token idTok, {
-    bool isMarked = false,
     bool isLocal = true,
     HTSource? source,
-  }) : this(idTok.literal.toString(),
-            isLocal: isLocal,
-            source: source,
-            line: idTok.line,
-            column: idTok.column,
-            offset: idTok.offset,
-            length: idTok.length);
+  }) : this(
+          idTok.literal.toString(),
+          isLocal: isLocal,
+          source: source,
+          line: idTok.line,
+          column: idTok.column,
+          offset: idTok.offset,
+          length: idTok.length,
+        );
 }
 
 class SpreadExpr extends ASTNode {
@@ -505,7 +506,6 @@ class ListExpr extends ASTNode {
 
   ListExpr(
     this.list, {
-    HTSource? source,
     super.line = 0,
     super.column = 0,
     super.offset = 0,
@@ -1556,9 +1556,11 @@ class ImportExportDecl extends Statement {
     super.column = 0,
     super.offset = 0,
     super.length = 0,
-  }) : super(isExport
-            ? InternalIdentifier.exportStatement
-            : InternalIdentifier.importStatement);
+  }) : super(
+          isExport
+              ? InternalIdentifier.exportStatement
+              : InternalIdentifier.importStatement,
+        );
 }
 
 class NamespaceDecl extends Statement {
@@ -1963,7 +1965,7 @@ class FuncDecl extends Statement {
     super.length = 0,
   }) : super(
           InternalIdentifier.functionDeclaration,
-          isBlock: (!isExpressionBody && definition != null),
+          isBlock: !isExpressionBody && definition != null,
         );
 }
 
@@ -2144,8 +2146,8 @@ class StructObjField extends ASTNode {
   final ASTNode fieldValue;
 
   StructObjField({
-    this.key,
     required this.fieldValue,
+    this.key,
     super.source,
     super.line = 0,
     super.column = 0,

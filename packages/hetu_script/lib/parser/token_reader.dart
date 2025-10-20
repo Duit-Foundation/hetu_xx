@@ -1,9 +1,9 @@
 // import '../source/source.dart';
-import '../locale/locale.dart';
+import "package:hetu_script/locale/locale.dart";
 
-import '../error/error.dart';
+import "package:hetu_script/error/error.dart";
 // import '../error/error_handler.dart';
-import 'token.dart';
+import "package:hetu_script/parser/token.dart";
 
 /// Mixin for handling a token list.
 mixin TokenReader {
@@ -28,7 +28,7 @@ mixin TokenReader {
     this.line = line ?? 0;
     this.column = column ?? 0;
 
-    Token cur = token;
+    var cur = token;
     while (cur.next != null) {
       cur = cur.next!;
     }
@@ -48,7 +48,7 @@ mixin TokenReader {
   /// Search for parentheses end that can close the current one, return the token next to it.
   Token seekGroupClosing(Map<String, String> groupClosings) {
     var current = curTok;
-    final List<String> closings = [];
+    final closings = <String>[];
     var distance = 0;
     var depth = 0;
 
@@ -161,7 +161,7 @@ mixin TokenReader {
           line: curTok.line,
           column: curTok.column,
           offset: curTok.offset,
-          length: curTok.length);
+          length: curTok.length,);
       errors.add(err);
     }
 
@@ -176,7 +176,7 @@ mixin TokenReader {
           line: curTok.line,
           column: curTok.column,
           offset: curTok.offset,
-          length: curTok.length);
+          length: curTok.length,);
       errors.add(err);
     }
 

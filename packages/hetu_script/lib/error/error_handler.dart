@@ -20,7 +20,7 @@ class ErrorHandlerConfig {
 }
 
 typedef HTErrorHandlerCallback = void Function(Object error,
-    {Object? externalStackTrace});
+    {Object? externalStackTrace,});
 
 /// A utility class that stores errors.
 class HTErrorHandler {

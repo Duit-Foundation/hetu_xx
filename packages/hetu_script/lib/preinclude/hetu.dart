@@ -1,38 +1,37 @@
-import 'dart:typed_data';
+import "dart:typed_data";
 
-import 'package:hetu_script/value/variable/variable.dart';
-import 'package:pub_semver/pub_semver.dart';
+import "package:hetu_script/lexicon/index.dart";
+import "package:hetu_script/value/variable/variable.dart";
+import "package:pub_semver/pub_semver.dart";
 
-import '../version.dart';
-import '../ast/ast.dart';
-import '../value/namespace/namespace.dart';
-import '../analyzer/analyzer.dart';
-import '../interpreter/interpreter.dart';
-import '../resource/resource.dart' show HTResourceType;
-import '../resource/resource_context.dart';
-import '../resource/overlay/overlay_context.dart';
+import "package:hetu_script/version.dart";
+import "package:hetu_script/ast/ast.dart";
+import "package:hetu_script/value/namespace/namespace.dart";
+import "package:hetu_script/analyzer/analyzer.dart";
+import "package:hetu_script/interpreter/interpreter.dart";
+import "package:hetu_script/resource/resource.dart" show HTResourceType;
+import "package:hetu_script/resource/resource_context.dart";
+import "package:hetu_script/resource/overlay/overlay_context.dart";
 // import '../type/type.dart';
-import '../source/source.dart';
-import '../bytecode/compiler.dart';
-import '../logger/message_severity.dart';
-import '../binding/function_binding.dart';
-import '../precompiled_module.dart';
-import '../locale/locale.dart';
-import '../external/external_function.dart';
-import '../external/external_class.dart';
-import '../binding/class_binding.dart';
-import '../lexer/lexer.dart';
-import '../lexicon/lexicon.dart';
-import '../parser/parser.dart';
-import '../parser/parser_hetu.dart';
-import '../resource/resource.dart';
-import '../bundler/bundler.dart';
-import '../logger/logger.dart';
-import '../logger/console_logger.dart';
-import 'console.dart';
-import '../lexicon/lexicon_hetu.dart';
-import '../value/struct/struct.dart';
-import '../value/function/function.dart';
+import "package:hetu_script/source/source.dart";
+import "package:hetu_script/bytecode/compiler.dart";
+import "package:hetu_script/logger/message_severity.dart";
+import "package:hetu_script/binding/function_binding.dart";
+import "package:hetu_script/precompiled_module.dart";
+import "package:hetu_script/locale/locale.dart";
+import "package:hetu_script/external/external_function.dart";
+import "package:hetu_script/external/external_class.dart";
+import "package:hetu_script/binding/class_binding.dart";
+import "package:hetu_script/lexer/lexer.dart";
+import "package:hetu_script/parser/parser.dart";
+import "package:hetu_script/parser/parser_hetu.dart";
+import "package:hetu_script/resource/resource.dart";
+import "package:hetu_script/bundler/bundler.dart";
+import "package:hetu_script/logger/logger.dart";
+import "package:hetu_script/logger/console_logger.dart";
+import "package:hetu_script/preinclude/console.dart";
+import "package:hetu_script/value/struct/struct.dart";
+import "package:hetu_script/value/function/function.dart";
 
 /// The config of hetu environment, this implements all config of components used by this environment.
 class HetuConfig
@@ -301,89 +300,141 @@ class Hetu {
       interpreter.bindExternalClass(HTJSONClassBinding(lexicon: lexicon));
 
       // bind dynamic external functions or static method
-      interpreter.bindExternalFunction('print',
-          ({positionalArgs, namedArgs}) => console.log(positionalArgs));
       interpreter.bindExternalFunction(
-          'eval', ({positionalArgs, namedArgs}) => eval(positionalArgs.first));
-      interpreter.bindExternalFunction('require',
-          ({positionalArgs, namedArgs}) => require(positionalArgs.first));
+        "print",
+        ({positionalArgs, namedArgs}) => console.log(positionalArgs),
+      );
       interpreter.bindExternalFunction(
-          'help', ({positionalArgs, namedArgs}) => help(positionalArgs.first));
-      interpreter.bindExternalFunction('Object.fromJSON', (
-          {positionalArgs, namedArgs}) {
+        "eval",
+        ({positionalArgs, namedArgs}) => eval(positionalArgs.first),
+      );
+      interpreter.bindExternalFunction(
+        "require",
+        ({positionalArgs, namedArgs}) => require(positionalArgs.first),
+      );
+      interpreter.bindExternalFunction(
+        "help",
+        ({positionalArgs, namedArgs}) => help(positionalArgs.first),
+      );
+      interpreter.bindExternalFunction("Object.fromJSON", ({
+        positionalArgs,
+        namedArgs,
+      }) {
         final jsonData = positionalArgs.first as Map<dynamic, dynamic>;
         return interpreter.createStructfromJSON(jsonData);
       });
-      interpreter.bindExternalFunction('Object.assign', (
-          {positionalArgs, namedArgs}) {
+      interpreter.bindExternalFunction("Object.assign", ({
+        positionalArgs,
+        namedArgs,
+      }) {
         final target = positionalArgs[0] as HTStruct;
         final source = positionalArgs[1] as HTStruct;
         target.assign(source);
       });
-      interpreter.bindExternalFunction('Object.merge', (
-          {positionalArgs, namedArgs}) {
+      interpreter.bindExternalFunction("Object.merge", ({
+        positionalArgs,
+        namedArgs,
+      }) {
         final target = positionalArgs[0] as HTStruct;
         final source = positionalArgs[1] as HTStruct;
         target.merge(source);
       });
 
       // bind dynamic external method
-      interpreter.bindExternalMethod('ClassRoot::toString', (
-          {object, positionalArgs, namedArgs}) {
-        return lexicon.stringify(object);
-      });
-      interpreter.bindExternalMethod('Object::iterator', (
-          {object, positionalArgs, namedArgs}) {
+      interpreter.bindExternalMethod(
+        "ClassRoot::toString",
+        ({
+          object,
+          positionalArgs,
+          namedArgs,
+        }) =>
+            lexicon.stringify(object),
+      );
+      interpreter.bindExternalMethod("Object::iterator", ({
+        object,
+        positionalArgs,
+        namedArgs,
+      }) {
         final struct = object as HTStruct;
         return struct.keys.iterator;
       });
-      interpreter.bindExternalMethod('Object::keys', (
-          {object, positionalArgs, namedArgs}) {
+      interpreter.bindExternalMethod("Object::keys", ({
+        object,
+        positionalArgs,
+        namedArgs,
+      }) {
         final struct = object as HTStruct;
         return struct.keys;
       });
-      interpreter.bindExternalMethod('Object::values', (
-          {object, positionalArgs, namedArgs}) {
+      interpreter.bindExternalMethod("Object::values", ({
+        object,
+        positionalArgs,
+        namedArgs,
+      }) {
         final struct = object as HTStruct;
         return struct.values;
       });
-      interpreter.bindExternalMethod('Object::contains', (
-          {object, positionalArgs, namedArgs}) {
+      interpreter.bindExternalMethod("Object::contains", ({
+        object,
+        positionalArgs,
+        namedArgs,
+      }) {
         final struct = object as HTStruct;
         return struct.contains(positionalArgs.first);
       });
-      interpreter.bindExternalMethod('Object::containsKey', (
-          {object, positionalArgs, namedArgs}) {
+      interpreter.bindExternalMethod("Object::containsKey", ({
+        object,
+        positionalArgs,
+        namedArgs,
+      }) {
         final struct = object as HTStruct;
         return struct.containsKey(positionalArgs.first);
       });
-      interpreter.bindExternalMethod('Object::isEmpty', (
-          {object, positionalArgs, namedArgs}) {
+      interpreter.bindExternalMethod("Object::isEmpty", ({
+        object,
+        positionalArgs,
+        namedArgs,
+      }) {
         final struct = object as HTStruct;
         return struct.isEmpty;
       });
-      interpreter.bindExternalMethod('Object::isNotEmpty', (
-          {object, positionalArgs, namedArgs}) {
+      interpreter.bindExternalMethod("Object::isNotEmpty", ({
+        object,
+        positionalArgs,
+        namedArgs,
+      }) {
         final struct = object as HTStruct;
         return struct.isNotEmpty;
       });
-      interpreter.bindExternalMethod('Object::length', (
-          {object, positionalArgs, namedArgs}) {
+      interpreter.bindExternalMethod("Object::length", ({
+        object,
+        positionalArgs,
+        namedArgs,
+      }) {
         final struct = object as HTStruct;
         return struct.length;
       });
-      interpreter.bindExternalMethod('Object::remove', (
-          {object, positionalArgs, namedArgs}) {
+      interpreter.bindExternalMethod("Object::remove", ({
+        object,
+        positionalArgs,
+        namedArgs,
+      }) {
         final struct = object as HTStruct;
         struct.remove(positionalArgs.first);
       });
-      interpreter.bindExternalMethod('Object::clone', (
-          {object, positionalArgs, namedArgs}) {
+      interpreter.bindExternalMethod("Object::clone", ({
+        object,
+        positionalArgs,
+        namedArgs,
+      }) {
         final struct = object as HTStruct;
         return struct.clone();
       });
-      interpreter.bindExternalMethod('Object::assign', (
-          {object, positionalArgs, namedArgs}) {
+      interpreter.bindExternalMethod("Object::assign", ({
+        object,
+        positionalArgs,
+        namedArgs,
+      }) {
         final struct = object as HTStruct;
         final other = positionalArgs.first as HTStruct;
         struct.assign(other);
@@ -391,21 +442,14 @@ class Hetu {
 
       // must convert the return type to let dart know its return value type.
       interpreter.bindExternalFunctionType(
-        'VoidCallback',
-        (HTFunction function) {
-          return () {
-            return function.call();
-          };
-        },
+        "VoidCallback",
+        (HTFunction function) => () => function.call(),
       );
 
       interpreter.bindExternalFunctionType(
-        'ValueCallback',
-        (HTFunction function) {
-          return (value) {
-            return function.call(positionalArgs: [value]);
-          };
-        },
+        "ValueCallback",
+        (HTFunction function) =>
+            (value) => function.call(positionalArgs: [value]),
       );
 
       // bind non-dynamic external functions
@@ -417,14 +461,14 @@ class Hetu {
       final coreModule = Uint8List.fromList(hetuCoreModule);
       interpreter.loadBytecode(
         bytes: coreModule,
-        module: 'hetu',
+        module: "hetu",
         globallyImport: true,
       );
 
       interpreter.define(
-        'kHetuVersion',
+        "kHetuVersion",
         HTVariable(
-          id: 'kHetuVersion',
+          id: "kHetuVersion",
           interpreter: interpreter,
           closure: interpreter.globalNamespace,
           value: kHetuVersion.toString(),
@@ -490,7 +534,7 @@ class Hetu {
   //   _currentParser = _parsers[name]!;
   // }
 
-  String stringify(dynamic dynamic) => lexicon.stringify(dynamic);
+  String stringify(dynamic) => lexicon.stringify(dynamic);
 
   /// Evaluate a string content.
   /// If [invoke] is provided, will immediately
@@ -579,8 +623,11 @@ class Hetu {
 
   /// Process the import declaration within several sources,
   /// generate a single [ASTCompilation] for [HTCompiler] to compile.
-  ASTCompilation bundle(HTSource source,
-      {Version? version, bool errorHandled = false}) {
+  ASTCompilation bundle(
+    HTSource source, {
+    Version? version,
+    bool errorHandled = false,
+  }) {
     final compilation = bundler.bundle(
       source: source,
       // parser: _currentParser,
@@ -607,11 +654,13 @@ class Hetu {
     bool isModuleEntryScript = false,
     Version? version,
   }) {
-    final source = HTSource(content,
-        filename: filename,
-        type: isModuleEntryScript
-            ? HTResourceType.hetuScript
-            : HTResourceType.hetuModule);
+    final source = HTSource(
+      content,
+      filename: filename,
+      type: isModuleEntryScript
+          ? HTResourceType.hetuScript
+          : HTResourceType.hetuModule,
+    );
     return _compileSource(
       source,
       version: version,
@@ -656,7 +705,7 @@ class Hetu {
                 interpreter.processError(error);
               }
             } else {
-              print('hetu - ${error.severity}: $error');
+              print("hetu - ${error.severity}: $error");
             }
           }
         }
@@ -695,8 +744,9 @@ class Hetu {
     if (config.doStaticAnalysis &&
         interpreter.currentBytecodeModule.namespaces.isNotEmpty) {
       analyzer.globalNamespace.import(
-          interpreter.currentBytecodeModule.namespaces.values.last,
-          idOnly: true);
+        interpreter.currentBytecodeModule.namespaces.values.last,
+        idOnly: true,
+      );
     }
     return result;
   }
@@ -726,7 +776,7 @@ class Hetu {
     // If the source has not been evaled at all, then we have to load the source dynamically.
     final source = sourceContext.getResource(key);
     final bytes = _compileSource(source);
-    final HTContext savedContext = interpreter.getContext();
+    final savedContext = interpreter.getContext();
 
     interpreter.loadBytecode(bytes: bytes, module: key);
 
@@ -736,13 +786,12 @@ class Hetu {
   }
 
   /// Get the documentational comment of an identifier within the soruce code.
-  String? help(dynamic id, {String? module}) =>
-      interpreter.help(id, module: module);
+  String? help(id, {String? module}) => interpreter.help(id, module: module);
 
   /// Add a declaration to certain namespace.
   void define(
     String id,
-    dynamic value, {
+    value, {
     bool isMutable = false,
     bool override = false,
     bool throws = true,
@@ -774,7 +823,7 @@ class Hetu {
   /// Assign value to a top level variable defined in a certain namespace in the interpreter.
   void assign(
     String id,
-    dynamic value, {
+    value, {
     String? namespace,
     String? module,
     bool defineIfAbsent = false,

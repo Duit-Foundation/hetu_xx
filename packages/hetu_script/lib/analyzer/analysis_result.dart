@@ -1,4 +1,4 @@
-import "package:hetu_script/declaration/namespace/declaration_namespace.dart";
+import "package:hetu_script/declaration/declaration_namespace.dart";
 import "package:hetu_script/source/source.dart";
 import "package:hetu_script/source/line_info.dart";
 import "package:hetu_script/ast/ast.dart";
