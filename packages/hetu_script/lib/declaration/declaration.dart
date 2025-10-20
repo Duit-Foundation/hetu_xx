@@ -1,8 +1,8 @@
 import "package:hetu_script/declaration/index.dart";
-import "package:hetu_script/errors.dart";
+import "package:hetu_script/error/index.dart";
 import "package:hetu_script/source/source.dart";
 import "package:hetu_script/source/source_range.dart";
-import "package:hetu_script/types.dart";
+import "package:hetu_script/type/index.dart";
 
 /// Declaration is a semantic entity in the program that
 /// represents things that are declared with a name
