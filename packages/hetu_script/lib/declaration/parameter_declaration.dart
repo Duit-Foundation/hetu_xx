@@ -35,12 +35,12 @@ class HTParameterDeclaration extends HTVariableDeclaration
 
   @override
   HTParameterDeclaration clone() => HTParameterDeclaration(
-      id: id!,
-      closure: closure,
-      declType: declType,
-      isVariadic: isVariadic,
-      isOptional: isOptional,
-      isNamed: isNamed,
-      isInitialization: isInitialization,
-    );
+        id: id!,
+        closure: closure,
+        declType: declType,
+        isVariadic: isVariadic,
+        isOptional: isOptional,
+        isNamed: isNamed,
+        isInitialization: isInitialization,
+      );
 }

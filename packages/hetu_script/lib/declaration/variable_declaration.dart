@@ -20,22 +20,22 @@ class HTVariableDeclaration extends HTDeclaration {
 
   final bool lateFinalize;
 
-  HTVariableDeclaration(
-      {required String id,
-      super.classId,
-      super.closure,
-      super.source,
-      super.documentation,
-      HTType? declType,
-      super.isPrivate = false,
-      super.isExternal = false,
-      super.isStatic = false,
-      super.isConst = false,
-      super.isMutable = false,
-      super.isTopLevel = false,
-      super.isField = false,
-      this.lateFinalize = false,})
-      : _declType = declType,
+  HTVariableDeclaration({
+    required String id,
+    super.classId,
+    super.closure,
+    super.source,
+    super.documentation,
+    HTType? declType,
+    super.isPrivate = false,
+    super.isExternal = false,
+    super.isStatic = false,
+    super.isConst = false,
+    super.isMutable = false,
+    super.isTopLevel = false,
+    super.isField = false,
+    this.lateFinalize = false,
+  })  : _declType = declType,
         super(id: id) {
     if (_declType != null && _declType.isResolved) {
       _resolvedDeclType = _declType;
@@ -58,13 +58,14 @@ class HTVariableDeclaration extends HTDeclaration {
 
   @override
   HTVariableDeclaration clone() => HTVariableDeclaration(
-      id: id!,
-      classId: classId,
-      closure: closure,
-      source: source,
-      declType: declType,
-      isExternal: isExternal,
-      isStatic: isStatic,
-      isMutable: isMutable,
-      isTopLevel: isTopLevel,);
+        id: id!,
+        classId: classId,
+        closure: closure,
+        source: source,
+        declType: declType,
+        isExternal: isExternal,
+        isStatic: isStatic,
+        isMutable: isMutable,
+        isTopLevel: isTopLevel,
+      );
 }

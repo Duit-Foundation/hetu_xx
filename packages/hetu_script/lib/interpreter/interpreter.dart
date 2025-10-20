@@ -1586,7 +1586,8 @@ class HTInterpreter {
             classId = _currentBytecodeModule.getConstString();
           }
           final isPrivate = _currentBytecodeModule.readBool();
-          final isTopLevel = _currentBytecodeModule.readBool();
+          //TODO: read bytecode to save current behavior
+          final _ = _currentBytecodeModule.readBool();
           currentNamespace = HTNamespace(
             lexicon: _lexicon,
             id: id,
@@ -1594,7 +1595,6 @@ class HTInterpreter {
             closure: currentNamespace,
             documentation: documentation,
             isPrivate: isPrivate,
-            isTopLevel: isTopLevel,
           );
         case OpCode.namespaceDeclEnd:
           final nsp = currentNamespace;

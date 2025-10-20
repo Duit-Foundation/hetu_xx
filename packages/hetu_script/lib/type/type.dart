@@ -47,8 +47,11 @@ class HTIntrinsicType extends HTType {
   @override
   final bool isBottom;
 
-  const HTIntrinsicType(super.id,
-      {required this.isTop, required this.isBottom,});
+  const HTIntrinsicType(
+    super.id, {
+    required this.isTop,
+    required this.isBottom,
+  });
 
   @override
   bool isA(HTType? other) {

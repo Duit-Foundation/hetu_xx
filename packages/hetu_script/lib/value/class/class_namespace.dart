@@ -1,5 +1,4 @@
 import "package:hetu_script/error/error.dart";
-// import '../../source/source.dart';
 import "package:hetu_script/value/function/function.dart";
 import "package:hetu_script/value/namespace/namespace.dart";
 import "package:hetu_script/value/class/class.dart";
@@ -55,10 +54,12 @@ class HTClassNamespace extends HTNamespace {
     }
 
     if (isRecursive && (closure != null)) {
-      return closure!.memberGet(id,
-          from: from,
-          isRecursive: isRecursive,
-          ignoreUndefined: ignoreUndefined,);
+      return closure!.memberGet(
+        id,
+        from: from,
+        isRecursive: isRecursive,
+        ignoreUndefined: ignoreUndefined,
+      );
     }
 
     if (!ignoreUndefined) {
@@ -96,10 +97,13 @@ class HTClassNamespace extends HTNamespace {
     }
 
     if (isRecursive && closure != null) {
-      return closure!.memberSet(id, value,
-          from: from,
-          isRecursive: isRecursive,
-          ignoreUndefined: ignoreUndefined,);
+      return closure!.memberSet(
+        id,
+        value,
+        from: from,
+        isRecursive: isRecursive,
+        ignoreUndefined: ignoreUndefined,
+      );
     }
 
     if (!ignoreUndefined) {

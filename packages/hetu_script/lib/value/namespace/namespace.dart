@@ -131,8 +131,13 @@ class HTNamespace extends HTDeclarationNamespace<dynamic> {
       decl.value = value;
       return true;
     } else if (isRecursive && (closure != null)) {
-      return closure!.memberSet(id, value,
-          from: from, isRecursive: true, ignoreUndefined: ignoreUndefined,);
+      return closure!.memberSet(
+        id,
+        value,
+        from: from,
+        isRecursive: true,
+        ignoreUndefined: ignoreUndefined,
+      );
     } else {
       if (defineIfAbsent) {
         symbols[id] = value;

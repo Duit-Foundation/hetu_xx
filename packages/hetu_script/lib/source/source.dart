@@ -1,12 +1,12 @@
 import "dart:math" as math;
 
+import "package:hetu_script/common/index.dart";
 import "package:path/path.dart" as path;
 
-// import '../grammar/lexicon.dart';
 import "package:hetu_script/source/line_info.dart";
 import "package:hetu_script/resource/resource.dart";
 import "package:hetu_script/utils/crc32b.dart";
-import "package:hetu_script/common/internal_identifier.dart";
+
 
 /// A piece of code, with extra informations like:
 /// [fullName], [type], [lineInfo], etc.
@@ -32,8 +32,12 @@ class HTSource {
   String? _crc;
 
   @override
-  bool operator ==(Object other) =>
-      other is HTSource ? hashCode == other.hashCode : false;
+  bool operator ==(Object other) {
+    if (other is HTSource) {
+      return hashCode == other.hashCode;
+    }
+    return false;
+  }
 
   @override
   int get hashCode => _crc != null ? _crc.hashCode : content.hashCode;
@@ -53,8 +57,12 @@ class HTSource {
       nameBuilder.write("${InternalIdentifier.anonymousScript}_$hash: ");
       var firstLine =
           content.trimLeft().replaceAll(RegExp(r"\s+"), " ").trimRight();
-      nameBuilder.write(firstLine.substring(
-          0, math.min(_anonymousScriptNameLengthLimit, firstLine.length),),);
+      nameBuilder.write(
+        firstLine.substring(
+          0,
+          math.min(_anonymousScriptNameLengthLimit, firstLine.length),
+        ),
+      );
       if (firstLine.length > _anonymousScriptNameLengthLimit) {
         nameBuilder.write("...");
       }
@@ -74,6 +82,9 @@ class HTJsonSource {
   final String module;
   final dynamic value;
 
-  const HTJsonSource(
-      {required this.fullName, required this.module, required this.value,});
+  const HTJsonSource({
+    required this.fullName,
+    required this.module,
+    required this.value,
+  });
 }

@@ -82,7 +82,8 @@ abstract class HTParser with TokenReader {
   /// Note that this method will not consume either the start or the end mark.
   List<T> parseExprList<T extends ASTNode>({
     required String endToken,
-    required T? Function() parseFunction, String? separateToken,
+    required T? Function() parseFunction,
+    String? separateToken,
   }) {
     final listResult = <T>[];
     while (curTok.lexeme != endToken && curTok.lexeme != Token.endOfFile) {
@@ -164,8 +165,11 @@ abstract class HTParser with TokenReader {
   ///
   /// If [style] is not specified, will use [source.sourceType] to determine,
   /// if source is null at the same time, will use [ParseStyle.script] by default.
-  List<ASTNode> parseTokens(Token token,
-      {HTSource? source, ParseStyle? style,}) {
+  List<ASTNode> parseTokens(
+    Token token, {
+    HTSource? source,
+    ParseStyle? style,
+  }) {
     // create new list of errors here, old error list is still usable
     errors = <HTError>[];
     final nodes = <ASTNode>[];
@@ -211,10 +215,11 @@ abstract class HTParser with TokenReader {
     final tokens = lexer.lex(source.content);
     final nodes = parseTokens(tokens, source: source);
     final result = ASTSource(
-        nodes: nodes,
-        source: source,
-        imports: currentModuleImports,
-        errors: errors,); // copy the list);
+      nodes: nodes,
+      source: source,
+      imports: currentModuleImports,
+      errors: errors,
+    ); // copy the list);
     if (config.printPerformanceStatistics) {
       final tok = DateTime.now().millisecondsSinceEpoch;
       print("hetu: ${tok - tik}ms\tto parse\t[${source.fullName}]");

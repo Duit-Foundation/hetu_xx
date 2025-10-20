@@ -243,17 +243,17 @@ class HTLocaleSimplifiedChinese implements HTLocale {
 
   @override
   String getErrorType(String errType) => switch (errType) {
-      "TODO" => "待办",
-      "HINT" => "提示",
-      "LINT" => "格式化",
-      "SYNTACTIC_ERROR" => "句法",
-      "STATIC_TYPE_WARNING" => "类型分析",
-      "STATIC_WARNING" => "静态分析",
-      "COMPILE_TIME_ERROR" => "编译",
-      "RUNTIME_ERROR" => "运行时",
-      "EXTERNAL_ERROR" => "外部",
-      _ => "unknown",
-    };
+        "TODO" => "待办",
+        "HINT" => "提示",
+        "LINT" => "格式化",
+        "SYNTACTIC_ERROR" => "句法",
+        "STATIC_TYPE_WARNING" => "类型分析",
+        "STATIC_WARNING" => "静态分析",
+        "COMPILE_TIME_ERROR" => "编译",
+        "RUNTIME_ERROR" => "运行时",
+        "EXTERNAL_ERROR" => "外部",
+        _ => "unknown",
+      };
 
   // generic errors
   @override

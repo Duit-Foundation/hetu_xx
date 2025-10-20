@@ -55,7 +55,8 @@ class HTNominalType extends HTType {
   // }
 
   @override
-  bool operator ==(Object other) => other is HTNominalType && hashCode == other.hashCode;
+  bool operator ==(Object other) =>
+      other is HTNominalType && hashCode == other.hashCode;
 
   @override
   int get hashCode {

@@ -41,20 +41,24 @@ class HTInstance with HTObject, InterpreterRef {
   HTInstanceNamespace get namespace => _namespaces[classId]!;
 
   /// Create a default [HTInstance] instance.
-  HTInstance(HTClass klass, HTInterpreter interpreter,
-      {List<HTType> typeArgs = const [], Map<String, dynamic>? jsonObject,})
-      : index = klass.instanceIndex,
+  HTInstance(
+    HTClass klass,
+    HTInterpreter interpreter, {
+    List<HTType> typeArgs = const [],
+    Map<String, dynamic>? jsonObject,
+  })  : index = klass.instanceIndex,
         valueType = HTNominalType(klass: klass, typeArgs: typeArgs) {
     this.interpreter = interpreter;
 
     HTClass? curKlass = klass;
     // final extended = <HTValueType>[];
     final myNsp = HTInstanceNamespace(
-        lexicon: interpreter.lexicon,
-        id: InternalIdentifier.instance,
-        instance: this,
-        classId: curKlass.id,
-        closure: klass.namespace,);
+      lexicon: interpreter.lexicon,
+      id: InternalIdentifier.instance,
+      instance: this,
+      classId: curKlass.id,
+      closure: klass.namespace,
+    );
     HTInstanceNamespace? curNamespace = myNsp;
     while (curKlass != null && curNamespace != null) {
       // 继承类成员，所有超类的成员都会分别保存
@@ -81,12 +85,13 @@ class HTInstance with HTObject, InterpreterRef {
       curKlass = curKlass.superClass;
       if (curKlass != null) {
         final next = HTInstanceNamespace(
-            lexicon: interpreter.lexicon,
-            id: InternalIdentifier.instance,
-            instance: this,
-            runtimeInstanceNamespace: myNsp,
-            classId: curKlass.id,
-            closure: curKlass.namespace,);
+          lexicon: interpreter.lexicon,
+          id: InternalIdentifier.instance,
+          instance: this,
+          runtimeInstanceNamespace: myNsp,
+          classId: curKlass.id,
+          closure: curKlass.namespace,
+        );
         curNamespace.next = next;
         // next.prev = curNamespace;
       } else {
@@ -301,10 +306,12 @@ class HTInstance with HTObject, InterpreterRef {
   }
 
   /// Call a member function of this [HTInstance].
-  dynamic invoke(String funcName,
-      {List<dynamic> positionalArgs = const [],
-      Map<String, dynamic> namedArgs = const {},
-      List<HTType> typeArgs = const [],}) {
+  dynamic invoke(
+    String funcName, {
+    List<dynamic> positionalArgs = const [],
+    Map<String, dynamic> namedArgs = const {},
+    List<HTType> typeArgs = const [],
+  }) {
     try {
       HTFunction func = memberGet(funcName);
       func.resolve();

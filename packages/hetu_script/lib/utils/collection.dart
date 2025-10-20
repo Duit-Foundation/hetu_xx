@@ -8,7 +8,7 @@ dynamic deepCopy(value) {
     }
     return list;
   } else if (value is Map) {
-    final Map map = {};
+    final map = {};
     for (final key in value.keys) {
       map[key] = deepCopy(value[key]);
     }

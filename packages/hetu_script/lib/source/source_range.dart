@@ -27,9 +27,8 @@ class SourceRange {
   int get hashCode => 31 * offset + length;
 
   @override
-  bool operator ==(Object other) => other is SourceRange &&
-        other.offset == offset &&
-        other.length == length;
+  bool operator ==(Object other) =>
+      other is SourceRange && other.offset == offset && other.length == length;
 
   /// Return `true` if [x] is in the interval `[offset, offset + length]`.
   bool contains(int x) => offset <= x && x <= offset + length;

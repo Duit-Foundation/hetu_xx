@@ -156,12 +156,15 @@ mixin TokenReader {
   /// and return the original token. If not, generate an error.
   Token match(String lexeme) {
     if (curTok.lexeme != lexeme) {
-      final err = HTError.unexpectedToken(lexeme, curTok.lexeme,
-          filename: currrentFileName,
-          line: curTok.line,
-          column: curTok.column,
-          offset: curTok.offset,
-          length: curTok.length,);
+      final err = HTError.unexpectedToken(
+        lexeme,
+        curTok.lexeme,
+        filename: currrentFileName,
+        line: curTok.line,
+        column: curTok.column,
+        offset: curTok.offset,
+        length: curTok.length,
+      );
       errors.add(err);
     }
 
@@ -171,12 +174,15 @@ mixin TokenReader {
   /// same with [match], with plural types provided.
   Token match2(Set<String> lexemes) {
     if (!lexemes.contains(curTok.lexeme)) {
-      final err = HTError.unexpectedToken(lexemes.toString(), curTok.lexeme,
-          filename: currrentFileName,
-          line: curTok.line,
-          column: curTok.column,
-          offset: curTok.offset,
-          length: curTok.length,);
+      final err = HTError.unexpectedToken(
+        lexemes.toString(),
+        curTok.lexeme,
+        filename: currrentFileName,
+        line: curTok.line,
+        column: curTok.column,
+        offset: curTok.offset,
+        length: curTok.length,
+      );
       errors.add(err);
     }
 

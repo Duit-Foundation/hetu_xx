@@ -1,6 +1,6 @@
 import "package:hetu_script/common/index.dart";
-import "package:hetu_script/types.dart";
-import "package:hetu_script/values.dart";
+import "package:hetu_script/type/index.dart";
+import "package:hetu_script/value/index.dart";
 
 /// Lexicon used by Hetu
 abstract class HTLexicon {

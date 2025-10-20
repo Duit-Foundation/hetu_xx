@@ -1,4 +1,3 @@
-// import '../grammar/constant.dart';
 import "package:hetu_script/type/type.dart";
 
 // An unknown object type passed into script from other language

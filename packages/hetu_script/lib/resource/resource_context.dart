@@ -1,10 +1,6 @@
-// import 'dart:io';
-
 import "package:path/path.dart" as path;
 
 import "package:hetu_script/resource/resource.dart";
-// import 'file_system/file_system_context.dart';
-// import 'overlay/overlay_context.dart';
 
 /// A filter used by source context for reading files with certain extensions and/or within certain folders.
 class HTFilterConfig {
@@ -14,14 +10,16 @@ class HTFilterConfig {
 
   bool recursive;
 
-  HTFilterConfig(this.folder,
-      {this.extension = const [
-        HTResource.hetuModule,
-        HTResource.hetuScript,
-        HTResource.json,
-        HTResource.json5,
-      ],
-      this.recursive = true,});
+  HTFilterConfig(
+    this.folder, {
+    this.extension = const [
+      HTResource.hetuModule,
+      HTResource.hetuScript,
+      HTResource.json,
+      HTResource.json5,
+    ],
+    this.recursive = true,
+  });
 
   // [fullPath] must be a normalized absolute path
   bool isWithin(String fullPath) {

@@ -28,7 +28,8 @@ class HTDeclarationNamespace<T> extends HTDeclaration with HTObject {
   bool willExportAll = true;
 
   HTDeclarationNamespace({
-    required this.lexicon, super.id,
+    required this.lexicon,
+    super.id,
     super.classId,
     super.closure,
     super.source,
@@ -45,8 +46,12 @@ class HTDeclarationNamespace<T> extends HTDeclaration with HTObject {
   }
 
   @override
-  bool contains(String id,
-      {bool isPrivate = false, String? from, bool recursive = false,}) {
+  bool contains(
+    String id, {
+    bool isPrivate = false,
+    String? from,
+    bool recursive = false,
+  }) {
     if (symbols.containsKey(id)) {
       if (isPrivate && from != null && !from.startsWith(fullName)) {
         throw HTError.privateMember(id);
@@ -63,8 +68,12 @@ class HTDeclarationNamespace<T> extends HTDeclaration with HTObject {
   /// define a declaration in this namespace,
   /// the defined id could be different from declaration's id
   @override
-  void define(String id, decl,
-      {bool override = false, bool throws = true,}) {
+  void define(
+    String id,
+    decl, {
+    bool override = false,
+    bool throws = true,
+  }) {
     if (!symbols.containsKey(id)) {
       symbols[id] = decl;
     } else {
@@ -145,11 +154,13 @@ class HTDeclarationNamespace<T> extends HTDeclaration with HTObject {
     }
   }
 
-  void import(HTDeclarationNamespace<dynamic> other,
-      {bool clone = false,
-      bool export = false,
-      Set<String> showList = const {},
-      bool idOnly = false,}) {
+  void import(
+    HTDeclarationNamespace<dynamic> other, {
+    bool clone = false,
+    bool export = false,
+    Set<String> showList = const {},
+    bool idOnly = false,
+  }) {
     bool process(String key, decl) {
       if (!other.willExportAll) {
         if (!other.exports.contains(decl?.id)) {
@@ -190,11 +201,12 @@ class HTDeclarationNamespace<T> extends HTDeclaration with HTObject {
   @override
   HTDeclarationNamespace<T> clone() {
     final cloned = HTDeclarationNamespace<T>(
-        lexicon: lexicon,
-        id: id,
-        classId: classId,
-        closure: closure,
-        source: source,);
+      lexicon: lexicon,
+      id: id,
+      classId: classId,
+      closure: closure,
+      source: source,
+    );
     cloned.symbols.addAll(symbols);
     cloned.imports.addAll(imports);
     cloned.exports.addAll(exports);

@@ -1,9 +1,0 @@
-export "lexicon/lexicon.dart";
-export "lexicon/lexicon_hetu.dart";
-export "lexer/lexer.dart";
-export "lexer/lexer_hetu.dart";
-export "ast/index.dart";
-export "parser/token_reader.dart";
-export "parser/token.dart";
-export "parser/parser.dart";
-export "parser/parser_hetu.dart";

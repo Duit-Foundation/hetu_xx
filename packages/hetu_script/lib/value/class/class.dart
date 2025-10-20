@@ -78,8 +78,11 @@ class HTClass extends HTClassDeclaration with HTObject, InterpreterRef {
   void resolve() {
     super.resolve();
     if (superType != null) {
-      superClass = namespace.memberGet(superType!.id!,
-          from: namespace.fullName, isRecursive: true,);
+      superClass = namespace.memberGet(
+        superType!.id!,
+        from: namespace.fullName,
+        isRecursive: true,
+      );
     }
     if (isExternal) {
       externalClass = interpreter.fetchExternalClass(id!);
@@ -139,8 +142,12 @@ class HTClass extends HTClassDeclaration with HTObject, InterpreterRef {
   /// Get the value of a static member from this [HTClass] via memberGet operator '.'
   /// for symbol searching, use the same name method on [HTClassNamespace] instead.
   @override
-  dynamic memberGet(String id,
-      {String? from, bool isRecursive = false, bool ignoreUndefined = true,}) {
+  dynamic memberGet(
+    String id, {
+    String? from,
+    bool isRecursive = false,
+    bool ignoreUndefined = true,
+  }) {
     final getter = '${InternalIdentifier.getter}$id';
     final constructor = this.id != id
         ? '${InternalIdentifier.namedConstructorPrefix}$id'
@@ -200,18 +207,24 @@ class HTClass extends HTClassDeclaration with HTObject, InterpreterRef {
     // }
 
     if (!ignoreUndefined) {
-      throw HTError.undefined(id,
-          filename: interpreter.currentFile,
-          line: interpreter.currentLine,
-          column: interpreter.currentColumn,);
+      throw HTError.undefined(
+        id,
+        filename: interpreter.currentFile,
+        line: interpreter.currentLine,
+        column: interpreter.currentColumn,
+      );
     }
   }
 
   /// Set the value of a static member of this [HTClass] via memberGet operator '.'
   /// for symbol searching, use the same name method on [HTClassNamespace] instead.
   @override
-  void memberSet(String id, value,
-      {String? from, bool defineIfAbsent = false,}) {
+  void memberSet(
+    String id,
+    value, {
+    String? from,
+    bool defineIfAbsent = false,
+  }) {
     final setter = '${InternalIdentifier.setter}$id';
 
     if (isExternal) {
@@ -248,10 +261,12 @@ class HTClass extends HTClassDeclaration with HTObject, InterpreterRef {
       }
     }
 
-    throw HTError.undefined(id,
-        filename: interpreter.currentFile,
-        line: interpreter.currentLine,
-        column: interpreter.currentColumn,);
+    throw HTError.undefined(
+      id,
+      filename: interpreter.currentFile,
+      line: interpreter.currentLine,
+      column: interpreter.currentColumn,
+    );
   }
 
   /// Call a static function of this [HTClass].
@@ -272,10 +287,12 @@ class HTClass extends HTClassDeclaration with HTObject, InterpreterRef {
           // typeArgs: typeArgs,
         );
       } else {
-        throw HTError.notCallable(funcName,
-            filename: interpreter.currentFile,
-            line: interpreter.currentLine,
-            column: interpreter.currentColumn,);
+        throw HTError.notCallable(
+          funcName,
+          filename: interpreter.currentFile,
+          line: interpreter.currentLine,
+          column: interpreter.currentColumn,
+        );
       }
     } catch (error, stackTrace) {
       if (interpreter.config.processError) {

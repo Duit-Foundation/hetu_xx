@@ -59,7 +59,8 @@ class TokenComment extends Token {
     required super.line,
     required super.column,
     required super.offset,
-    required this.literal, super.previous,
+    required this.literal,
+    super.previous,
     super.next,
     this.isDocumentation = false,
     this.isMultiLine = false,
@@ -68,13 +69,13 @@ class TokenComment extends Token {
 }
 
 class TokenEmptyLine extends Token {
-  TokenEmptyLine(
-      {required super.line,
-      required super.column,
-      required super.offset,
-      super.previous,
-      super.next,})
-      : super(lexeme: InternalIdentifier.emptyLine);
+  TokenEmptyLine({
+    required super.line,
+    required super.column,
+    required super.offset,
+    super.previous,
+    super.next,
+  }) : super(lexeme: InternalIdentifier.emptyLine);
 }
 
 class TokenIdentifier extends Token {
@@ -87,15 +88,15 @@ class TokenIdentifier extends Token {
   @override
   final String literal;
 
-  TokenIdentifier(
-      {required super.lexeme,
-      required super.line,
-      required super.column,
-      required super.offset,
-      super.previous,
-      super.next,
-      this.isMarked = false,})
-      : literal = isMarked ? lexeme.substring(1, lexeme.length - 1) : lexeme;
+  TokenIdentifier({
+    required super.lexeme,
+    required super.line,
+    required super.column,
+    required super.offset,
+    super.previous,
+    super.next,
+    this.isMarked = false,
+  }) : literal = isMarked ? lexeme.substring(1, lexeme.length - 1) : lexeme;
 }
 
 class TokenBooleanLiteral extends Token {
@@ -105,13 +106,15 @@ class TokenBooleanLiteral extends Token {
   @override
   final bool literal;
 
-  TokenBooleanLiteral(
-      {required super.lexeme,
-      required super.line,
-      required super.column,
-      required super.offset,
-      required this.literal, super.previous,
-      super.next,});
+  TokenBooleanLiteral({
+    required super.lexeme,
+    required super.line,
+    required super.column,
+    required super.offset,
+    required this.literal,
+    super.previous,
+    super.next,
+  });
 }
 
 class TokenIntegerLiteral extends Token {
@@ -121,13 +124,15 @@ class TokenIntegerLiteral extends Token {
   @override
   final int literal;
 
-  TokenIntegerLiteral(
-      {required super.lexeme,
-      required super.line,
-      required super.column,
-      required super.offset,
-      required this.literal, super.previous,
-      super.next,});
+  TokenIntegerLiteral({
+    required super.lexeme,
+    required super.line,
+    required super.column,
+    required super.offset,
+    required this.literal,
+    super.previous,
+    super.next,
+  });
 }
 
 class TokenFloatLiteral extends Token {
@@ -137,13 +142,15 @@ class TokenFloatLiteral extends Token {
   @override
   final double literal;
 
-  TokenFloatLiteral(
-      {required super.lexeme,
-      required super.line,
-      required super.column,
-      required super.offset,
-      required this.literal, super.previous,
-      super.next,});
+  TokenFloatLiteral({
+    required super.lexeme,
+    required super.line,
+    required super.column,
+    required super.offset,
+    required this.literal,
+    super.previous,
+    super.next,
+  });
 }
 
 class TokenStringLiteral extends Token {
@@ -162,7 +169,9 @@ class TokenStringLiteral extends Token {
     required super.line,
     required super.column,
     required super.offset,
-    required this.startMark, required this.endMark, super.previous,
+    required this.startMark,
+    required this.endMark,
+    super.previous,
     super.next,
   }) : _literal = lexeme.substring(1, lexeme.length - 1);
 }
@@ -178,7 +187,10 @@ class TokenStringInterpolation extends TokenStringLiteral {
     required super.line,
     required super.column,
     required super.offset,
-    required super.startMark, required super.endMark, required this.interpolations, super.previous,
+    required super.startMark,
+    required super.endMark,
+    required this.interpolations,
+    super.previous,
     super.next,
   });
 }

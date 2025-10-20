@@ -44,8 +44,11 @@ double angle(num x1, num y1, num x2, num y2) {
 double aangle(num x1, num y1, num x2, num y2) => radians(angle(x1, y1, x2, y2));
 
 // Box–Muller transform for generating normally distributed random numbers
-double gaussianNoise(double mean, double standardDeviation,
-    {math.Random? randomGenerator,}) {
+double gaussianNoise(
+  double mean,
+  double standardDeviation, {
+  math.Random? randomGenerator,
+}) {
   const pi2 = math.pi * 2.0;
 
   randomGenerator ??= math.Random();
@@ -85,9 +88,11 @@ extension RandomEx on math.Random {
     }
   }
 
-  int nearInt(int max, {double exponent = 0.5}) => (max * math.pow(nextDouble(), exponent)).toInt();
+  int nearInt(int max, {double exponent = 0.5}) =>
+      (max * math.pow(nextDouble(), exponent)).toInt();
 
-  int distantInt(int max, {double exponent = 0.5}) => (max * (1 - math.pow(nextDouble(), exponent))).toInt();
+  int distantInt(int max, {double exponent = 0.5}) =>
+      (max * (1 - math.pow(nextDouble(), exponent))).toInt();
 
   String nextColorHex({bool hasAlpha = false}) {
     var prefix = "#";

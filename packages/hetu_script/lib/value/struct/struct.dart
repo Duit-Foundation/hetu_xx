@@ -55,14 +55,14 @@ class HTStruct with HTObject {
     return HTStructuralType(fieldTypes: fieldTypes, closure: namespace);
   }
 
-  HTStruct(this.interpreter,
-      {String? id,
-      this.prototype,
-      this.isPrototypeRoot = false,
-      Map<String, dynamic>? fields,
+  HTStruct(
+    this.interpreter, {
+    String? id,
+    this.prototype,
+    this.isPrototypeRoot = false,
+    Map<String, dynamic>? fields,
     this.closure,
-  })
-      : id = id ??
+  })  : id = id ??
             '${InternalIdentifier.anonymousStruct}${structLiteralIndex++}',
         _fields = fields ?? {} {
     namespace = HTNamespace(
@@ -286,8 +286,7 @@ class HTStruct with HTObject {
   dynamic subGet(id, {String? from}) => memberGet(id, from: from);
 
   @override
-  void subSet(id, value, {String? from}) =>
-      memberSet(id, value, from: from);
+  void subSet(id, value, {String? from}) => memberSet(id, value, from: from);
 
   /// return a deep copy of this struct.
   HTStruct clone({bool withInternals = false}) {

@@ -82,12 +82,14 @@ class LineInfo {
   int getOffsetOfLine(int lineNumber) {
     if (lineNumber < 0 || lineNumber >= lineCount) {
       throw ArgumentError(
-          "Invalid line number: $lineNumber; must be between 0 and ${lineCount - 1}",);
+        "Invalid line number: $lineNumber; must be between 0 and ${lineCount - 1}",
+      );
     }
     return lineStarts[lineNumber];
   }
 
   /// Return the offset of the first character on the line following the line
   /// containing the given [offset].
-  int getOffsetOfLineAfter(int offset) => getOffsetOfLine(getLocation(offset).line);
+  int getOffsetOfLineAfter(int offset) =>
+      getOffsetOfLine(getLocation(offset).line);
 }

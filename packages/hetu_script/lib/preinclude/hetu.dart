@@ -12,7 +12,6 @@ import "package:hetu_script/interpreter/interpreter.dart";
 import "package:hetu_script/resource/resource.dart" show HTResourceType;
 import "package:hetu_script/resource/resource_context.dart";
 import "package:hetu_script/resource/overlay/overlay_context.dart";
-// import '../type/type.dart';
 import "package:hetu_script/source/source.dart";
 import "package:hetu_script/bytecode/compiler.dart";
 import "package:hetu_script/logger/message_severity.dart";

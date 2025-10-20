@@ -30,7 +30,8 @@ class HTVariable extends HTVariableDeclaration with InterpreterRef, GotoInfo {
   HTVariable({
     required super.id,
     required HTInterpreter interpreter,
-    required HTNamespace closure, String? file,
+    required HTNamespace closure,
+    String? file,
     String? module,
     super.classId,
     super.documentation,
@@ -137,8 +138,9 @@ class HTVariable extends HTVariableDeclaration with InterpreterRef, GotoInfo {
   @override
   void resolve({bool resolveType = true}) {
     super.resolve(
-        resolveType:
-            resolveType || interpreter.config.checkTypeAnnotationAtRuntime,);
+      resolveType:
+          resolveType || interpreter.config.checkTypeAnnotationAtRuntime,
+    );
   }
 
   // dynamic _computeValue(dynamic value, HTType type) {
@@ -181,24 +183,25 @@ class HTVariable extends HTVariableDeclaration with InterpreterRef, GotoInfo {
 
   @override
   HTVariable clone() => HTVariable(
-      id: id!,
-      interpreter: interpreter,
-      file: file,
-      module: module,
-      classId: classId,
-      closure: closure,
-      documentation: documentation,
-      declType: declType,
-      value: _value,
-      isPrivate: isPrivate,
-      isExternal: isExternal,
-      isStatic: isStatic,
-      isConst: isConst,
-      isMutable: isMutable,
-      isTopLevel: isTopLevel,
-      isField: isField,
-      lateFinalize: lateFinalize,
-      ip: ip,
-      line: line,
-      column: column,);
+        id: id!,
+        interpreter: interpreter,
+        file: file,
+        module: module,
+        classId: classId,
+        closure: closure,
+        documentation: documentation,
+        declType: declType,
+        value: _value,
+        isPrivate: isPrivate,
+        isExternal: isExternal,
+        isStatic: isStatic,
+        isConst: isConst,
+        isMutable: isMutable,
+        isTopLevel: isTopLevel,
+        isField: isField,
+        lateFinalize: lateFinalize,
+        ip: ip,
+        line: line,
+        column: column,
+      );
 }

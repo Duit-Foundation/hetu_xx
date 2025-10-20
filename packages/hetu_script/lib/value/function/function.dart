@@ -15,7 +15,6 @@ import "package:hetu_script/declaration/function_declaration.dart";
 // import '../../declaration/generic/generic_type_parameter.dart';
 import "package:hetu_script/type/function.dart";
 import "package:hetu_script/value/object.dart";
-// import 'parameter.dart';
 import "package:hetu_script/value/variable/variable.dart";
 import "package:hetu_script/common/function_category.dart";
 import "package:hetu_script/common/internal_identifier.dart";
@@ -33,10 +32,12 @@ class RedirectingConstructor {
   /// Holds ips of super class's constructor's named argumnets
   final Map<String, int> namedArgsIp;
 
-  RedirectingConstructor(this.name,
-      {this.key,
-      this.positionalArgsIp = const [],
-      this.namedArgsIp = const {},});
+  RedirectingConstructor(
+    this.name, {
+    this.key,
+    this.positionalArgsIp = const [],
+    this.namedArgsIp = const {},
+  });
 }
 
 /// Bytecode implementation of [TypedFunctionDeclaration].
@@ -66,7 +67,8 @@ class HTFunction extends HTFunctionDeclaration
     String module,
     HTInterpreter interpreter, {
     required super.internalName,
-    required super.declType, super.id,
+    required super.declType,
+    super.id,
     super.classId,
     super.explicityNamespaceId,
     super.closure,
@@ -298,8 +300,12 @@ class HTFunction extends HTFunctionDeclaration
   }
 
   @override
-  dynamic memberGet(String id,
-      {String? from, bool isRecursive = false, bool ignoreUndefined = false,}) {
+  dynamic memberGet(
+    String id, {
+    String? from,
+    bool isRecursive = false,
+    bool ignoreUndefined = false,
+  }) {
     if (id == interpreter.lexicon.idBind) {
       return ({positionalArgs, namedArgs}) => bind(positionalArgs.first);
     } else if (id == interpreter.lexicon.idApply) {
@@ -329,13 +335,15 @@ class HTFunction extends HTFunctionDeclaration
   }) {
     // For external async function, don't need this.
     if (isAsync && !isExternal) {
-      return Future(() => _call(
-            useCallingNamespace: useCallingNamespace,
-            createInstance: createInstance,
-            positionalArgs: positionalArgs,
-            namedArgs: namedArgs,
-            // typeArgs: typeArgs,
-          ),);
+      return Future(
+        () => _call(
+          useCallingNamespace: useCallingNamespace,
+          createInstance: createInstance,
+          positionalArgs: positionalArgs,
+          namedArgs: namedArgs,
+          // typeArgs: typeArgs,
+        ),
+      );
     } else {
       return _call(
         useCallingNamespace: useCallingNamespace,
@@ -381,7 +389,8 @@ class HTFunction extends HTFunctionDeclaration
       }
 
       interpreter.stackTraceList.add(
-          "$internalName (${interpreter.currentFile}:${interpreter.currentLine}:${interpreter.currentColumn})",);
+        "$internalName (${interpreter.currentFile}:${interpreter.currentLine}:${interpreter.currentColumn})",
+      );
 
       dynamic result;
       // 如果是脚本函数
@@ -425,9 +434,10 @@ class HTFunction extends HTFunctionDeclaration
 
         // callClosure is a temporary closure created everytime a function is called
         final callClosure = HTNamespace(
-            lexicon: interpreter.lexicon,
-            id: internalName,
-            closure: useCallingNamespace ? namespace : closure as HTNamespace?,);
+          lexicon: interpreter.lexicon,
+          id: internalName,
+          closure: useCallingNamespace ? namespace : closure as HTNamespace?,
+        );
 
         // define this and super keyword
         if (instance != null) {
@@ -513,14 +523,17 @@ class HTFunction extends HTFunctionDeclaration
               while (superClass != null && !superClass.isAbstract) {
                 // TODO: It is an error that super class doesn't have a default constructor, however this error should be handled in the analyzer.
                 final HTFunction constructor = superClass.namespace.memberGet(
-                    InternalIdentifier.defaultConstructor,
-                    isRecursive: false,);
+                  InternalIdentifier.defaultConstructor,
+                  isRecursive: false,
+                );
                 // constructor's namespace is on this newly created instance
                 final instanceNamespace = namespace! as HTInstanceNamespace;
                 constructor.namespace = instanceNamespace.next!;
                 constructor.instance = instance;
                 constructor.call(
-                    createInstance: false, useCallingNamespace: false,);
+                  createInstance: false,
+                  useCallingNamespace: false,
+                );
                 superClass = superClass.superClass;
               }
             } else {
@@ -536,22 +549,26 @@ class HTFunction extends HTFunctionDeclaration
                 final superClass = klass!.superClass!;
                 if (key == null) {
                   constructor = superClass.namespace.memberGet(
-                      InternalIdentifier.defaultConstructor,
-                      isRecursive: false,);
+                    InternalIdentifier.defaultConstructor,
+                    isRecursive: false,
+                  );
                 } else {
                   constructor = superClass.namespace.memberGet(
-                      '${InternalIdentifier.namedConstructorPrefix}$key',
-                      isRecursive: false,);
+                    '${InternalIdentifier.namedConstructorPrefix}$key',
+                    isRecursive: false,
+                  );
                 }
               } else if (name == interpreter.lexicon.kThis) {
                 if (key == null) {
                   constructor = klass!.namespace.memberGet(
-                      InternalIdentifier.defaultConstructor,
-                      isRecursive: false,);
+                    InternalIdentifier.defaultConstructor,
+                    isRecursive: false,
+                  );
                 } else {
                   constructor = klass!.namespace.memberGet(
-                      '${InternalIdentifier.namedConstructorPrefix}$key',
-                      isRecursive: false,);
+                    '${InternalIdentifier.namedConstructorPrefix}$key',
+                    isRecursive: false,
+                  );
                 }
               }
               // constructor's namespace is on this newly created instance
@@ -567,7 +584,8 @@ class HTFunction extends HTFunctionDeclaration
                       proto!.memberGet(InternalIdentifier.defaultConstructor);
                 } else {
                   constructor = proto!.memberGet(
-                      '${InternalIdentifier.namedConstructorPrefix}$key',);
+                    '${InternalIdentifier.namedConstructorPrefix}$key',
+                  );
                 }
               } else if (name == interpreter.lexicon.kThis) {
                 final obj = instance as HTStruct;
@@ -576,7 +594,8 @@ class HTFunction extends HTFunctionDeclaration
                       obj.memberGet(InternalIdentifier.defaultConstructor);
                 } else {
                   constructor = obj.memberGet(
-                      '${InternalIdentifier.namedConstructorPrefix}$key',);
+                    '${InternalIdentifier.namedConstructorPrefix}$key',
+                  );
                 }
                 constructor.instance = instance;
                 constructor.namespace = namespace;
@@ -612,10 +631,11 @@ class HTFunction extends HTFunctionDeclaration
               final referCtorNamedArgIp = referCtorNamedArgIps[name]!;
               final arg = interpreter.execute(
                 context: HTContext(
-                    file: file,
-                    module: module,
-                    ip: referCtorNamedArgIp,
-                    namespace: callClosure,),
+                  file: file,
+                  module: module,
+                  ip: referCtorNamedArgIp,
+                  namespace: callClosure,
+                ),
               );
               referCtorNamedArgs[name] = arg;
             }
@@ -748,10 +768,12 @@ class HTFunction extends HTFunctionDeclaration
                   );
                 } else {
                   result = Function.apply(
-                      func,
-                      finalPosArgs,
-                      finalNamedArgs.map<Symbol, dynamic>(
-                          (key, value) => MapEntry(Symbol(key), value),),);
+                    func,
+                    finalPosArgs,
+                    finalNamedArgs.map<Symbol, dynamic>(
+                      (key, value) => MapEntry(Symbol(key), value),
+                    ),
+                  );
                 }
               } else {
                 assert(instance != null);
@@ -763,10 +785,12 @@ class HTFunction extends HTFunctionDeclaration
                   );
                 } else {
                   result = Function.apply(
-                      func,
-                      [instance!, ...finalPosArgs],
-                      finalNamedArgs.map<Symbol, dynamic>(
-                          (key, value) => MapEntry(Symbol(key), value),),);
+                    func,
+                    [instance!, ...finalPosArgs],
+                    finalNamedArgs.map<Symbol, dynamic>(
+                      (key, value) => MapEntry(Symbol(key), value),
+                    ),
+                  );
                 }
               }
             } else {
@@ -788,10 +812,12 @@ class HTFunction extends HTFunctionDeclaration
                 );
               } else {
                 result = Function.apply(
-                    func,
-                    finalPosArgs,
-                    finalNamedArgs.map<Symbol, dynamic>(
-                        (key, value) => MapEntry(Symbol(key), value),),);
+                  func,
+                  finalPosArgs,
+                  finalNamedArgs.map<Symbol, dynamic>(
+                    (key, value) => MapEntry(Symbol(key), value),
+                  ),
+                );
               }
             } else {
               assert(instance != null);
@@ -803,10 +829,12 @@ class HTFunction extends HTFunctionDeclaration
                 );
               } else {
                 result = Function.apply(
-                    func,
-                    [instance!, ...finalPosArgs],
-                    finalNamedArgs.map<Symbol, dynamic>(
-                        (key, value) => MapEntry(Symbol(key), value),),);
+                  func,
+                  [instance!, ...finalPosArgs],
+                  finalNamedArgs.map<Symbol, dynamic>(
+                    (key, value) => MapEntry(Symbol(key), value),
+                  ),
+                );
               }
             }
           }
@@ -826,10 +854,12 @@ class HTFunction extends HTFunctionDeclaration
               );
             } else {
               result = Function.apply(
-                  func,
-                  finalPosArgs,
-                  finalNamedArgs.map<Symbol, dynamic>(
-                      (key, value) => MapEntry(Symbol(key), value),),);
+                func,
+                finalPosArgs,
+                finalNamedArgs.map<Symbol, dynamic>(
+                  (key, value) => MapEntry(Symbol(key), value),
+                ),
+              );
             }
           } else {
             assert(instance != null);
@@ -841,10 +871,12 @@ class HTFunction extends HTFunctionDeclaration
               );
             } else {
               result = Function.apply(
-                  func,
-                  [instance!, ...finalPosArgs],
-                  finalNamedArgs.map<Symbol, dynamic>(
-                      (key, value) => MapEntry(Symbol(key), value),),);
+                func,
+                [instance!, ...finalPosArgs],
+                finalNamedArgs.map<Symbol, dynamic>(
+                  (key, value) => MapEntry(Symbol(key), value),
+                ),
+              );
             }
           }
         }
@@ -864,10 +896,12 @@ class HTFunction extends HTFunctionDeclaration
             );
           } else {
             result = Function.apply(
-                func,
-                finalPosArgs,
-                finalNamedArgs.map<Symbol, dynamic>(
-                    (key, value) => MapEntry(Symbol(key), value),),);
+              func,
+              finalPosArgs,
+              finalNamedArgs.map<Symbol, dynamic>(
+                (key, value) => MapEntry(Symbol(key), value),
+              ),
+            );
           }
         }
       }

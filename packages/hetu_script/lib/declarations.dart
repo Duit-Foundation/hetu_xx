@@ -1,9 +1,0 @@
-export "declaration/declaration.dart";
-export "value/namespace/namespace.dart";
-export "declaration/class_declaration.dart";
-export "declaration/function_declaration.dart";
-export "declaration/parameter_declaration.dart";
-export "declaration/variable_declaration.dart";
-export "declaration/generic_type_parameter.dart";
-export "declaration/abstract_type_declaration.dart";
-export "declaration/type_alias_declaration.dart";

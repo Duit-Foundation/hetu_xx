@@ -53,14 +53,15 @@ class HTTypeAliasDeclaration extends HTDeclaration
 
   @override
   HTTypeAliasDeclaration clone() => HTTypeAliasDeclaration(
-      id: id!,
-      declType: declType,
-      classId: classId,
-      closure: closure,
-      genericTypeParameters: genericTypeParameters,
-      isExternal: isExternal,
-      isStatic: isStatic,
-      isConst: isConst,
-      isMutable: isMutable,
-      isTopLevel: isTopLevel,);
+        id: id!,
+        declType: declType,
+        classId: classId,
+        closure: closure,
+        genericTypeParameters: genericTypeParameters,
+        isExternal: isExternal,
+        isStatic: isStatic,
+        isConst: isConst,
+        isMutable: isMutable,
+        isTopLevel: isTopLevel,
+      );
 }

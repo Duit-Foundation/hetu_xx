@@ -1,7 +1,7 @@
 import "package:hetu_script/common/index.dart";
+import "package:hetu_script/declaration/index.dart";
+import "package:hetu_script/type/index.dart";
 import "package:meta/meta.dart";
-import "package:hetu_script/declarations.dart";
-import "package:hetu_script/types.dart";
 
 class HTClassDeclaration extends HTDeclaration
     implements HasGenericTypeParameter {

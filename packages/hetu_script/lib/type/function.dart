@@ -19,7 +19,10 @@ class HTParameterType {
   final String? id;
 
   const HTParameterType({
-    required this.declType, required this.isOptional, required this.isVariadic, this.id,
+    required this.declType,
+    required this.isOptional,
+    required this.isVariadic,
+    this.id,
   });
 }
 
@@ -48,7 +51,8 @@ class HTFunctionType extends HTType implements HasGenericTypeParameter {
         _returnType = returnType;
 
   @override
-  bool operator ==(Object other) => other is HTFunctionType && hashCode == other.hashCode;
+  bool operator ==(Object other) =>
+      other is HTFunctionType && hashCode == other.hashCode;
 
   @override
   int get hashCode {

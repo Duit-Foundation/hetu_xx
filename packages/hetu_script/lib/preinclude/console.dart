@@ -15,8 +15,10 @@ class Console {
     this.logger = const HTConsoleLogger(),
   });
 
-  void log(messages,
-      {MessageSeverity severity = MessageSeverity.none,}) {
+  void log(
+    messages, {
+    MessageSeverity severity = MessageSeverity.none,
+  }) {
     if (messages is List) {
       messages = messages.map((e) => lexicon.stringify(e)).join(" ");
     } else {
@@ -25,15 +27,13 @@ class Console {
     logger.log(messages, severity: severity);
   }
 
-  void debug(messages) =>
-      log(messages, severity: MessageSeverity.debug);
+  void debug(messages) => log(messages, severity: MessageSeverity.debug);
 
   void info(messages) => log(messages, severity: MessageSeverity.info);
 
   void warn(messages) => log(messages, severity: MessageSeverity.warn);
 
-  void error(messages) =>
-      log(messages, severity: MessageSeverity.error);
+  void error(messages) => log(messages, severity: MessageSeverity.error);
 
   void time(String? id) {
     id ??= _defaultTimerId;

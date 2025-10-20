@@ -8,5 +8,6 @@ class HTOverlayContextManager
   bool get isSearchEnabled => false;
 
   @override
-  HTOverlayContext createContext(String root) => HTOverlayContext(root: root, cache: cachedSources);
+  HTOverlayContext createContext(String root) =>
+      HTOverlayContext(root: root, cache: cachedSources);
 }
