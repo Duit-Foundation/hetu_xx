@@ -1,16 +1,15 @@
-import 'package:characters/characters.dart';
-
-import '../parser/token.dart';
-import 'lexer.dart';
+import "package:characters/characters.dart";
+import "package:hetu_script/lexer/index.dart";
+import "package:hetu_script/parser/index.dart";
 
 /// Utility methods on String to check whether it's empty,
 /// i.e. contains only white space characters.
 extension on String {
-  bool get isBlank => isEmpty || trim() == '';
+  bool get isBlank => isEmpty || trim() == "";
 }
 
-const _kNewLine = '\n';
-const _kWindowsNewLine = '\r\n';
+const _kNewLine = "\n";
+const _kWindowsNewLine = "\r\n";
 
 class HTLexerHetu extends HTLexer {
   late final RegExp _identifierStartRegExp;
@@ -39,12 +38,12 @@ class HTLexerHetu extends HTLexer {
     Token? lastTokenOfCurrentLine;
 
     final characters = content.characters.toList();
-    int iter = -1;
+    var iter = -1;
     String currentCharacter() {
       if (iter < characters.length) {
         return characters[iter];
       } else {
-        return '';
+        return "";
       }
     }
 
@@ -52,19 +51,17 @@ class HTLexerHetu extends HTLexer {
       if (iter < characters.length) {
         return characters.sublist(iter).join();
       } else {
-        return '';
+        return "";
       }
     }
 
-    bool hasAfterString() {
-      return iter + 1 < characters.length;
-    }
+    bool hasAfterString() => iter + 1 < characters.length;
 
     String afterString() {
       if (iter + 1 < characters.length) {
         return characters.sublist(iter + 1).join();
       } else {
-        return '';
+        return "";
       }
     }
 
@@ -87,11 +84,12 @@ class HTLexerHetu extends HTLexer {
           if (lastToken != null) {
             if (!lexicon.unfinishedTokens.contains(lastToken!.lexeme)) {
               final token = Token(
-                  lexeme: lexicon.endOfStatementMark,
-                  line: line,
-                  column: lastToken!.end,
-                  offset: firstTokenOfCurrentLine!.offset +
-                      firstTokenOfCurrentLine!.length);
+                lexeme: lexicon.endOfStatementMark,
+                line: line,
+                column: lastToken!.end,
+                offset: firstTokenOfCurrentLine!.offset +
+                    firstTokenOfCurrentLine!.length,
+              );
 
               token.next = firstTokenOfCurrentLine;
               firstTokenOfCurrentLine!.previous = token;
@@ -101,11 +99,12 @@ class HTLexerHetu extends HTLexer {
         } else if (lastTokenOfCurrentLine != null &&
             lastTokenOfCurrentLine!.lexeme == lexicon.kReturn) {
           final token = Token(
-              lexeme: lexicon.endOfStatementMark,
-              line: line,
-              column: 1,
-              offset: lastTokenOfCurrentLine!.offset +
-                  lastTokenOfCurrentLine!.length);
+            lexeme: lexicon.endOfStatementMark,
+            line: line,
+            column: 1,
+            offset:
+                lastTokenOfCurrentLine!.offset + lastTokenOfCurrentLine!.length,
+          );
           addToken(token);
         }
       } else {
@@ -158,13 +157,13 @@ class HTLexerHetu extends HTLexer {
     }
 
     void hanldeStringLiteral(String startMark, String endMark) {
-      bool escappingCharacter = false;
-      List<Token> interpolations = [];
+      var escappingCharacter = false;
+      final interpolations = <Token>[];
       while (iter < characters.length) {
         ++iter;
         final current = currentCharacter();
         final char2nd =
-            (iter + 1 < characters.length) ? characters[iter + 1] : '';
+            (iter + 1 < characters.length) ? characters[iter + 1] : "";
         final concact = current + char2nd;
         if (concact == lexicon.stringInterpolationStart &&
             afterString().contains(lexicon.stringInterpolationEnd)) {
@@ -203,22 +202,27 @@ class HTLexerHetu extends HTLexer {
         );
       } else {
         token = TokenStringInterpolation(
-            lexeme: lexeme,
-            line: line,
-            column: column,
-            offset: offset,
-            startMark: startMark,
-            endMark: endMark,
-            interpolations: interpolations);
+          lexeme: lexeme,
+          line: line,
+          column: column,
+          offset: offset,
+          startMark: startMark,
+          endMark: endMark,
+          interpolations: interpolations,
+        );
       }
       handleLineInfo(lexeme);
       addToken(token);
     }
 
     bool isNumber(
-        String current, String char2nd, String char3rd, String char4th) {
-      final concact12 = '$current$char2nd';
-      final concact23 = '$char2nd$char3rd';
+      String current,
+      String char2nd,
+      String char3rd,
+      String char4th,
+    ) {
+      final concact12 = "$current$char2nd";
+      final concact23 = "$char2nd$char3rd";
       if (current == lexicon.negative) {
         if (char2nd == lexicon.decimalPoint) {
           return _digitRegExp.hasMatch(char3rd);
@@ -238,12 +242,12 @@ class HTLexerHetu extends HTLexer {
 
     while (iter < characters.length) {
       ++iter;
-      String character = currentCharacter();
+      var character = currentCharacter();
       if (character.isBlank) {
         handleLineInfo(character);
         continue;
       }
-      String current = currentString();
+      final current = currentString();
       // single line comment
       if (current.startsWith(lexicon.singleLineCommentStart)) {
         do {
@@ -267,14 +271,15 @@ class HTLexerHetu extends HTLexer {
         }
         literal = literal.trim();
         final token = TokenComment(
-            lexeme: lexeme,
-            line: line,
-            column: column,
-            offset: offset,
-            literal: literal,
-            isDocumentation: isDocumentation,
-            isMultiLine: false,
-            isTrailing: lastTokenOfCurrentLine != null ? true : false);
+          lexeme: lexeme,
+          line: line,
+          column: column,
+          offset: offset,
+          literal: literal,
+          isDocumentation: isDocumentation,
+          isMultiLine: false,
+          isTrailing: lastTokenOfCurrentLine != null,
+        );
         addToken(token);
         buffer.clear();
       }
@@ -299,22 +304,23 @@ class HTLexerHetu extends HTLexer {
         String literal;
         literal = lexeme.substring(2, lexeme.length - 2);
         final token = TokenComment(
-            lexeme: lexeme,
-            line: line,
-            column: column,
-            offset: offset,
-            literal: literal,
-            isMultiLine: true,
-            isTrailing: lastTokenOfCurrentLine != null ? true : false);
+          lexeme: lexeme,
+          line: line,
+          column: column,
+          offset: offset,
+          literal: literal,
+          isMultiLine: true,
+          isTrailing: lastTokenOfCurrentLine != null,
+        );
         addToken(token);
         buffer.clear();
       } else {
         final char2nd =
-            (iter + 1 < characters.length) ? characters[iter + 1] : '';
+            (iter + 1 < characters.length) ? characters[iter + 1] : "";
         final char3rd =
-            (iter + 2 < characters.length) ? characters[iter + 2] : '';
+            (iter + 2 < characters.length) ? characters[iter + 2] : "";
         final char4th =
-            (iter + 3 < characters.length) ? characters[iter + 3] : '';
+            (iter + 3 < characters.length) ? characters[iter + 3] : "";
         final concact12 = character + char2nd;
         final concact123 = character + char2nd + char3rd;
         // final concact23 = char2nd + char3rd;
@@ -324,7 +330,11 @@ class HTLexerHetu extends HTLexer {
             ++iter;
           }
           final token = Token(
-              lexeme: concact123, line: line, column: column, offset: offset);
+            lexeme: concact123,
+            line: line,
+            column: column,
+            offset: offset,
+          );
           handleLineInfo(concact123);
           addToken(token);
           buffer.clear();
@@ -335,21 +345,25 @@ class HTLexerHetu extends HTLexer {
             ++iter;
           }
           final token = Token(
-              lexeme: concact12, line: line, column: column, offset: offset);
+            lexeme: concact12,
+            line: line,
+            column: column,
+            offset: offset,
+          );
           handleLineInfo(concact12);
           addToken(token);
           buffer.clear();
         }
         // number literal
         else if (isNumber(character, char2nd, char3rd, char4th)) {
-          bool isHex = false;
+          var isHex = false;
           if (character == lexicon.negative) {
             buffer.write(character);
             ++iter;
             character = currentCharacter();
           }
           final char2nd =
-              (iter + 1 < characters.length) ? characters[iter + 1] : '';
+              (iter + 1 < characters.length) ? characters[iter + 1] : "";
           final concact = character + char2nd;
           if (concact == lexicon.hexNumberStart) {
             isHex = true;
@@ -359,13 +373,13 @@ class HTLexerHetu extends HTLexer {
             character = currentCharacter();
           }
           if (!isHex) {
-            bool hasDecimalPoint = character == lexicon.decimalPoint;
+            var hasDecimalPoint = character == lexicon.decimalPoint;
             buffer.write(character);
             while (hasAfterString()) {
               final char2nd =
-                  (iter + 1 < characters.length) ? characters[iter + 1] : '';
+                  (iter + 1 < characters.length) ? characters[iter + 1] : "";
               final char3rd =
-                  (iter + 2 < characters.length) ? characters[iter + 2] : '';
+                  (iter + 2 < characters.length) ? characters[iter + 2] : "";
               if (char2nd == lexicon.decimalPoint) {
                 if (!hasDecimalPoint && _digitRegExp.hasMatch(char3rd)) {
                   hasDecimalPoint = true;
@@ -386,19 +400,21 @@ class HTLexerHetu extends HTLexer {
             if (hasDecimalPoint) {
               final n = double.parse(lexeme);
               token = TokenFloatLiteral(
-                  lexeme: lexeme,
-                  line: line,
-                  column: column,
-                  offset: offset,
-                  literal: n);
+                lexeme: lexeme,
+                line: line,
+                column: column,
+                offset: offset,
+                literal: n,
+              );
             } else {
               final n = int.parse(lexeme);
               token = TokenIntegerLiteral(
-                  lexeme: lexeme,
-                  line: line,
-                  column: column,
-                  offset: offset,
-                  literal: n);
+                lexeme: lexeme,
+                line: line,
+                column: column,
+                offset: offset,
+                literal: n,
+              );
             }
             handleLineInfo(lexeme);
             addToken(token);
@@ -415,11 +431,12 @@ class HTLexerHetu extends HTLexer {
             final lexeme = buffer.toString();
             final n = int.parse(lexeme);
             final token = TokenIntegerLiteral(
-                lexeme: lexeme,
-                line: line,
-                column: column,
-                offset: offset,
-                literal: n);
+              lexeme: lexeme,
+              line: line,
+              column: column,
+              offset: offset,
+              literal: n,
+            );
             handleLineInfo(lexeme);
             addToken(token);
           }
@@ -448,11 +465,12 @@ class HTLexerHetu extends HTLexer {
             }
             final lexeme = buffer.toString();
             final token = TokenIdentifier(
-                lexeme: lexeme,
-                line: line,
-                column: column,
-                offset: offset,
-                isMarked: true);
+              lexeme: lexeme,
+              line: line,
+              column: column,
+              offset: offset,
+              isMarked: true,
+            );
             handleLineInfo(lexeme);
             addToken(token);
             buffer.clear();
@@ -461,7 +479,11 @@ class HTLexerHetu extends HTLexer {
           else {
             buffer.write(character);
             final token = Token(
-                lexeme: character, line: line, column: column, offset: offset);
+              lexeme: character,
+              line: line,
+              column: column,
+              offset: offset,
+            );
             handleLineInfo(character);
             addToken(token);
             buffer.clear();
@@ -483,28 +505,35 @@ class HTLexerHetu extends HTLexer {
           Token token;
           if (lexicon.keywords.contains(lexeme)) {
             token = Token(
-                lexeme: lexeme,
-                line: line,
-                column: column,
-                offset: offset,
-                isKeyword: true);
+              lexeme: lexeme,
+              line: line,
+              column: column,
+              offset: offset,
+              isKeyword: true,
+            );
           } else if (lexeme == lexicon.kTrue) {
             token = TokenBooleanLiteral(
-                lexeme: lexeme,
-                line: line,
-                column: column,
-                offset: offset,
-                literal: true);
+              lexeme: lexeme,
+              line: line,
+              column: column,
+              offset: offset,
+              literal: true,
+            );
           } else if (lexeme == lexicon.kFalse) {
             token = TokenBooleanLiteral(
-                lexeme: lexeme,
-                line: line,
-                column: column,
-                offset: offset,
-                literal: false);
+              lexeme: lexeme,
+              line: line,
+              column: column,
+              offset: offset,
+              literal: false,
+            );
           } else {
             token = TokenIdentifier(
-                lexeme: lexeme, line: line, column: column, offset: offset);
+              lexeme: lexeme,
+              line: line,
+              column: column,
+              offset: offset,
+            );
           }
           handleLineInfo(lexeme);
           addToken(token);
@@ -518,10 +547,11 @@ class HTLexerHetu extends HTLexer {
     }
 
     final endOfFile = Token(
-        lexeme: Token.endOfFile,
-        line: (lastToken?.line ?? 0) + 1,
-        column: 0,
-        offset: (lastToken?.offset ?? 0) + 1);
+      lexeme: Token.endOfFile,
+      line: (lastToken?.line ?? 0) + 1,
+      column: 0,
+      offset: (lastToken?.offset ?? 0) + 1,
+    );
 
     if (lastToken != null) {
       lastToken!.next = endOfFile;

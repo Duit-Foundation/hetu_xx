@@ -1,13 +1,11 @@
-import '../ast/ast.dart';
-import '../ast/visitor/recursive_ast_visitor.dart';
-import '../lexicon/lexicon.dart';
-import '../lexicon/lexicon_hetu.dart';
-import '../analyzer/analysis_error.dart';
-import '../error/error.dart';
+import "package:hetu_script/ast/index.dart";
+import "package:hetu_script/lexicon/index.dart";
+import "package:hetu_script/analyzer/index.dart";
+import "package:hetu_script/error/index.dart";
 
 /// A interpreter that computes the value of a constant expression before compilation.
 /// If the AstNode provided is non-constant value, do nothing.
-class HTConstantInterpreter extends RecursiveASTVisitor<void> {
+class HTConstantInterpreter extends RecursiveASTVisitor {
   final HTLexicon _lexicon;
 
   HTConstantInterpreter({HTLexicon? lexicon})
@@ -33,8 +31,9 @@ class HTConstantInterpreter extends RecursiveASTVisitor<void> {
     var text = node.text;
     for (var i = 0; i < interpolations.length; ++i) {
       text = text.replaceAll(
-          '${_lexicon.stringInterpolationStart}$i${_lexicon.stringInterpolationEnd}',
-          interpolations[i]);
+        "${_lexicon.stringInterpolationStart}$i${_lexicon.stringInterpolationEnd}",
+        interpolations[i],
+      );
     }
     node.value = text;
   }
@@ -343,29 +342,35 @@ class HTConstantInterpreter extends RecursiveASTVisitor<void> {
     /// Skip if the value is already been computed.
     if (node.isConstValue) return;
     if (_visitingInitializers.contains(node)) {
-      final err = HTError.circleInit(node.id.id,
+      final err = HTError.circleInit(
+        node.id.id,
+        filename: node.source!.fullName,
+        line: node.line,
+        column: node.column,
+        offset: node.offset,
+        length: node.length,
+      );
+      errors.add(
+        HTAnalysisError.fromError(
+          err,
           filename: node.source!.fullName,
           line: node.line,
           column: node.column,
-          offset: node.offset,
-          length: node.length);
-      errors.add(HTAnalysisError.fromError(err,
-          filename: node.source!.fullName,
-          line: node.line,
-          column: node.column,
-          offset: node.offset,
-          length: node.length));
+        ),
+      );
     } else {
       _visitingInitializers.add(node);
       node.subAccept(this);
       if (node.isConst) {
         if (!node.initializer!.isConstValue) {
-          final err = HTAnalysisError.constValue(node.id.id,
-              filename: node.source!.fullName,
-              line: node.initializer!.line,
-              column: node.initializer!.column,
-              offset: node.initializer!.offset,
-              length: node.initializer!.length);
+          final err = HTAnalysisError.constValue(
+            node.id.id,
+            filename: node.source!.fullName,
+            line: node.initializer!.line,
+            column: node.initializer!.column,
+            offset: node.initializer!.offset,
+            length: node.initializer!.length,
+          );
           errors.add(err);
         } else {
           node.value = node.initializer!.value;

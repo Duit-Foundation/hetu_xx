@@ -1,9 +1,9 @@
-import '../../external/external_class.dart';
-import '../../error/error.dart';
-import '../../interpreter/interpreter.dart';
-import '../../bytecode/goto_info.dart';
-import '../../value/namespace/namespace.dart';
-import '../../declaration/variable/variable_declaration.dart';
+import "package:hetu_script/external/index.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/interpreter/index.dart";
+import "package:hetu_script/bytecode/index.dart";
+import "package:hetu_script/value/index.dart";
+import "package:hetu_script/declaration/index.dart";
 
 /// Variable is a binding between an symbol and a value
 class HTVariable extends HTVariableDeclaration with InterpreterRef, GotoInfo {
@@ -30,13 +30,13 @@ class HTVariable extends HTVariableDeclaration with InterpreterRef, GotoInfo {
   HTVariable({
     required super.id,
     required HTInterpreter interpreter,
+    required HTNamespace closure,
     String? file,
     String? module,
     super.classId,
-    required HTNamespace closure,
     super.documentation,
     super.declType,
-    dynamic value,
+    value,
     super.isPrivate = false,
     super.isExternal = false,
     super.isStatic = false,
@@ -94,7 +94,7 @@ class HTVariable extends HTVariableDeclaration with InterpreterRef, GotoInfo {
 
   /// Assign a new value to this variable.
   @override
-  set value(dynamic value) {
+  set value(value) {
     if (!isMutable && _isInitialized) {
       throw HTError.immutable(id!);
     }
@@ -138,8 +138,9 @@ class HTVariable extends HTVariableDeclaration with InterpreterRef, GotoInfo {
   @override
   void resolve({bool resolveType = true}) {
     super.resolve(
-        resolveType:
-            resolveType || interpreter.config.checkTypeAnnotationAtRuntime);
+      resolveType:
+          resolveType || interpreter.config.checkTypeAnnotationAtRuntime,
+    );
   }
 
   // dynamic _computeValue(dynamic value, HTType type) {
@@ -182,24 +183,25 @@ class HTVariable extends HTVariableDeclaration with InterpreterRef, GotoInfo {
 
   @override
   HTVariable clone() => HTVariable(
-      id: id!,
-      interpreter: interpreter,
-      file: file,
-      module: module,
-      classId: classId,
-      closure: closure,
-      documentation: documentation,
-      declType: declType,
-      value: _value,
-      isPrivate: isPrivate,
-      isExternal: isExternal,
-      isStatic: isStatic,
-      isConst: isConst,
-      isMutable: isMutable,
-      isTopLevel: isTopLevel,
-      isField: isField,
-      lateFinalize: lateFinalize,
-      ip: ip,
-      line: line,
-      column: column);
+        id: id!,
+        interpreter: interpreter,
+        file: file,
+        module: module,
+        classId: classId,
+        closure: closure,
+        documentation: documentation,
+        declType: declType,
+        value: _value,
+        isPrivate: isPrivate,
+        isExternal: isExternal,
+        isStatic: isStatic,
+        isConst: isConst,
+        isMutable: isMutable,
+        isTopLevel: isTopLevel,
+        isField: isField,
+        lateFinalize: lateFinalize,
+        ip: ip,
+        line: line,
+        column: column,
+      );
 }

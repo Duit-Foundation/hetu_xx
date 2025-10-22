@@ -1,8 +1,7 @@
-import '../ast/ast.dart';
-import 'analysis_error.dart';
-import 'type_checker.dart';
-import '../error/error.dart';
-import '../lexicon/lexicon.dart';
+import "package:hetu_script/analyzer/index.dart";
+import "package:hetu_script/ast/index.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/lexicon/index.dart";
 
 /// A Ast interpreter for static analysis.
 class HTAnalyzerImpl implements AbstractASTVisitor<void> {
@@ -61,22 +60,24 @@ class HTAnalyzerImpl implements AbstractASTVisitor<void> {
     try {
       if (node.isLocal) {
         // Symbol of current namespace.
-        node.analysisNamespace!.memberGet(node.id,
-            isPrivate: _lexicon.isPrivate(node.id),
-            from: node.analysisNamespace!.fullName,
-            isRecursive: true);
+        node.analysisNamespace!.memberGet(
+          node.id,
+          isPrivate: _lexicon.isPrivate(node.id),
+          from: node.analysisNamespace!.fullName,
+          isRecursive: true,
+        );
       } else {
         // Member id of an object.
       }
     } on HTError catch (err) {
-      errors.add(HTAnalysisError.fromError(
-        err,
-        filename: node.source!.fullName,
-        line: node.line,
-        column: node.column,
-        offset: node.offset,
-        length: node.length,
-      ));
+      errors.add(
+        HTAnalysisError.fromError(
+          err,
+          filename: node.source!.fullName,
+          line: node.line,
+          column: node.column,
+        ),
+      );
     }
   }
 

@@ -3,37 +3,29 @@
 //
 // Copyright (C) 2022 Shao, Ran
 // chengfubeiming@live.com
-// 
+//
 // Copyright (c) 2025 Duit Foundation
-// duit.foundation.gmail.com
+// duit.foundation@gmail.com
 //
 // Licensed under the MIT License.
 // http://www.opensource.org/licenses/mit-license.php
 
-export 'version.dart';
-export 'locale/locale.dart';
-export 'type/type.dart';
-export 'value/object.dart';
-export 'value/struct/struct.dart';
-export 'preinclude/hetu.dart';
-export 'bytecode/compiler.dart';
-export 'interpreter/interpreter.dart';
-export 'lexicon/lexicon.dart';
-export 'lexicon/lexicon_hetu.dart';
-export 'lexer/lexer.dart';
-export 'lexer/lexer_hetu.dart';
-export 'parser/parser.dart';
-export 'parser/parser_hetu.dart';
-export 'bundler/bundler.dart';
-export 'source/line_info.dart';
-export 'source/source.dart';
-export 'source/source_range.dart';
-export 'resource/resource.dart';
-export 'resource/resource_context.dart';
-export 'resource/resource_manager.dart';
-export 'resource/overlay/overlay_context.dart';
-export 'resource/overlay/overlay_manager.dart';
-export 'error/error.dart';
-export 'error/error_handler.dart';
-export 'logger/logger.dart';
-export 'logger/message_severity.dart';
+
+export "version.dart";
+export "locale/index.dart";
+export "type/index.dart";
+export "value/index.dart";
+export "preinclude/hetu.dart";
+export "bytecode/index.dart";
+export "interpreter/index.dart";
+export "lexicon/index.dart";
+export "lexer/index.dart";
+export "parser/index.dart";
+export "bundler/index.dart";
+export "source/index.dart";
+export "resource/index.dart";
+export "error/index.dart";
+export "logger/index.dart";
+export "external/index.dart";
+export "formatter/index.dart";
+export "analyzer/index.dart";

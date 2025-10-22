@@ -1,49 +1,23 @@
-import 'dart:async';
-import 'dart:typed_data';
-import 'dart:math' as math;
+import "dart:async";
+import "dart:typed_data";
+import "dart:math" as math;
 
-import 'package:hetu_script/declaration/declaration.dart';
-import 'package:hetu_script/declaration/variable/variable_declaration.dart';
-import 'package:hetu_script/value/instance/instance.dart';
-import 'package:path/path.dart' as path;
-import 'package:pub_semver/pub_semver.dart';
+import "package:pub_semver/pub_semver.dart";
+import "package:path/path.dart" as path;
+import "package:hetu_script/declaration/index.dart";
+import "package:hetu_script/external/index.dart";
+import "package:hetu_script/type/index.dart";
+import "package:hetu_script/lexicon/index.dart";
+import "package:hetu_script/source/index.dart";
+import "package:hetu_script/resource/index.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/bytecode/index.dart";
+import "package:hetu_script/version.dart";
+import "package:hetu_script/value/index.dart";
+import "package:hetu_script/locale/index.dart";
+import "package:hetu_script/common/index.dart";
 
-import '../value/class/class_namespace.dart';
-import '../value/namespace/namespace.dart';
-import '../value/struct/named_struct.dart';
-import '../value/object.dart';
-import '../value/class/class.dart';
-import '../value/instance/cast.dart';
-import '../value/function/function.dart';
-import '../value/function/parameter.dart';
-import '../value/variable/variable.dart';
-import '../value/struct/struct.dart';
-import '../value/external_enum/external_enum.dart';
-import '../value/constant.dart';
-import '../external/external_class.dart';
-import '../external/external_function.dart';
-import '../external/external_instance.dart';
-import '../type/type.dart';
-import '../type/function.dart';
-import '../type/nominal.dart';
-import '../type/structural.dart';
-import '../lexicon/lexicon.dart';
-import '../lexicon/lexicon_hetu.dart';
-import '../source/source.dart';
-import '../resource/resource.dart';
-import '../resource/resource_context.dart';
-import '../error/error.dart';
-import '../error/error_handler.dart';
-import '../bytecode/op_code.dart';
-import '../bytecode/bytecode_module.dart';
-import '../bytecode/compiler.dart';
-import '../version.dart';
-import '../value/unresolved_import.dart';
-import '../locale/locale.dart';
-import '../common/internal_identifier.dart';
-import '../common/function_category.dart';
-
-const kConsoleColorYellow = '\x1B[33m';
+const kConsoleColorYellow = "\x1B[33m";
 
 /// Mixin for classes that want to hold a ref of a bytecode interpreter
 mixin InterpreterRef {
@@ -106,7 +80,11 @@ class HTInterpreterLoopInfo {
   final int breakIp;
   final HTNamespace namespace;
   HTInterpreterLoopInfo(
-      this.startIp, this.continueIp, this.breakIp, this.namespace);
+    this.startIp,
+    this.continueIp,
+    this.breakIp,
+    this.namespace,
+  );
 }
 
 /// Determines how the interepreter deal with stack frame information when context are changed.
@@ -177,7 +155,7 @@ class HTStackFrame {
 
   final List<dynamic> registerValues = List.filled(HTRegIdx.length, null);
 
-  void setValue(int index, dynamic value) {
+  void setValue(int index, value) {
     assert(index < HTRegIdx.length);
     registerValues[index] = value;
   }
@@ -212,7 +190,7 @@ class HTInterpreter {
 
   late HTNamespace currentNamespace;
 
-  String _currentFile = '';
+  String _currentFile = "";
   String get currentFile => _currentFile;
   late HTResourceType _currentFileResourceType;
 
@@ -235,23 +213,23 @@ class HTInterpreter {
   bool isInitted = false;
 
   /// A bytecode interpreter.
-  HTInterpreter(
-      {InterpreterConfig? config,
-      required this.sourceContext,
-      HTLexicon? lexicon})
-      : config = config ?? InterpreterConfig(),
+  HTInterpreter({
+    required this.sourceContext,
+    InterpreterConfig? config,
+    HTLexicon? lexicon,
+  })  : config = config ?? InterpreterConfig(),
         _lexicon = lexicon ?? HTLexiconHetu() {
     globalNamespace =
         HTNamespace(lexicon: _lexicon, id: InternalIdentifier.global);
     currentNamespace = globalNamespace;
 
     _currentBytecodeModule =
-        HTBytecodeModule(id: 'uninitialized', bytes: Uint8List.fromList([]));
+        HTBytecodeModule(id: "uninitialized", bytes: Uint8List.fromList([]));
     cachedModules[_currentBytecodeModule.id] = _currentBytecodeModule;
   }
 
   /// inexpicit type conversion for zero or null values
-  bool _isZero(dynamic condition) {
+  bool _isZero(condition) {
     if (config.allowImplicitNullToZeroConversion) {
       return condition == 0 || condition == null;
     } else {
@@ -260,13 +238,13 @@ class HTInterpreter {
   }
 
   /// inexpicit type conversion for truthy values
-  bool truthy(dynamic condition) {
+  bool truthy(condition) {
     if (config.allowImplicitEmptyValueToFalseConversion) {
       if (condition == false ||
           condition == null ||
           condition == 0 ||
-          condition == '' ||
-          condition == 'false' ||
+          condition == "" ||
+          condition == "false" ||
           (condition is Iterable && condition.isEmpty) ||
           (condition is Map && condition.isEmpty) ||
           (condition is HTStruct && condition.isEmpty)) {
@@ -283,24 +261,27 @@ class HTInterpreter {
   void processError(Object error, [Object? externalStackTrace]) {
     final buffer = StringBuffer();
 
-    void handleStackTrace(List<String> stackTrace,
-        {bool withLineNumber = false}) {
+    void handleStackTrace(
+      List<String> stackTrace, {
+      bool withLineNumber = false,
+    }) {
       if (errorConfig.stackTraceDisplayCountLimit > 0) {
         if (stackTrace.length > errorConfig.stackTraceDisplayCountLimit) {
           for (var i = stackTrace.length - 1;
               i >= stackTrace.length - errorConfig.stackTraceDisplayCountLimit;
               --i) {
             if (withLineNumber) {
-              buffer.write('#${stackTrace.length - 1 - i}\t');
+              buffer.write("#${stackTrace.length - 1 - i}\t");
             }
             buffer.writeln(stackTrace[i]);
           }
           buffer.writeln(
-              '...(and other ${stackTrace.length - errorConfig.stackTraceDisplayCountLimit} messages)');
+            "...(and other ${stackTrace.length - errorConfig.stackTraceDisplayCountLimit} messages)",
+          );
         } else {
           for (var i = stackTrace.length - 1; i >= 0; --i) {
             if (withLineNumber) {
-              buffer.write('#${stackTrace.length - 1 - i}\t');
+              buffer.write("#${stackTrace.length - 1 - i}\t");
             }
             buffer.writeln(stackTrace[i]);
           }
@@ -308,7 +289,7 @@ class HTInterpreter {
       } else if (errorConfig.stackTraceDisplayCountLimit < 0) {
         for (var i = stackTrace.length - 1; i >= 0; --i) {
           if (withLineNumber) {
-            buffer.write('#${stackTrace.length - 1 - i}\t');
+            buffer.write("#${stackTrace.length - 1 - i}\t");
           }
           buffer.writeln(stackTrace[i]);
         }
@@ -322,7 +303,7 @@ class HTInterpreter {
     if (externalStackTrace != null && errorConfig.showDartStackTrace) {
       buffer.writeln(HTLocale.current.externalStackTrace);
       final externalStackTraceList =
-          externalStackTrace.toString().trim().split('\n').reversed.toList();
+          externalStackTrace.toString().trim().split("\n").reversed.toList();
       handleStackTrace(externalStackTraceList);
     }
 
@@ -352,13 +333,13 @@ class HTInterpreter {
 
   /// handler for various kinds of invocations.
   dynamic _call(
-    dynamic callee, {
+    callee, {
     String? calleeId,
     bool isConstructorCall = false,
     List<dynamic> positionalArgs = const [],
     Map<String, dynamic> namedArgs = const {},
   }) {
-    dynamic handleClassConstructor(dynamic callee) {
+    dynamic handleClassConstructor(callee) {
       late HTClass klass;
       if (callee is HTType) {
         final resolvedType = callee.resolve(currentNamespace) as HTNominalType;
@@ -366,13 +347,17 @@ class HTInterpreter {
         //   throw HTError.notCallable(callee.toString(),
         //       filename: _fileName, line: _line, column: _column);
         // }
-        klass = resolvedType.klass as HTClass;
+        klass = resolvedType.klass! as HTClass;
       } else {
         klass = callee;
       }
       if (klass.isAbstract) {
-        throw HTError.abstracted(klass.id!,
-            filename: _currentFile, line: _currentLine, column: _currentColumn);
+        throw HTError.abstracted(
+          klass.id!,
+          filename: _currentFile,
+          line: _currentLine,
+          column: _currentColumn,
+        );
       }
       if (klass.contains(InternalIdentifier.defaultConstructor)) {
         final constructor = klass
@@ -382,17 +367,22 @@ class HTInterpreter {
           namedArgs: namedArgs,
         );
       } else {
-        throw HTError.notCallable(klass.id!,
-            filename: _currentFile, line: _currentLine, column: _currentColumn);
+        throw HTError.notCallable(
+          klass.id!,
+          filename: _currentFile,
+          line: _currentLine,
+          column: _currentColumn,
+        );
       }
     }
 
     if (callee == null) {
       throw HTError.callNullObject(
-          calleeId ?? stack.localSymbol ?? _lexicon.kNull,
-          filename: _currentFile,
-          line: _currentLine,
-          column: _currentColumn);
+        calleeId ?? stack.localSymbol ?? _lexicon.kNull,
+        filename: _currentFile,
+        line: _currentLine,
+        column: _currentColumn,
+      );
     } else {
       if (isConstructorCall) {
         if ((callee is HTClass) || (callee is HTType)) {
@@ -404,10 +394,12 @@ class HTInterpreter {
             // typeArgs: typeArgs,
           );
         } else {
-          throw HTError.notNewable(_lexicon.stringify(callee),
-              filename: _currentFile,
-              line: _currentLine,
-              column: _currentColumn);
+          throw HTError.notNewable(
+            _lexicon.stringify(callee),
+            filename: _currentFile,
+            line: _currentLine,
+            column: _currentColumn,
+          );
         }
       } else {
         // calle is a script function
@@ -429,10 +421,12 @@ class HTInterpreter {
             );
           } else {
             return Function.apply(
-                callee,
-                positionalArgs,
-                namedArgs.map<Symbol, dynamic>(
-                    (key, value) => MapEntry(Symbol(key), value)));
+              callee,
+              positionalArgs,
+              namedArgs.map<Symbol, dynamic>(
+                (key, value) => MapEntry(Symbol(key), value),
+              ),
+            );
           }
         } else if ((callee is HTClass) || (callee is HTType)) {
           return handleClassConstructor(callee);
@@ -444,20 +438,23 @@ class HTInterpreter {
           );
         } else {
           throw HTError.notCallable(
-              _lexicon.stringify(callee, asStringLiteral: true),
-              filename: _currentFile,
-              line: _currentLine,
-              column: _currentColumn);
+            _lexicon.stringify(callee, asStringLiteral: true),
+            filename: _currentFile,
+            line: _currentLine,
+            column: _currentColumn,
+          );
         }
       }
     }
   }
 
   /// Get a namespace in certain module with a certain name.
-  HTObject _fetchNamespace<T extends HTObject>(
-      {String? namespace, String? module}) {
+  HTObject _fetchNamespace<T extends HTObject>({
+    String? namespace,
+    String? module,
+  }) {
     HTObject nsp = globalNamespace;
-    HTBytecodeModule byteModule = _currentBytecodeModule;
+    var byteModule = _currentBytecodeModule;
     if (module != null) {
       byteModule = cachedModules[module]!;
       assert(byteModule.namespaces.isNotEmpty);
@@ -474,7 +471,7 @@ class HTInterpreter {
   /// if not, the [isMutable] will be ignored.
   void define(
     String id,
-    dynamic value, {
+    value, {
     bool isMutable = false,
     bool override = false,
     bool throws = true,
@@ -486,9 +483,9 @@ class HTInterpreter {
   }
 
   /// Get the documentation of a declaration in a certain namespace.
-  String? help(dynamic object, {String? module}) {
+  String? help(object, {String? module}) {
     try {
-      StringBuffer buffer = StringBuffer();
+      final buffer = StringBuffer();
       final encap = encapsulate(object);
       if (object is HTDeclaration) {
         if (object.documentation != null) {
@@ -498,7 +495,7 @@ class HTInterpreter {
       if (encap == null) {
         buffer.write(globalNamespace.help());
       } else if (encap is HTTypeObject) {
-        buffer.writeln('type ${object.id}');
+        buffer.writeln("type ${object.id}");
         buffer.write(lexicon.stringify(object));
       } else if (encap is HTNamespace) {
         buffer.write(encap.help());
@@ -513,7 +510,7 @@ class HTInterpreter {
       } else if (encap is HTExternalInstance) {
         buffer.write(encap.help());
       } else {
-        buffer.writeln('found no help information on object: $object');
+        buffer.writeln("found no help information on object: $object");
       }
       return buffer.toString();
     } catch (error, stackTrace) {
@@ -527,8 +524,12 @@ class HTInterpreter {
   }
 
   /// Get a top level variable defined in a certain namespace.
-  dynamic fetch(String id,
-      {String? namespace, String? module, bool ignoreUndefined = false}) {
+  dynamic fetch(
+    String id, {
+    String? namespace,
+    String? module,
+    bool ignoreUndefined = false,
+  }) {
     try {
       final nsp = _fetchNamespace(namespace: namespace, module: module);
       final result = nsp.memberGet(id, ignoreUndefined: ignoreUndefined);
@@ -543,8 +544,13 @@ class HTInterpreter {
   }
 
   /// Assign value to a top level variable defined in a certain namespace in the interpreter.
-  void assign(String id, dynamic value,
-      {String? namespace, String? module, bool defineIfAbsent = false}) {
+  void assign(
+    String id,
+    value, {
+    String? namespace,
+    String? module,
+    bool defineIfAbsent = false,
+  }) {
     try {
       final savedModuleName = _currentBytecodeModule.id;
       final nsp = _fetchNamespace(namespace: namespace, module: module);
@@ -594,15 +600,18 @@ class HTInterpreter {
         HTObject fromNsp = nsp.memberGet(namespace, isRecursive: true);
         callee = fromNsp.memberGet(func, ignoreUndefined: ignoreUndefined);
       } else {
-        callee = nsp.memberGet(func,
-            isRecursive: true, ignoreUndefined: ignoreUndefined);
+        callee = nsp.memberGet(
+          func,
+          isRecursive: true,
+          ignoreUndefined: ignoreUndefined,
+        );
       }
       if (callee == null) {
         if (ignoreUndefined == false) {
           throw HTError.callNullObject(func);
         } else if (ignoreUndefined == true) {
           if (config.debugMode) {
-            print('${kConsoleColorYellow}hetu: $func is not defined.');
+            print("${kConsoleColorYellow}hetu: $func is not defined.");
           }
         }
       } else {
@@ -638,8 +647,10 @@ class HTInterpreter {
   /// Register a external class into scrfipt.
   /// For acessing static members and constructors of this class,
   /// there must also be a declaraction in script
-  void bindExternalClass(HTExternalClass externalClass,
-      {bool override = false}) {
+  void bindExternalClass(
+    HTExternalClass externalClass, {
+    bool override = false,
+  }) {
     if (externalClasses.containsKey(externalClass.id) && !override) {
       throw HTError.defined(externalClass.id, HTErrorType.runtimeError);
     }
@@ -667,8 +678,11 @@ class HTInterpreter {
   /// 1. for toplevel external functions, use id like '$functionId'
   /// 2. for static method or contructor of a class, use id like '$classId.$functionId'
   /// 3. for external functions within a explicity declared namespace, use id like '$namespaceId::$functionId'
-  void bindExternalFunction(String id, Function function,
-      {bool override = true}) {
+  void bindExternalFunction(
+    String id,
+    Function function, {
+    bool override = true,
+  }) {
     if (externalFunctions.containsKey(id) && !override) {
       throw HTError.defined(id, HTErrorType.runtimeError);
     }
@@ -689,7 +703,7 @@ class HTInterpreter {
   /// use id like '$classId::$functionId'
   void bindExternalMethod(String id, Function method, {bool override = true}) {
     assert(method is HTExternalMethod);
-    assert(id.contains('::'));
+    assert(id.contains("::"));
 
     if (externalMethods.containsKey(id) && !override) {
       throw HTError.defined(id, HTErrorType.runtimeError);
@@ -706,8 +720,11 @@ class HTInterpreter {
   }
 
   /// Register a external function typedef into scrfipt
-  void bindExternalFunctionType(String id, HTExternalFunctionTypedef function,
-      {bool override = true}) {
+  void bindExternalFunctionType(
+    String id,
+    HTExternalFunctionTypedef function, {
+    bool override = true,
+  }) {
     if (externalFunctionTypedefs.containsKey(id) && !override) {
       throw HTError.defined(id, HTErrorType.runtimeError);
     }
@@ -733,12 +750,10 @@ class HTInterpreter {
     return cachedModules[module];
   }
 
-  String stringify(dynamic object) {
-    return _lexicon.stringify(object);
-  }
+  String stringify(object) => _lexicon.stringify(object);
 
   /// Get a object's type value at runtime.
-  HTType typeOf(dynamic object) {
+  HTType typeOf(object) {
     final encap = encapsulate(object);
     HTType type;
     if (encap == null) {
@@ -767,7 +782,7 @@ class HTInterpreter {
   }
 
   /// Encapsulate any value to a Hetu object, for members accessing and type check.
-  HTObject? encapsulate(dynamic object) {
+  HTObject? encapsulate(object) {
     if (object == null) {
       return null;
     } else if (object is HTObject) {
@@ -786,7 +801,7 @@ class HTInterpreter {
     } else if (object is String) {
       typeString = _lexicon.idString;
     } else if (object is List) {
-      typeString = 'List';
+      typeString = "List";
       // var valueType = HTType.ANY;
       // if (object.isNotEmpty) {
       //   valueType = encapsulate(object.first).valueType;
@@ -800,9 +815,9 @@ class HTInterpreter {
       // }
       // return HTList(object, this, valueType: valueType);
     } else if (object is Set) {
-      typeString = 'Set';
+      typeString = "Set";
     } else if (object is Map) {
-      typeString = 'Map';
+      typeString = "Map";
       // var keyType = HTType.ANY;
       // var valueType = HTType.ANY;
       // if (object.keys.isNotEmpty) {
@@ -827,11 +842,11 @@ class HTInterpreter {
       // }
       // return HTMap(object, this, keyType: keyType, valueType: valueType);
     } else if (object is Iterable) {
-      typeString = 'Iterable';
+      typeString = "Iterable";
     } else if (object is Iterator) {
-      typeString = 'Iterator';
+      typeString = "Iterator";
     } else if (object is math.Random) {
-      typeString = 'Random';
+      typeString = "Random";
     } else {
       var reflected = false;
       for (final reflect in externalTypeReflection) {
@@ -851,7 +866,7 @@ class HTInterpreter {
     return HTExternalInstance(object, this, typeString);
   }
 
-  dynamic toStructValue(dynamic value) {
+  dynamic toStructValue(value) {
     if (value is Iterable) {
       final list = [];
       for (final item in value) {
@@ -861,8 +876,10 @@ class HTInterpreter {
       return list;
     } else if (value is Map) {
       final HTStruct prototype = structRoot ??
-          globalNamespace.memberGet(_lexicon.idGlobalPrototype,
-              isRecursive: true);
+          globalNamespace.memberGet(
+            _lexicon.idGlobalPrototype,
+            isRecursive: true,
+          );
       final struct =
           HTStruct(this, prototype: prototype, closure: currentNamespace);
       for (final key in value.keys) {
@@ -880,8 +897,10 @@ class HTInterpreter {
 
   HTStruct createStructfromJSON(Map<dynamic, dynamic> jsonData) {
     final HTStruct prototype = structRoot ??
-        globalNamespace.memberGet(_lexicon.idGlobalPrototype,
-            isRecursive: true);
+        globalNamespace.memberGet(
+          _lexicon.idGlobalPrototype,
+          isRecursive: true,
+        );
     final struct =
         HTStruct(this, prototype: prototype, closure: currentNamespace);
     for (final key in jsonData.keys) {
@@ -925,10 +944,16 @@ class HTInterpreter {
     } else {
       if (importDecl.showList.isEmpty) {
         nsp.defineImport(
-            importDecl.alias!, importedNamespace, importDecl.fromPath);
+          importDecl.alias!,
+          importedNamespace,
+          importDecl.fromPath,
+        );
       } else {
         final aliasNamespace = HTNamespace(
-            lexicon: _lexicon, id: importDecl.alias!, closure: nsp.closure);
+          lexicon: _lexicon,
+          id: importDecl.alias!,
+          closure: nsp.closure,
+        );
         for (final id in importDecl.showList) {
           if (!importedNamespace.symbols.containsKey(id)) {
             throw HTError.undefined(id);
@@ -938,7 +963,10 @@ class HTInterpreter {
           aliasNamespace.define(id, decl);
         }
         nsp.defineImport(
-            importDecl.alias!, aliasNamespace, importDecl.fromPath);
+          importDecl.alias!,
+          aliasNamespace,
+          importDecl.fromPath,
+        );
       }
     }
   }
@@ -950,13 +978,13 @@ class HTInterpreter {
     final preReleaseLength = _currentBytecodeModule.read();
     String? preRelease;
     for (var i = 0; i < preReleaseLength; ++i) {
-      preRelease ??= '';
+      preRelease ??= "";
       preRelease += _currentBytecodeModule.readUtf8String();
     }
     final buildLength = _currentBytecodeModule.read();
     String? build;
     for (var i = 0; i < buildLength; ++i) {
-      build ??= '';
+      build ??= "";
       build += _currentBytecodeModule.readUtf8String();
     }
     return Version(major, minor, patch, pre: preRelease, build: build);
@@ -991,7 +1019,10 @@ class HTInterpreter {
       final signature = _currentBytecodeModule.readUint32();
       if (signature != HTCompiler.hetuSignature) {
         throw HTError.bytecode(
-            filename: _currentFile, line: _currentLine, column: _currentColumn);
+          filename: _currentFile,
+          line: _currentLine,
+          column: _currentColumn,
+        );
       }
       // compare the version of the compiler of the bytecode to my version.
       compilerVersion = _handleVersion();
@@ -1043,21 +1074,19 @@ class HTInterpreter {
   }
 
   /// Get the current context of the interpreter,
-  HTContext getContext() {
-    return HTContext(
-      file: currentFile,
-      module: currentBytecodeModule.id,
-      namespace: currentNamespace,
-      ip: currentBytecodeModule.ip,
-      line: currentLine,
-      column: currentColumn,
-      // stackFrames: _stackFrames,
-      scriptMode: scriptMode,
-      globallyImport: globallyImport,
-      compilerVersion: compilerVersion,
-      stackTraceList: stackTraceList,
-    );
-  }
+  HTContext getContext() => HTContext(
+        file: currentFile,
+        module: currentBytecodeModule.id,
+        namespace: currentNamespace,
+        ip: currentBytecodeModule.ip,
+        line: currentLine,
+        column: currentColumn,
+        // stackFrames: _stackFrames,
+        scriptMode: scriptMode,
+        globallyImport: globallyImport,
+        compilerVersion: compilerVersion,
+        stackTraceList: stackTraceList,
+      );
 
   void _createStackFrame() {
     _stackFrames.add(HTStackFrame());
@@ -1126,7 +1155,7 @@ class HTInterpreter {
     bool retractStackFrame = true,
     HTContext? context,
     HTStackFrame? stackFrame,
-    dynamic localValue,
+    localValue,
     // void Function()? endOfFileHandler,
     // dynamic Function()? endOfModuleHandler,
   }) {
@@ -1188,7 +1217,10 @@ class HTInterpreter {
               HTResourceType.values.elementAt(resourceTypeIndex);
           if (_currentFileResourceType != HTResourceType.hetuLiteralCode) {
             currentNamespace = HTNamespace(
-                lexicon: _lexicon, id: _currentFile, closure: globalNamespace);
+              lexicon: _lexicon,
+              id: _currentFile,
+              closure: globalNamespace,
+            );
           }
           // literal code will use current namespace as it is when run.
           else {
@@ -1198,11 +1230,14 @@ class HTInterpreter {
         case OpCode.loopPoint:
           final continueLength = _currentBytecodeModule.readUint16();
           final breakLength = _currentBytecodeModule.readUint16();
-          stack.loops.add(HTInterpreterLoopInfo(
+          stack.loops.add(
+            HTInterpreterLoopInfo(
               _currentBytecodeModule.ip,
               _currentBytecodeModule.ip + continueLength,
               _currentBytecodeModule.ip + breakLength,
-              currentNamespace));
+              currentNamespace,
+            ),
+          );
         case OpCode.breakLoop:
           assert(stack.loops.isNotEmpty);
           _currentBytecodeModule.ip = stack.loops.last.breakIp;
@@ -1231,7 +1266,8 @@ class HTInterpreter {
           }
           if (!assertionValue) {
             throw HTError.assertionFailed(
-                '\'$text\', ${description != null ? lexicon.stringify(description) : ''}');
+              "'$text', ${description != null ? lexicon.stringify(description) : ''}",
+            );
           }
         case OpCode.throws:
           throw HTError.scriptThrows(_lexicon.stringify(stack.localValue));
@@ -1266,14 +1302,16 @@ class HTInterpreter {
           final float64Length = _currentBytecodeModule.readUint16();
           for (var i = 0; i < float64Length; ++i) {
             _currentBytecodeModule.addGlobalConstant<double>(
-                _currentBytecodeModule.readFloat64());
+              _currentBytecodeModule.readFloat64(),
+            );
             // _bytecodeModule.addFloat(_bytecodeModule.readFloat64());
           }
         case OpCode.constStringTable:
           final utf8StringLength = _currentBytecodeModule.readUint16();
           for (var i = 0; i < utf8StringLength; ++i) {
             _currentBytecodeModule.addGlobalConstant<String>(
-                _currentBytecodeModule.readUtf8String());
+              _currentBytecodeModule.readUtf8String(),
+            );
           }
         case OpCode.endOfFile:
           if (_currentFileResourceType == HTResourceType.json) {
@@ -1308,12 +1346,12 @@ class HTInterpreter {
           // }
           if (config.printPerformanceStatistics) {
             var message =
-                'hetu: ${DateTime.now().millisecondsSinceEpoch - currentBytecodeModule.timestamp}ms\tto load module\t${_currentBytecodeModule.id}';
+                "hetu: ${DateTime.now().millisecondsSinceEpoch - currentBytecodeModule.timestamp}ms\tto load module\t${_currentBytecodeModule.id}";
             if (_currentBytecodeModule.version != null) {
-              message += '@${_currentBytecodeModule.version}';
+              message += "@${_currentBytecodeModule.version}";
             }
             message +=
-                ' (compiled at ${_currentBytecodeModule.compiledAt} UTC with hetu@$compilerVersion)';
+                " (compiled at ${_currentBytecodeModule.compiledAt} UTC with hetu@$compilerVersion)";
             print(message);
           }
           if (globallyImport && currentNamespace != globalNamespace) {
@@ -1496,8 +1534,11 @@ class HTInterpreter {
             stack.localValue = null;
           }
           if (!isField) {
-            currentNamespace.define(id, decl,
-                override: config.allowVariableShadowing);
+            currentNamespace.define(
+              id,
+              decl,
+              override: config.allowVariableShadowing,
+            );
           }
           if (futureExecution != null) {
             return futureExecution;
@@ -1519,7 +1560,8 @@ class HTInterpreter {
             classId = _currentBytecodeModule.getConstString();
           }
           final isPrivate = _currentBytecodeModule.readBool();
-          final isTopLevel = _currentBytecodeModule.readBool();
+          //TODO: read bytecode to save current behavior
+          final _ = _currentBytecodeModule.readBool();
           currentNamespace = HTNamespace(
             lexicon: _lexicon,
             id: id,
@@ -1527,7 +1569,6 @@ class HTInterpreter {
             closure: currentNamespace,
             documentation: documentation,
             isPrivate: isPrivate,
-            isTopLevel: isTopLevel,
           );
         case OpCode.namespaceDeclEnd:
           final nsp = currentNamespace;
@@ -1545,9 +1586,10 @@ class HTInterpreter {
               object.remove(symbol);
             } else {
               throw HTError.delete(
-                  filename: _currentFile,
-                  line: _currentLine,
-                  column: _currentColumn);
+                filename: _currentFile,
+                line: _currentLine,
+                column: _currentColumn,
+              );
             }
           } else if (deletingType == HTDeletingTypeCode.sub) {
             final object = execute();
@@ -1556,9 +1598,10 @@ class HTInterpreter {
               object.remove(symbol);
             } else {
               throw HTError.delete(
-                  filename: _currentFile,
-                  line: _currentLine,
-                  column: _currentColumn);
+                filename: _currentFile,
+                line: _currentLine,
+                column: _currentColumn,
+              );
             }
           } else {
             final symbol = _currentBytecodeModule.getConstString();
@@ -1584,7 +1627,7 @@ class HTInterpreter {
           }
         case OpCode.doStmt:
           final hasCondition = _currentBytecodeModule.readBool();
-          bool truthValue = false;
+          var truthValue = false;
           if (hasCondition) {
             truthValue = truthy(stack.localValue);
             stack.localValue = null;
@@ -1604,19 +1647,24 @@ class HTInterpreter {
           final value = stack.getValue(HTRegIdx.assignRight);
           assert(stack.localSymbol != null);
           final id = stack.localSymbol!;
-          final result = currentNamespace.memberSet(id, value,
-              isRecursive: true, ignoreUndefined: true);
+          final result = currentNamespace.memberSet(
+            id,
+            value,
+            isRecursive: true,
+            ignoreUndefined: true,
+          );
           if (!result) {
             if (config.allowImplicitVariableDeclaration) {
               final decl = HTVariable(
-                  id: id,
-                  interpreter: this,
-                  file: _currentFile,
-                  module: _currentBytecodeModule.id,
-                  closure: currentNamespace,
-                  value: value,
-                  isPrivate: _lexicon.isPrivate(id),
-                  isMutable: true);
+                id: id,
+                interpreter: this,
+                file: _currentFile,
+                module: _currentBytecodeModule.id,
+                closure: currentNamespace,
+                value: value,
+                isPrivate: _lexicon.isPrivate(id),
+                isMutable: true,
+              );
               currentNamespace.define(id, decl);
             } else {
               throw HTError.undefined(id);
@@ -1698,7 +1746,7 @@ class HTInterpreter {
           final object = stack.getValue(HTRegIdx.relationLeft);
           final type = (stack.localValue as HTType).resolve(currentNamespace)
               as HTNominalType;
-          final klass = type.klass as HTClass;
+          final klass = type.klass! as HTClass;
           stack.localValue = HTCast(object, klass, this);
         case OpCode.typeIs:
           _handleTypeCheck();
@@ -1789,7 +1837,7 @@ class HTInterpreter {
         case OpCode.awaitedValue:
           // handle the possible future execution request raised by await keyword and Future value.
           if (stack.localValue is Future) {
-            final HTContext savedContext = getContext();
+            final savedContext = getContext();
             return FutureExecution(
               future: stack.localValue,
               context: savedContext,
@@ -1812,16 +1860,21 @@ class HTInterpreter {
               stack.localValue = null;
             } else {
               throw HTError.visitMemberOfNullObject(
-                  objectId ?? _lexicon.kNull, key,
-                  filename: _currentFile,
-                  line: _currentLine,
-                  column: _currentColumn);
+                objectId ?? _lexicon.kNull,
+                key,
+                filename: _currentFile,
+                line: _currentLine,
+                column: _currentColumn,
+              );
             }
           } else {
             final encap = encapsulate(object);
             if (encap is HTNamespace) {
-              stack.localValue = encap.memberGet(key,
-                  from: currentNamespace.fullName, isRecursive: false);
+              stack.localValue = encap.memberGet(
+                key,
+                from: currentNamespace.fullName,
+                isRecursive: false,
+              );
             } else {
               stack.localValue =
                   encap?.memberGet(key, from: currentNamespace.fullName);
@@ -1843,10 +1896,12 @@ class HTInterpreter {
               stack.localValue = null;
             } else {
               throw HTError.visitMemberOfNullObject(
-                  objectId ?? _lexicon.kNull, _lexicon.stringify(key),
-                  filename: _currentFile,
-                  line: _currentLine,
-                  column: _currentColumn);
+                objectId ?? _lexicon.kNull,
+                _lexicon.stringify(key),
+                filename: _currentFile,
+                line: _currentLine,
+                column: _currentColumn,
+              );
             }
           } else {
             if (object is HTObject) {
@@ -1855,17 +1910,21 @@ class HTInterpreter {
             } else {
               if (object is List) {
                 if (key is! num) {
-                  throw HTError.subGetKey(key,
-                      filename: _currentFile,
-                      line: _currentLine,
-                      column: _currentColumn);
+                  throw HTError.subGetKey(
+                    key,
+                    filename: _currentFile,
+                    line: _currentLine,
+                    column: _currentColumn,
+                  );
                 }
                 final intValue = key.toInt();
                 if (intValue != key) {
-                  throw HTError.subGetKey(key,
-                      filename: _currentFile,
-                      line: _currentLine,
-                      column: _currentColumn);
+                  throw HTError.subGetKey(
+                    key,
+                    filename: _currentFile,
+                    line: _currentLine,
+                    column: _currentColumn,
+                  );
                 }
                 stack.localValue = object[intValue];
               } else {
@@ -1890,17 +1949,23 @@ class HTInterpreter {
               stack.localValue = null;
             } else {
               throw HTError.visitMemberOfNullObject(
-                  objectId ?? _lexicon.kNull, _lexicon.stringify(key),
-                  filename: _currentFile,
-                  line: _currentLine,
-                  column: _currentColumn);
+                objectId ?? _lexicon.kNull,
+                _lexicon.stringify(key),
+                filename: _currentFile,
+                line: _currentLine,
+                column: _currentColumn,
+              );
             }
           } else {
             stack.localValue = value;
             final encap = encapsulate(object);
             if (encap is HTNamespace) {
-              encap.memberSet(key, value,
-                  from: currentNamespace.fullName, isRecursive: false);
+              encap.memberSet(
+                key,
+                value,
+                from: currentNamespace.fullName,
+                isRecursive: false,
+              );
             } else {
               encap?.memberSet(key, value, from: currentNamespace.fullName);
             }
@@ -1921,10 +1986,12 @@ class HTInterpreter {
               stack.localValue = null;
             } else {
               throw HTError.visitMemberOfNullObject(
-                  objectId ?? _lexicon.kNull, _lexicon.stringify(key),
-                  filename: _currentFile,
-                  line: _currentLine,
-                  column: _currentColumn);
+                objectId ?? _lexicon.kNull,
+                _lexicon.stringify(key),
+                filename: _currentFile,
+                line: _currentLine,
+                column: _currentColumn,
+              );
             }
           } else {
             stack.localValue = value;
@@ -1936,17 +2003,21 @@ class HTInterpreter {
               } else {
                 if (object is List) {
                   if (key is! num) {
-                    throw HTError.subGetKey(key,
-                        filename: _currentFile,
-                        line: _currentLine,
-                        column: _currentColumn);
+                    throw HTError.subGetKey(
+                      key,
+                      filename: _currentFile,
+                      line: _currentLine,
+                      column: _currentColumn,
+                    );
                   }
                   final intValue = key.toInt();
                   if (intValue != key) {
-                    throw HTError.subGetKey(key,
-                        filename: _currentFile,
-                        line: _currentLine,
-                        column: _currentColumn);
+                    throw HTError.subGetKey(
+                      key,
+                      filename: _currentFile,
+                      line: _currentLine,
+                      column: _currentColumn,
+                    );
                   }
                   object[intValue] = value;
                 } else {
@@ -1958,10 +2029,12 @@ class HTInterpreter {
         case OpCode.call:
           _handleCallExpr();
         default:
-          throw HTError.unknownOpCode(instruction,
-              filename: _currentFile,
-              line: _currentLine,
-              column: _currentColumn);
+          throw HTError.unknownOpCode(
+            instruction,
+            filename: _currentFile,
+            line: _currentLine,
+            column: _currentColumn,
+          );
       }
     } while (instruction != OpCode.endOfCode);
   }
@@ -2014,17 +2087,26 @@ class HTInterpreter {
         final importedNamespace = importedModule.namespaces.values.last;
         if (showList.isEmpty) {
           currentNamespace.defineImport(
-              alias!, importedNamespace, 'module:${importedModule.id}');
+            alias!,
+            importedNamespace,
+            "module:${importedModule.id}",
+          );
         } else {
           final aliasNamespace = HTNamespace(
-              lexicon: _lexicon, id: alias!, closure: currentNamespace.closure);
+            lexicon: _lexicon,
+            id: alias!,
+            closure: currentNamespace.closure,
+          );
           for (final id in showList) {
             final decl = importedNamespace.symbols[id]!;
             // assert(!decl.isPrivate);
             aliasNamespace.define(id, decl);
           }
           currentNamespace.defineImport(
-              alias, aliasNamespace, 'module:${importedModule.id}');
+            alias,
+            aliasNamespace,
+            "module:${importedModule.id}",
+          );
         }
       }
     }
@@ -2033,8 +2115,12 @@ class HTInterpreter {
       if (fromPath != null) {
         final ext = path.extension(fromPath);
         if (ext == HTResource.hetuModule || ext == HTResource.hetuScript) {
-          final decl = UnresolvedImport(fromPath,
-              alias: alias, showList: showList, isExported: isExported);
+          final decl = UnresolvedImport(
+            fromPath,
+            alias: alias,
+            showList: showList,
+            isExported: isExported,
+          );
           if (_currentFileResourceType == HTResourceType.hetuModule) {
             currentNamespace.declareImport(decl);
           } else {
@@ -2102,8 +2188,9 @@ class HTInterpreter {
         for (var i = 0; i < interpolationLength; ++i) {
           final value = execute();
           literal = literal.replaceAll(
-              '${_lexicon.stringInterpolationStart}$i${_lexicon.stringInterpolationEnd}',
-              _lexicon.stringify(value));
+            "${_lexicon.stringInterpolationStart}$i${_lexicon.stringInterpolationEnd}",
+            _lexicon.stringify(value),
+          );
         }
         stack.localValue = literal;
       case HTValueTypeCode.identifier:
@@ -2153,14 +2240,19 @@ class HTInterpreter {
         final hasPrototypeId = _currentBytecodeModule.readBool();
         if (hasPrototypeId) {
           final prototypeId = _currentBytecodeModule.getConstString();
-          prototype = currentNamespace.memberGet(prototypeId,
-              from: currentNamespace.fullName, isRecursive: true);
+          prototype = currentNamespace.memberGet(
+            prototypeId,
+            from: currentNamespace.fullName,
+            isRecursive: true,
+          );
         }
-        final struct = HTStruct(this,
-            id: id,
-            prototype: prototype,
-            isPrototypeRoot: id == _lexicon.idGlobalPrototype,
-            closure: currentNamespace);
+        final struct = HTStruct(
+          this,
+          id: id,
+          prototype: prototype,
+          isPrototypeRoot: id == _lexicon.idGlobalPrototype,
+          closure: currentNamespace,
+        );
         final fieldsCount = _currentBytecodeModule.read();
         for (var i = 0; i < fieldsCount; ++i) {
           final isSpread = _currentBytecodeModule.readBool();
@@ -2218,14 +2310,18 @@ class HTInterpreter {
           returnType = _handleTypeExpr();
         }
         final declType = HTFunctionType(
-            parameterTypes: paramDecls.values
-                .map((param) => HTParameterType(
-                    declType: param.declType ?? HTTypeAny(_lexicon.kAny),
-                    isOptional: param.isOptional,
-                    isVariadic: param.isVariadic,
-                    id: param.isNamed ? param.id : null))
-                .toList(),
-            returnType: returnType ?? HTTypeAny(_lexicon.kAny));
+          parameterTypes: paramDecls.values
+              .map(
+                (param) => HTParameterType(
+                  declType: param.declType ?? HTTypeAny(_lexicon.kAny),
+                  isOptional: param.isOptional,
+                  isVariadic: param.isVariadic,
+                  id: param.isNamed ? param.id : null,
+                ),
+              )
+              .toList(),
+          returnType: returnType ?? HTTypeAny(_lexicon.kAny),
+        );
         int? line, column, definitionIp;
         final hasDefinition = _currentBytecodeModule.readBool();
         if (hasDefinition) {
@@ -2364,10 +2460,11 @@ class HTInterpreter {
         return;
       } else {
         throw HTError.callNullObject(
-            objectId ?? stack.localSymbol ?? _lexicon.kNull,
-            filename: _currentFile,
-            line: _currentLine,
-            column: _currentColumn);
+          objectId ?? stack.localSymbol ?? _lexicon.kNull,
+          filename: _currentFile,
+          line: _currentLine,
+          column: _currentColumn,
+        );
       }
     }
     final positionalArgs = [];
@@ -2438,7 +2535,7 @@ class HTInterpreter {
       final typearg = _handleTypeExpr();
       typeArgs.add(typearg);
     }
-    final isNullable = (_currentBytecodeModule.read() == 0) ? false : true;
+    final isNullable = _currentBytecodeModule.read() != 0;
     return HTNominalType(
       id: typeName,
       typeArgs: typeArgs,
@@ -2452,23 +2549,26 @@ class HTInterpreter {
     final parameterTypes = <HTParameterType>[];
     for (var i = 0; i < paramsLength; ++i) {
       final declType = _handleTypeExpr();
-      final isOptional = _currentBytecodeModule.read() == 0 ? false : true;
-      final isVariadic = _currentBytecodeModule.read() == 0 ? false : true;
-      final isNamed = _currentBytecodeModule.read() == 0 ? false : true;
+      final isOptional = _currentBytecodeModule.read() != 0;
+      final isVariadic = _currentBytecodeModule.read() != 0;
+      final isNamed = _currentBytecodeModule.read() != 0;
       String? paramId;
       if (isNamed) {
         paramId = _currentBytecodeModule.getConstString();
       }
       final decl = HTParameterType(
-          id: paramId,
-          declType: declType,
-          isOptional: isOptional,
-          isVariadic: isVariadic);
+        id: paramId,
+        declType: declType,
+        isOptional: isOptional,
+        isVariadic: isVariadic,
+      );
       parameterTypes.add(decl);
     }
     final returnType = _handleTypeExpr();
     return HTFunctionType(
-        parameterTypes: parameterTypes, returnType: returnType);
+      parameterTypes: parameterTypes,
+      returnType: returnType,
+    );
   }
 
   HTStructuralType _handleStructuralType() {
@@ -2495,8 +2595,12 @@ class HTInterpreter {
         return _handleStructuralType();
       default:
         // This should never happens.
-        throw HTError.unknownOpCode(typeType,
-            filename: _currentFile, line: _currentLine, column: _currentColumn);
+        throw HTError.unknownOpCode(
+          typeType,
+          filename: _currentFile,
+          line: _currentLine,
+          column: _currentColumn,
+        );
     }
   }
 
@@ -2568,7 +2672,7 @@ class HTInterpreter {
     final isTopLevel = _currentBytecodeModule.readBool();
     final idCount = _currentBytecodeModule.read();
     final ids = <String, HTType?>{};
-    final omittedPrefix = '##';
+    final omittedPrefix = "##";
     var omittedIndex = 0;
     for (var i = 0; i < idCount; ++i) {
       var id = _currentBytecodeModule.getConstString();
@@ -2617,8 +2721,11 @@ class HTInterpreter {
         isPrivate: _lexicon.isPrivate(id),
         isMutable: isMutable,
       );
-      currentNamespace.define(id, decl,
-          override: config.allowVariableShadowing);
+      currentNamespace.define(
+        id,
+        decl,
+        override: config.allowVariableShadowing,
+      );
     }
   }
 
@@ -2717,14 +2824,18 @@ class HTInterpreter {
       returnType = _handleTypeExpr();
     }
     final declType = HTFunctionType(
-        parameterTypes: paramDecls.values
-            .map((param) => HTParameterType(
-                declType: param.declType ?? HTTypeAny(_lexicon.kAny),
-                isOptional: param.isOptional,
-                isVariadic: param.isVariadic,
-                id: param.isNamed ? param.id : null))
-            .toList(),
-        returnType: returnType ?? HTTypeAny(_lexicon.kAny));
+      parameterTypes: paramDecls.values
+          .map(
+            (param) => HTParameterType(
+              declType: param.declType ?? HTTypeAny(_lexicon.kAny),
+              isOptional: param.isOptional,
+              isVariadic: param.isVariadic,
+              id: param.isNamed ? param.id : null,
+            ),
+          )
+          .toList(),
+      returnType: returnType ?? HTTypeAny(_lexicon.kAny),
+    );
     RedirectingConstructor? redirCtor;
     final positionalArgIps = <int>[];
     final namedArgIps = <String, int>{};
@@ -2750,10 +2861,12 @@ class HTInterpreter {
           namedArgIps[argName] = _currentBytecodeModule.ip;
           _currentBytecodeModule.skip(argLength);
         }
-        redirCtor = RedirectingConstructor(calleeId,
-            key: ctorName,
-            positionalArgsIp: positionalArgIps,
-            namedArgsIp: namedArgIps);
+        redirCtor = RedirectingConstructor(
+          calleeId,
+          key: ctorName,
+          positionalArgsIp: positionalArgIps,
+          namedArgsIp: namedArgIps,
+        );
       }
     }
     int? line, column, definitionIp;
@@ -2892,7 +3005,7 @@ class HTInterpreter {
       prototypeId = _lexicon.idGlobalPrototype;
     }
     final mixinIdsLength = _currentBytecodeModule.read();
-    List<String> mixinIds = [];
+    final mixinIds = <String>[];
     for (var i = 0; i < mixinIdsLength; ++i) {
       mixinIds.add(_currentBytecodeModule.getConstString());
     }

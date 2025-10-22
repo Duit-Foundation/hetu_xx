@@ -1,16 +1,10 @@
-import '../../external/external_class.dart';
-import '../../error/error.dart';
-import '../../interpreter/interpreter.dart';
-import '../../type/type.dart';
-// import '../declaration.dart';
-import '../../value/namespace/namespace.dart';
-import '../function/function.dart';
-import '../../value/instance/instance.dart';
-import '../../declaration/class/class_declaration.dart';
-import '../object.dart';
-import 'class_namespace.dart';
-import '../../type/nominal.dart';
-import '../../common/internal_identifier.dart';
+import "package:hetu_script/external/index.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/interpreter/index.dart";
+import "package:hetu_script/declaration/index.dart";
+import "package:hetu_script/value/index.dart";
+import "package:hetu_script/type/index.dart";
+import "package:hetu_script/common/index.dart";
 
 /// The Dart implementation of the class declaration in Hetu.
 class HTClass extends HTClassDeclaration with HTObject, InterpreterRef {
@@ -78,8 +72,11 @@ class HTClass extends HTClassDeclaration with HTObject, InterpreterRef {
   void resolve() {
     super.resolve();
     if (superType != null) {
-      superClass = namespace.memberGet(superType!.id!,
-          from: namespace.fullName, isRecursive: true);
+      superClass = namespace.memberGet(
+        superType!.id!,
+        from: namespace.fullName,
+        isRecursive: true,
+      );
     }
     if (isExternal) {
       externalClass = interpreter.fetchExternalClass(id!);
@@ -96,7 +93,7 @@ class HTClass extends HTClassDeclaration with HTObject, InterpreterRef {
         interpreter,
         id: id,
         classId: classId,
-        closure: closure != null ? closure as HTNamespace : null,
+        closure: closure != null ? closure! as HTNamespace : null,
         source: source,
         genericTypeParameters: genericTypeParameters,
         superType: superType,
@@ -139,8 +136,12 @@ class HTClass extends HTClassDeclaration with HTObject, InterpreterRef {
   /// Get the value of a static member from this [HTClass] via memberGet operator '.'
   /// for symbol searching, use the same name method on [HTClassNamespace] instead.
   @override
-  dynamic memberGet(String id,
-      {String? from, bool isRecursive = false, bool ignoreUndefined = true}) {
+  dynamic memberGet(
+    String id, {
+    String? from,
+    bool isRecursive = false,
+    bool ignoreUndefined = true,
+  }) {
     final getter = '${InternalIdentifier.getter}$id';
     final constructor = this.id != id
         ? '${InternalIdentifier.namedConstructorPrefix}$id'
@@ -200,22 +201,28 @@ class HTClass extends HTClassDeclaration with HTObject, InterpreterRef {
     // }
 
     if (!ignoreUndefined) {
-      throw HTError.undefined(id,
-          filename: interpreter.currentFile,
-          line: interpreter.currentLine,
-          column: interpreter.currentColumn);
+      throw HTError.undefined(
+        id,
+        filename: interpreter.currentFile,
+        line: interpreter.currentLine,
+        column: interpreter.currentColumn,
+      );
     }
   }
 
   /// Set the value of a static member of this [HTClass] via memberGet operator '.'
   /// for symbol searching, use the same name method on [HTClassNamespace] instead.
   @override
-  void memberSet(String id, dynamic value,
-      {String? from, bool defineIfAbsent = false}) {
+  void memberSet(
+    String id,
+    value, {
+    String? from,
+    bool defineIfAbsent = false,
+  }) {
     final setter = '${InternalIdentifier.setter}$id';
 
     if (isExternal) {
-      externalClass!.memberSet('$id.$id', value);
+      externalClass!.memberSet("$id.$id", value);
       return;
     } else {
       if (namespace.symbols.containsKey(id)) {
@@ -248,10 +255,12 @@ class HTClass extends HTClassDeclaration with HTObject, InterpreterRef {
       }
     }
 
-    throw HTError.undefined(id,
-        filename: interpreter.currentFile,
-        line: interpreter.currentLine,
-        column: interpreter.currentColumn);
+    throw HTError.undefined(
+      id,
+      filename: interpreter.currentFile,
+      line: interpreter.currentLine,
+      column: interpreter.currentColumn,
+    );
   }
 
   /// Call a static function of this [HTClass].
@@ -272,10 +281,12 @@ class HTClass extends HTClassDeclaration with HTObject, InterpreterRef {
           // typeArgs: typeArgs,
         );
       } else {
-        throw HTError.notCallable(funcName,
-            filename: interpreter.currentFile,
-            line: interpreter.currentLine,
-            column: interpreter.currentColumn);
+        throw HTError.notCallable(
+          funcName,
+          filename: interpreter.currentFile,
+          line: interpreter.currentLine,
+          column: interpreter.currentColumn,
+        );
       }
     } catch (error, stackTrace) {
       if (interpreter.config.processError) {
@@ -287,8 +298,8 @@ class HTClass extends HTClassDeclaration with HTObject, InterpreterRef {
   }
 
   String help() {
-    StringBuffer buffer = StringBuffer();
-    buffer.writeln('class $id');
+    var buffer = StringBuffer();
+    buffer.writeln("class $id");
     buffer.write(namespace.help(displayNamespaceName: false));
     return buffer.toString();
   }

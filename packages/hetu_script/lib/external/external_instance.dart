@@ -1,14 +1,8 @@
-import '../value/object.dart';
-import '../type/type.dart';
-import '../type/nominal.dart';
-import '../type/external.dart';
-// import '../grammar/HTLocale.current.dart';
-import '../error/error.dart';
-import '../value/function/function.dart';
-import '../value/class/class.dart';
-import 'external_class.dart';
-// import '../value/external_enum/external_enum.dart';
-import '../interpreter/interpreter.dart';
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/external/index.dart";
+import "package:hetu_script/interpreter/index.dart";
+import "package:hetu_script/type/index.dart";
+import "package:hetu_script/value/index.dart";
 
 /// Class for external object.
 class HTExternalInstance<T> with HTObject, InterpreterRef {
@@ -26,7 +20,10 @@ class HTExternalInstance<T> with HTObject, InterpreterRef {
 
   /// Create a external class object.
   HTExternalInstance(
-      this.externalObject, HTInterpreter interpreter, this.typeString) {
+    this.externalObject,
+    HTInterpreter interpreter,
+    this.typeString,
+  ) {
     this.interpreter = interpreter;
     final id = interpreter.lexicon.getBaseTypeId(typeString);
     if (interpreter.containsExternalClass(id)) {
@@ -48,8 +45,12 @@ class HTExternalInstance<T> with HTObject, InterpreterRef {
   }
 
   @override
-  dynamic memberGet(String id,
-      {String? from, bool isRecursive = false, bool ignoreUndefined = false}) {
+  dynamic memberGet(
+    String id, {
+    String? from,
+    bool isRecursive = false,
+    bool ignoreUndefined = false,
+  }) {
     if (externalClass != null) {
       dynamic member = externalClass!.instanceMemberGet(externalObject, id);
       if (member is Function) {
@@ -59,8 +60,10 @@ class HTExternalInstance<T> with HTObject, InterpreterRef {
           decl = currentKlass.memberGet(id, ignoreUndefined: true);
           currentKlass = currentKlass.superClass;
         }
-        assert(decl != null,
-            'Could not find hetu declaration on external id: $typeString.$id');
+        assert(
+          decl != null,
+          "Could not find hetu declaration on external id: $typeString.$id",
+        );
         decl = decl!.clone();
         // Assign the value as if we are doing decl.resolve() here.
         decl.externalFunc = member;
@@ -76,8 +79,12 @@ class HTExternalInstance<T> with HTObject, InterpreterRef {
   }
 
   @override
-  void memberSet(String id, dynamic value,
-      {String? from, bool defineIfAbsent = false}) {
+  void memberSet(
+    String id,
+    value, {
+    String? from,
+    bool defineIfAbsent = false,
+  }) {
     if (externalClass != null) {
       externalClass!.instanceMemberSet(externalObject, id, value);
     } else {
@@ -87,7 +94,7 @@ class HTExternalInstance<T> with HTObject, InterpreterRef {
 
   String help() {
     final buffer = StringBuffer();
-    buffer.writeln('external object: $typeString');
+    buffer.writeln("external object: $typeString");
     if (klass != null) {
       buffer.write(klass!.help());
     }

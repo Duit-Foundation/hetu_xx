@@ -1,8 +1,8 @@
-import 'package:path/path.dart' as path;
+import "package:path/path.dart" as path;
 
-import '../../error/error.dart';
-import '../../source/source.dart';
-import '../resource_context.dart';
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/source/index.dart";
+import "package:hetu_script/resource/index.dart";
 
 /// [HTOverlayContext] are a virtual set of files that
 /// not neccessarily exists as physical files.
@@ -26,9 +26,7 @@ class HTOverlayContext extends HTResourceContext<HTSource> {
   }
 
   @override
-  bool contains(String key) {
-    return _cached.containsKey(key);
-  }
+  bool contains(String key) => _cached.containsKey(key);
 
   @override
   void addResource(String fullName, HTSource resource) {

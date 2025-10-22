@@ -1,9 +1,7 @@
-import '../../declaration/declaration.dart';
-import '../../external/external_class.dart';
-import '../../interpreter/interpreter.dart';
-import '../object.dart';
-// import '../../value/namespace/namespace.dart';
-// import '../../source/source.dart';
+import "package:hetu_script/declaration/index.dart";
+import "package:hetu_script/external/index.dart";
+import "package:hetu_script/interpreter/index.dart";
+import "package:hetu_script/value/index.dart";
 
 class HTExternalEnum extends HTDeclaration with HTObject, InterpreterRef {
   HTExternalClass? externalClass;
@@ -27,8 +25,12 @@ class HTExternalEnum extends HTDeclaration with HTObject, InterpreterRef {
   }
 
   @override
-  dynamic memberGet(String id,
-      {String? from, bool isRecursive = false, bool ignoreUndefined = false}) {
+  dynamic memberGet(
+    String id, {
+    String? from,
+    bool isRecursive = false,
+    bool ignoreUndefined = false,
+  }) {
     final item = externalClass!
         .memberGet(id, from: from, ignoreUndefined: ignoreUndefined);
     return item;

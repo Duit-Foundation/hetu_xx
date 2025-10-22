@@ -1,10 +1,6 @@
-// import 'dart:io';
+import "package:path/path.dart" as path;
 
-import 'package:path/path.dart' as path;
-
-import '../resource/resource.dart';
-// import 'file_system/file_system_context.dart';
-// import 'overlay/overlay_context.dart';
+import "package:hetu_script/resource/index.dart";
 
 /// A filter used by source context for reading files with certain extensions and/or within certain folders.
 class HTFilterConfig {
@@ -14,14 +10,16 @@ class HTFilterConfig {
 
   bool recursive;
 
-  HTFilterConfig(this.folder,
-      {this.extension = const [
-        HTResource.hetuModule,
-        HTResource.hetuScript,
-        HTResource.json,
-        HTResource.json5,
-      ],
-      this.recursive = true});
+  HTFilterConfig(
+    this.folder, {
+    this.extension = const [
+      HTResource.hetuModule,
+      HTResource.hetuScript,
+      HTResource.json,
+      HTResource.json5,
+    ],
+    this.recursive = true,
+  });
 
   // [fullPath] must be a normalized absolute path
   bool isWithin(String fullPath) {
@@ -59,10 +57,10 @@ class HTFilterConfig {
 /// an URL, or a remote database... any thing that provide
 /// create, read, update, delete services could be a resource context.
 abstract class HTResourceContext<T> {
-  static const hetuPreloadedModulesPrefix = 'module:';
-  static const hetuLocalPackagePrefix = 'package:';
-  static const defaultLocalPackagesFolder = '.hetu_packages';
-  static const hetuModuleEntryFileName = 'main.ht';
+  static const hetuPreloadedModulesPrefix = "module:";
+  static const hetuLocalPackagePrefix = "package:";
+  static const defaultLocalPackagesFolder = ".hetu_packages";
+  static const hetuModuleEntryFileName = "main.ht";
 
   // static String checkHetuModuleName(String fileName) {
   //   if (fileName.contains(HTResourceContext.defaultLocalModulesFolder) &&
@@ -79,7 +77,7 @@ abstract class HTResourceContext<T> {
 
   static const List<String> _predefinedCompatibleHetuValueExtensions = [
     HTResource.json,
-    HTResource.json5
+    HTResource.json5,
   ];
 
   List<String> get binaryFileExtensions => const [];
@@ -101,7 +99,7 @@ abstract class HTResourceContext<T> {
   }
 
   /// Get a unique absolute normalized path.
-  String getAbsolutePath({String key = '', String? dirName, String? filename}) {
+  String getAbsolutePath({String key = "", String? dirName, String? filename}) {
     // if (key.startsWith(HTResourceContext.hetuLocalPackagePrefix)) {
     //   return '$root$defaultLocalPackagesFolder/${key.substring(4)}/$hetuModuleEntryFileName';
     // } else {

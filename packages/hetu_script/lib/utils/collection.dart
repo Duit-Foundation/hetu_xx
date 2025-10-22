@@ -1,14 +1,14 @@
-import '../value/struct/struct.dart';
+import "package:hetu_script/value/index.dart";
 
-dynamic deepCopy(dynamic value) {
+dynamic deepCopy(value) {
   if (value is Iterable) {
-    final List list = [];
+    final list = [];
     for (final item in value) {
       list.add(deepCopy(item));
     }
     return list;
   } else if (value is Map) {
-    final Map map = {};
+    final map = {};
     for (final key in value.keys) {
       map[key] = deepCopy(value[key]);
     }
@@ -20,7 +20,7 @@ dynamic deepCopy(dynamic value) {
   }
 }
 
-bool isEqual(dynamic a, dynamic b) {
+bool isEqual(a, b) {
   if ((a is List) && (b is List)) {
     if (a.length != b.length) return false;
     for (var i = 0; i < a.length; ++i) {

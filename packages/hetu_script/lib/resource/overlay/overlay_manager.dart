@@ -1,6 +1,5 @@
-import '../resource_manager.dart';
-import '../../source/source.dart';
-import 'overlay_context.dart';
+import "package:hetu_script/resource/index.dart";
+import "package:hetu_script/source/index.dart";
 
 class HTOverlayContextManager
     extends HTSourceManager<HTSource, HTOverlayContext> {
@@ -8,7 +7,6 @@ class HTOverlayContextManager
   bool get isSearchEnabled => false;
 
   @override
-  HTOverlayContext createContext(String root) {
-    return HTOverlayContext(root: root, cache: cachedSources);
-  }
+  HTOverlayContext createContext(String root) =>
+      HTOverlayContext(root: root, cache: cachedSources);
 }

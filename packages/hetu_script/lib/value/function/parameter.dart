@@ -1,5 +1,5 @@
-import '../variable/variable.dart';
-import '../../declaration/function/abstract_parameter.dart';
+import "package:hetu_script/declaration/index.dart";
+import "package:hetu_script/value/variable/variable.dart";
 
 // TODO: parameter's initializer must be a const expression.
 
@@ -21,9 +21,9 @@ class HTParameter extends HTVariable implements HTAbstractParameter {
   HTParameter({
     required super.id,
     required super.interpreter,
+    required super.closure,
     super.file,
     super.module,
-    required super.closure,
     super.declType,
     super.ip,
     super.line,
@@ -50,21 +50,19 @@ class HTParameter extends HTVariable implements HTAbstractParameter {
   // }
 
   @override
-  HTParameter clone() {
-    return HTParameter(
-      id: id!,
-      interpreter: interpreter,
-      file: file,
-      module: module,
-      closure: closure,
-      declType: declType,
-      ip: ip,
-      line: line,
-      column: column,
-      isVariadic: isVariadic,
-      isOptional: isOptional,
-      isNamed: isNamed,
-      isInitialization: isInitialization,
-    );
-  }
+  HTParameter clone() => HTParameter(
+        id: id!,
+        interpreter: interpreter,
+        file: file,
+        module: module,
+        closure: closure,
+        declType: declType,
+        ip: ip,
+        line: line,
+        column: column,
+        isVariadic: isVariadic,
+        isOptional: isOptional,
+        isNamed: isNamed,
+        isInitialization: isInitialization,
+      );
 }

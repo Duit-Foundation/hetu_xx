@@ -1,7 +1,5 @@
-import '../error/error.dart';
-// import '../class.dart' show HTInheritable;
-// import '../type/type.dart';
-import '../value/object.dart';
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/value/index.dart";
 
 /// Namespace class of low level external dart functions for Hetu to use.
 abstract class HTExternalClass with HTObject {
@@ -26,8 +24,11 @@ abstract class HTExternalClass with HTObject {
   /// ```
   /// object.key
   /// ```
-  dynamic instanceMemberGet(dynamic instance, String id,
-      {bool ignoreUndefined = false}) {
+  dynamic instanceMemberGet(
+    instance,
+    String id, {
+    bool ignoreUndefined = false,
+  }) {
     if (!ignoreUndefined) throw HTError.undefined(id);
   }
 
@@ -35,20 +36,23 @@ abstract class HTExternalClass with HTObject {
   /// ```
   /// object.key = value
   /// ```
-  void instanceMemberSet(dynamic instance, String id, dynamic value,
-          {bool ignoreUndefined = false}) =>
+  void instanceMemberSet(
+    instance,
+    String id,
+    value, {
+    bool ignoreUndefined = false,
+  }) =>
       throw HTError.undefined(id);
 
   /// Fetch a instance member of the Dart class by the [id], in the form of
   /// ```
   /// object[key]
   /// ```
-  dynamic instanceSubGet(dynamic instance, dynamic key) => instance[key];
+  dynamic instanceSubGet(instance, key) => instance[key];
 
   /// Assign a value to a instance member of the Dart class by the [id], in the form of
   /// ```
   /// object[key] = value
   /// ```
-  void instanceSubSet(dynamic instance, dynamic key, dynamic value) =>
-      instance[key] = value;
+  void instanceSubSet(instance, key, value) => instance[key] = value;
 }

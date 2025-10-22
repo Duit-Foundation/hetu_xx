@@ -1,5 +1,4 @@
-// import '../grammar/constant.dart';
-import 'type.dart';
+import "package:hetu_script/type/index.dart";
 
 // An unknown object type passed into script from other language
 class HTExternalType extends HTType {

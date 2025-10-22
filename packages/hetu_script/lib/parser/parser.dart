@@ -1,12 +1,10 @@
-import '../ast/ast.dart';
-import '../source/source.dart';
-import 'token.dart';
-import '../lexicon/lexicon.dart';
-import '../lexer/lexer.dart';
-import '../lexer/lexer_hetu.dart';
-import 'token_reader.dart';
-import '../error/error.dart';
-import '../resource/resource.dart' show HTResourceType;
+import "package:hetu_script/ast/index.dart";
+import "package:hetu_script/source/index.dart";
+import "package:hetu_script/parser/index.dart";
+import "package:hetu_script/lexicon/index.dart";
+import "package:hetu_script/lexer/index.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/resource/index.dart" show HTResourceType;
 
 /// Determines how to parse a piece of code
 enum ParseStyle {
@@ -82,10 +80,10 @@ abstract class HTParser with TokenReader {
   /// Note that this method will not consume either the start or the end mark.
   List<T> parseExprList<T extends ASTNode>({
     required String endToken,
-    String? separateToken,
     required T? Function() parseFunction,
+    String? separateToken,
   }) {
-    final List<T> listResult = [];
+    final listResult = <T>[];
     while (curTok.lexeme != endToken && curTok.lexeme != Token.endOfFile) {
       // deal with comments or empty liens before spread syntax
       final precedings = savePrecedings();
@@ -108,7 +106,7 @@ abstract class HTParser with TokenReader {
 
   /// To handle the comments & empty lines before a expr;
   List<ASTAnnotation> savePrecedings() {
-    List<ASTAnnotation> precedings = [];
+    var precedings = <ASTAnnotation>[];
     while (curTok is TokenComment || curTok is TokenEmptyLine) {
       ASTAnnotation documentation;
       if (curTok is TokenComment) {
@@ -165,8 +163,11 @@ abstract class HTParser with TokenReader {
   ///
   /// If [style] is not specified, will use [source.sourceType] to determine,
   /// if source is null at the same time, will use [ParseStyle.script] by default.
-  List<ASTNode> parseTokens(Token token,
-      {HTSource? source, ParseStyle? style}) {
+  List<ASTNode> parseTokens(
+    Token token, {
+    HTSource? source,
+    ParseStyle? style,
+  }) {
     // create new list of errors here, old error list is still usable
     errors = <HTError>[];
     final nodes = <ASTNode>[];
@@ -212,13 +213,14 @@ abstract class HTParser with TokenReader {
     final tokens = lexer.lex(source.content);
     final nodes = parseTokens(tokens, source: source);
     final result = ASTSource(
-        nodes: nodes,
-        source: source,
-        imports: currentModuleImports,
-        errors: errors); // copy the list);
+      nodes: nodes,
+      source: source,
+      imports: currentModuleImports,
+      errors: errors,
+    ); // copy the list);
     if (config.printPerformanceStatistics) {
       final tok = DateTime.now().millisecondsSinceEpoch;
-      print('hetu: ${tok - tik}ms\tto parse\t[${source.fullName}]');
+      print("hetu: ${tok - tik}ms\tto parse\t[${source.fullName}]");
     }
     return result;
   }
@@ -228,7 +230,7 @@ abstract class HTParser with TokenReader {
   ASTNode? parseStmt({required ParseStyle style});
 
   bool parseEndOfStmtMark({bool required = false}) {
-    bool hasEndOfStmtMark = true;
+    var hasEndOfStmtMark = true;
     if (config.explicitEndOfStatement || required) {
       match(lexer.lexicon.endOfStatementMark);
     } else {

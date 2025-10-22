@@ -1,10 +1,6 @@
-import 'package:hetu_script/value/function/function.dart';
-
-import '../../error/error.dart';
-import '../../value/namespace/namespace.dart';
-import 'instance.dart';
-import '../../common/internal_identifier.dart';
-import '../../common/function_category.dart';
+import "package:hetu_script/value/index.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/common/index.dart";
 
 /// A implementation of [HTNamespace] for [HTInstance].
 /// For interpreter searching for symbols within instance methods.
@@ -22,14 +18,14 @@ class HTInstanceNamespace extends HTNamespace {
   /// The namespace of the super class
   late final HTInstanceNamespace? next;
 
-  HTInstanceNamespace(
-      {required super.lexicon,
-      required String id,
-      required this.instance,
-      HTInstanceNamespace? runtimeInstanceNamespace,
-      super.classId,
-      super.closure})
-      : super(id: id) {
+  HTInstanceNamespace({
+    required super.lexicon,
+    required String id,
+    required this.instance,
+    HTInstanceNamespace? runtimeInstanceNamespace,
+    super.classId,
+    super.closure,
+  }) : super(id: id) {
     this.runtimeInstanceNamespace = runtimeInstanceNamespace ?? this;
   }
 
@@ -92,7 +88,7 @@ class HTInstanceNamespace extends HTNamespace {
   @override
   bool memberSet(
     String id,
-    dynamic value, {
+    value, {
     String? from,
     bool isRecursive = true,
     bool ignoreUndefined = false,

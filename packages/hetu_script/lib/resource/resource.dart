@@ -8,9 +8,9 @@ enum HTResourceType {
 }
 
 abstract class HTResource {
-  static const hetuInternalModulePrefix = 'hetu:';
-  static const hetuModule = '.ht';
-  static const hetuScript = '.hts';
-  static const json = '.json';
-  static const json5 = '.json5';
+  static const hetuInternalModulePrefix = "hetu:";
+  static const hetuModule = ".ht";
+  static const hetuScript = ".hts";
+  static const json = ".json";
+  static const json5 = ".json5";
 }

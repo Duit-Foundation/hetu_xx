@@ -1,13 +1,12 @@
-import 'package:path/path.dart' as path;
-import 'package:pub_semver/pub_semver.dart';
+import "package:path/path.dart" as path;
+import "package:pub_semver/pub_semver.dart";
 
-import '../resource/resource.dart';
-import '../resource/resource_context.dart';
-import '../source/source.dart';
-import '../error/error.dart';
-import '../ast/ast.dart';
-import '../parser/parser.dart';
-import '../common/internal_identifier.dart';
+import "package:hetu_script/resource/index.dart";
+import "package:hetu_script/source/index.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/ast/index.dart";
+import "package:hetu_script/parser/index.dart";
+import "package:hetu_script/common/index.dart";
 
 class BundlerConfig {
   bool normalizeImportPath;
@@ -30,9 +29,9 @@ class HTBundler {
   final HTResourceContext<HTSource> sourceContext;
 
   HTBundler({
-    BundlerConfig? config,
     required this.sourceContext,
     required this.parser,
+    BundlerConfig? config,
   }) : config = config ?? BundlerConfig();
 
   /// Parse a string content and generate a library,
@@ -62,11 +61,13 @@ class HTBundler {
                     .startsWith(InternalIdentifier.anonymousScript)
                 ? sourceContext.root
                 : path.dirname(astSource.fullName);
-            if (!currentDir.endsWith('/')) {
-              currentDir += '/';
+            if (!currentDir.endsWith("/")) {
+              currentDir += "/";
             }
             decl.fullFromPath = importFullName = sourceContext.getAbsolutePath(
-                key: decl.fromPath!, dirName: currentDir);
+              key: decl.fromPath!,
+              dirName: currentDir,
+            );
           } else {
             decl.fullFromPath = importFullName = decl.fromPath!;
           }
@@ -92,21 +93,25 @@ class HTBundler {
               sourceParseErrors.add(error);
             } else {
               final convertedError = HTError.sourceProviderError(
-                  decl.fromPath!, astSource.fullName,
-                  filename: source.fullName,
-                  line: decl.line,
-                  column: decl.column,
-                  offset: decl.offset,
-                  length: decl.length);
-              sourceParseErrors.add(convertedError);
-            }
-          } else {
-            final convertedError = HTError.extern(error.toString(),
+                decl.fromPath!,
+                astSource.fullName,
                 filename: source.fullName,
                 line: decl.line,
                 column: decl.column,
                 offset: decl.offset,
-                length: decl.length);
+                length: decl.length,
+              );
+              sourceParseErrors.add(convertedError);
+            }
+          } else {
+            final convertedError = HTError.extern(
+              error.toString(),
+              filename: source.fullName,
+              line: decl.line,
+              column: decl.column,
+              offset: decl.offset,
+              length: decl.length,
+            );
             sourceParseErrors.add(convertedError);
           }
         }
@@ -130,7 +135,7 @@ class HTBundler {
     );
     if (config.printPerformanceStatistics) {
       final tok = DateTime.now().millisecondsSinceEpoch;
-      print('hetu: ${tok - tik}ms\tto bundle\t[${source.fullName}]');
+      print("hetu: ${tok - tik}ms\tto bundle\t[${source.fullName}]");
     }
     return compilation;
   }

@@ -1,12 +1,11 @@
-import 'dart:math' as math;
+import "dart:math" as math;
 
-import 'package:path/path.dart' as path;
+import "package:hetu_script/common/index.dart";
+import "package:path/path.dart" as path;
 
-// import '../grammar/lexicon.dart';
-import 'line_info.dart';
-import '../resource/resource.dart';
-import '../utils/crc32b.dart';
-import '../common/internal_identifier.dart';
+import "package:hetu_script/source/index.dart";
+import "package:hetu_script/resource/index.dart";
+import "package:hetu_script/utils/index.dart";
 
 /// A piece of code, with extra informations like:
 /// [fullName], [type], [lineInfo], etc.
@@ -32,8 +31,12 @@ class HTSource {
   String? _crc;
 
   @override
-  bool operator ==(Object other) =>
-      other is HTSource ? hashCode == other.hashCode : false;
+  bool operator ==(Object other) {
+    if (other is HTSource) {
+      return hashCode == other.hashCode;
+    }
+    return false;
+  }
 
   @override
   int get hashCode => _crc != null ? _crc.hashCode : content.hashCode;
@@ -50,13 +53,17 @@ class HTSource {
     } else {
       final hash = crcString(content);
       final nameBuilder = StringBuffer();
-      nameBuilder.write('${InternalIdentifier.anonymousScript}_$hash: ');
+      nameBuilder.write("${InternalIdentifier.anonymousScript}_$hash: ");
       var firstLine =
-          content.trimLeft().replaceAll(RegExp(r'\s+'), ' ').trimRight();
-      nameBuilder.write(firstLine.substring(
-          0, math.min(_anonymousScriptNameLengthLimit, firstLine.length)));
+          content.trimLeft().replaceAll(RegExp(r"\s+"), " ").trimRight();
+      nameBuilder.write(
+        firstLine.substring(
+          0,
+          math.min(_anonymousScriptNameLengthLimit, firstLine.length),
+        ),
+      );
       if (firstLine.length > _anonymousScriptNameLengthLimit) {
-        nameBuilder.write('...');
+        nameBuilder.write("...");
       }
       fullName = nameBuilder.toString();
     }
@@ -74,6 +81,9 @@ class HTJsonSource {
   final String module;
   final dynamic value;
 
-  const HTJsonSource(
-      {required this.fullName, required this.module, required this.value});
+  const HTJsonSource({
+    required this.fullName,
+    required this.module,
+    required this.value,
+  });
 }

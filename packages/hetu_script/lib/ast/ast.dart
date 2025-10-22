@@ -1,16 +1,12 @@
-import 'package:pub_semver/pub_semver.dart';
+import "package:pub_semver/pub_semver.dart";
 
-import '../declaration/namespace/declaration_namespace.dart';
-import '../parser/token.dart';
-import '../source/source.dart';
-import '../declaration/declaration.dart';
-import '../../resource/resource.dart' show HTResourceType;
-import '../../source/line_info.dart';
-import '../error/error.dart';
-import '../../common/internal_identifier.dart';
-import '../common/function_category.dart';
-
-part 'visitor/abstract_ast_visitor.dart';
+import "package:hetu_script/ast/index.dart";
+import "package:hetu_script/declaration/index.dart";
+import "package:hetu_script/parser/index.dart";
+import "package:hetu_script/source/index.dart";
+import "package:hetu_script/resource/index.dart" show HTResourceType;
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/common/index.dart";
 
 /// An abstract node of an abstract syntax tree.
 abstract class ASTNode {
@@ -145,7 +141,7 @@ class ASTEmptyLine extends ASTAnnotation {
     super.length = 0,
   }) : super(
           InternalIdentifier.emptyLine,
-          content: '\n',
+          content: "\n",
           isDocumentation: false,
         );
 }
@@ -179,9 +175,9 @@ class ASTSource extends ASTNode {
 
   ASTSource({
     required this.nodes,
+    required super.source,
     this.imports = const [],
     this.errors = const [],
-    required super.source,
     super.line = 0,
     super.column = 0,
     super.offset = 0,
@@ -426,16 +422,17 @@ class IdentifierExpr extends ASTNode {
 
   IdentifierExpr.fromToken(
     Token idTok, {
-    bool isMarked = false,
     bool isLocal = true,
     HTSource? source,
-  }) : this(idTok.literal.toString(),
-            isLocal: isLocal,
-            source: source,
-            line: idTok.line,
-            column: idTok.column,
-            offset: idTok.offset,
-            length: idTok.length);
+  }) : this(
+          idTok.literal.toString(),
+          isLocal: isLocal,
+          source: source,
+          line: idTok.line,
+          column: idTok.column,
+          offset: idTok.offset,
+          length: idTok.length,
+        );
 }
 
 class SpreadExpr extends ASTNode {
@@ -506,7 +503,6 @@ class ListExpr extends ASTNode {
 
   ListExpr(
     this.list, {
-    HTSource? source,
     super.line = 0,
     super.column = 0,
     super.offset = 0,
@@ -1557,9 +1553,11 @@ class ImportExportDecl extends Statement {
     super.column = 0,
     super.offset = 0,
     super.length = 0,
-  }) : super(isExport
-            ? InternalIdentifier.exportStatement
-            : InternalIdentifier.importStatement);
+  }) : super(
+          isExport
+              ? InternalIdentifier.exportStatement
+              : InternalIdentifier.importStatement,
+        );
 }
 
 class NamespaceDecl extends Statement {
@@ -1964,7 +1962,7 @@ class FuncDecl extends Statement {
     super.length = 0,
   }) : super(
           InternalIdentifier.functionDeclaration,
-          isBlock: (!isExpressionBody && definition != null),
+          isBlock: !isExpressionBody && definition != null,
         );
 }
 
@@ -2145,8 +2143,8 @@ class StructObjField extends ASTNode {
   final ASTNode fieldValue;
 
   StructObjField({
-    this.key,
     required this.fieldValue,
+    this.key,
     super.source,
     super.line = 0,
     super.column = 0,

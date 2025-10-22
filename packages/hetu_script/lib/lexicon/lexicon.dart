@@ -1,10 +1,6 @@
-import 'package:hetu_script/common/internal_identifier.dart';
-
-import '../value/struct/struct.dart';
-import '../types.dart';
-import '../value/class/class.dart';
-import '../value/instance/instance.dart';
-import '../value/function/function.dart';
+import "package:hetu_script/common/index.dart";
+import "package:hetu_script/type/index.dart";
+import "package:hetu_script/value/index.dart";
 
 /// Lexicon used by Hetu
 abstract class HTLexicon {
@@ -807,7 +803,7 @@ abstract class HTLexicon {
         output.write(_curIndent());
         output.write(listEnd);
       } else {
-        output.write('$listStart$listEnd');
+        output.write("$listStart$listEnd");
       }
     } else if (object is Map) {
       if (object.isNotEmpty) {
@@ -821,32 +817,32 @@ abstract class HTLexicon {
           final keyString = stringify(key);
           final valueString = stringify(value);
           if (i < keys.length - 1) {
-            output.write('$keyString: $valueString');
-            output.writeln('$comma ');
+            output.write("$keyString: $valueString");
+            output.writeln("$comma ");
           } else {
-            output.writeln('$keyString: $valueString');
+            output.writeln("$keyString: $valueString");
           }
         }
         --_curIndentCount;
         output.write(_curIndent());
         output.write(structEnd);
       } else {
-        output.write('$structStart$structEnd');
+        output.write("$structStart$structEnd");
       }
     } else if (object is HTStruct) {
       if (object.isNotEmpty) {
         final structString = _stringifyStruct(object);
         output.write(structString);
       } else {
-        output.write('$structStart$structEnd');
+        output.write("$structStart$structEnd");
       }
     } else if (object is HTClass) {
-      output.write('$kClass ${object.id}');
+      output.write("$kClass ${object.id}");
     } else if (object is HTInstance) {
       output
-          .write('${InternalIdentifier.instanceOf} $kClass ${object.classId}');
+          .write("${InternalIdentifier.instanceOf} $kClass ${object.classId}");
     } else if (object is HTFunction) {
-      output.write('$kFunction ${object.internalName}');
+      output.write("$kFunction ${object.internalName}");
     } else if (object is HTType) {
       final typeString = _stringifyType(object, showTypeKeyword: true);
       output.write(typeString);
@@ -856,8 +852,11 @@ abstract class HTLexicon {
     return output.toString();
   }
 
-  String _stringifyStruct(HTStruct struct,
-      {HTStruct? from, bool withBraces = true}) {
+  String _stringifyStruct(
+    HTStruct struct, {
+    HTStruct? from,
+    bool withBraces = true,
+  }) {
     final output = StringBuffer();
     if (withBraces) {
       output.writeln(structStart);
@@ -872,7 +871,7 @@ abstract class HTLexicon {
       final valueBuffer = StringBuffer();
       if (value is HTStruct) {
         if (value.isEmpty) {
-          valueBuffer.write('$structStart$structEnd');
+          valueBuffer.write("$structStart$structEnd");
         } else {
           final content = _stringifyStruct(value);
           // valueBuffer.writeln(codeBlockStart);
@@ -884,7 +883,7 @@ abstract class HTLexicon {
         final valueString = stringify(value, asStringLiteral: true);
         valueBuffer.write(valueString);
       }
-      output.write('$key$structValueIndicator $valueBuffer');
+      output.write("$key$structValueIndicator $valueBuffer");
       if (i < struct.length - 1) {
         output.write(comma);
       }
@@ -907,13 +906,13 @@ abstract class HTLexicon {
   String _stringifyType(HTType type, {bool showTypeKeyword = false}) {
     final output = StringBuffer();
     if (type is HTFunctionType) {
-      if (showTypeKeyword) output.write('$kType ');
+      if (showTypeKeyword) output.write("$kType ");
       if (type.genericTypeParameters.isNotEmpty) {
         output.write(typeListStart);
         for (var i = 0; i < type.genericTypeParameters.length; ++i) {
           output.write(type.genericTypeParameters[i]);
           if (i < type.genericTypeParameters.length - 1) {
-            output.write('$comma ');
+            output.write("$comma ");
           }
         }
         output.write(typeListEnd);
@@ -924,7 +923,7 @@ abstract class HTLexicon {
       var namedStarted = false;
       for (final param in type.parameterTypes) {
         if (param.isVariadic) {
-          output.write('$variadicArgs ');
+          output.write("$variadicArgs ");
         }
         if (param.isOptional && !optionalStarted) {
           optionalStarted = true;
@@ -935,12 +934,12 @@ abstract class HTLexicon {
         }
         final declTypeString = _stringifyType(param.declType);
         if (param.isNamed) {
-          output.write('${param.id}: $declTypeString');
+          output.write("${param.id}: $declTypeString");
         } else {
           output.write(declTypeString);
         }
         if (i < type.parameterTypes.length - 1) {
-          output.write('$comma ');
+          output.write("$comma ");
         }
         ++i;
       }
@@ -952,18 +951,19 @@ abstract class HTLexicon {
       final returnTypeString =
           type.returnType != null ? _stringifyType(type.returnType!) : kAny;
       output.write(
-          '$functionParameterEnd $returnTypeIndicator $returnTypeString');
+        "$functionParameterEnd $returnTypeIndicator $returnTypeString",
+      );
     } else if (type is HTStructuralType) {
-      if (showTypeKeyword) output.write('$kType ');
+      if (showTypeKeyword) output.write("$kType ");
       if (type.fieldTypes.isEmpty) {
-        output.write('$structStart$structEnd');
+        output.write("$structStart$structEnd");
       } else {
         output.writeln(structStart);
         for (var i = 0; i < type.fieldTypes.length; ++i) {
           final key = type.fieldTypes.keys.elementAt(i);
-          output.write('  $key$typeIndicator');
+          output.write("  $key$typeIndicator");
           final fieldTypeString = _stringifyType(type.fieldTypes[key]!);
-          output.write(' $fieldTypeString');
+          output.write(" $fieldTypeString");
           if (i < type.fieldTypes.length - 1) {
             output.write(comma);
           }
@@ -972,17 +972,17 @@ abstract class HTLexicon {
         output.write(structEnd);
       }
     } else if (type is HTExternalType) {
-      if (showTypeKeyword) output.write('$kExternal $kType ');
-      output.write('${type.id}');
+      if (showTypeKeyword) output.write("$kExternal $kType ");
+      output.write("${type.id}");
     } else if (type is HTNominalType) {
-      if (showTypeKeyword) output.write('$kType ');
+      if (showTypeKeyword) output.write("$kType ");
       output.write(type.id);
       if (type.typeArgs.isNotEmpty) {
         output.write(typeListStart);
         for (var i = 0; i < type.typeArgs.length; ++i) {
           output.write(type.typeArgs[i]);
           if ((type.typeArgs.length > 1) && (i != type.typeArgs.length - 1)) {
-            output.write('$comma ');
+            output.write("$comma ");
           }
         }
         output.write(typeListEnd);

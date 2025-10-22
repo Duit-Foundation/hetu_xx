@@ -2,18 +2,18 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of 'error.dart';
+part of "error.dart";
 
 /// String identifiers mapped to associated severities.
 const Map<String, MessageSeverity> severityMap = {
-  'error': MessageSeverity.error,
-  'info': MessageSeverity.info,
-  'warning': MessageSeverity.warn
+  "error": MessageSeverity.error,
+  "info": MessageSeverity.info,
+  "warning": MessageSeverity.warn,
 };
 
 /// Error processor configuration derived from analysis (or embedder) options.
 class ErrorConfig {
-  static const List<String> ignoreWords = ['ignore', 'false'];
+  static const List<String> ignoreWords = ["ignore", "false"];
 
   static MessageSeverity? _toSeverity(String? severity) =>
       severityMap[severity];
@@ -62,7 +62,7 @@ class ErrorProcessor {
   const ErrorProcessor(this.name, [this.severity]);
 
   /// The string that unique describes the processor.
-  String get description => '$name -> ${severity?.name}';
+  String get description => "$name -> ${severity?.name}";
 
   /// Check if this processor applies to the given [error].
   bool appliesTo(HTError error) => name == error.name;

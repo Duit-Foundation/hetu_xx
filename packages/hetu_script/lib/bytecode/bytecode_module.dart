@@ -1,11 +1,10 @@
-import 'dart:typed_data';
+import "dart:typed_data";
 
-import 'package:hetu_script/hetu_script.dart';
-import 'package:pub_semver/pub_semver.dart';
-
-import '../value/namespace/namespace.dart';
-import 'bytecode_reader.dart';
-import '../constant/global_constant_table.dart';
+import "package:pub_semver/pub_semver.dart";
+import "package:hetu_script/bytecode/index.dart";
+import "package:hetu_script/source/index.dart";
+import "package:hetu_script/value/index.dart";
+import "package:hetu_script/constant/index.dart";
 
 /// A bytecode module contains the compiled bytes,
 /// after the execution of the interpreter, it will also contain namespaces & values.

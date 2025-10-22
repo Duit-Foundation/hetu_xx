@@ -1,13 +1,11 @@
-import '../logger/message_severity.dart';
-import '../lexicon/lexicon.dart';
-import '../logger/logger.dart';
-import '../logger/console_logger.dart';
+import "package:hetu_script/lexicon/index.dart";
+import "package:hetu_script/logger/index.dart";
 
 class Console {
   HTLexicon lexicon;
   HTLogger logger;
 
-  static const _defaultTimerId = 'default';
+  static const _defaultTimerId = "default";
   final Map<String, int> _tiks = {};
 
   Console({
@@ -15,30 +13,30 @@ class Console {
     this.logger = const HTConsoleLogger(),
   });
 
-  void log(dynamic messages,
-      {MessageSeverity severity = MessageSeverity.none}) {
+  void log(
+    messages, {
+    MessageSeverity severity = MessageSeverity.none,
+  }) {
     if (messages is List) {
-      messages = messages.map((e) => lexicon.stringify(e)).join(' ');
+      messages = messages.map((e) => lexicon.stringify(e)).join(" ");
     } else {
       messages = lexicon.stringify(messages);
     }
     logger.log(messages, severity: severity);
   }
 
-  void debug(dynamic messages) =>
-      log(messages, severity: MessageSeverity.debug);
+  void debug(messages) => log(messages, severity: MessageSeverity.debug);
 
-  void info(dynamic messages) => log(messages, severity: MessageSeverity.info);
+  void info(messages) => log(messages, severity: MessageSeverity.info);
 
-  void warn(dynamic messages) => log(messages, severity: MessageSeverity.warn);
+  void warn(messages) => log(messages, severity: MessageSeverity.warn);
 
-  void error(dynamic messages) =>
-      log(messages, severity: MessageSeverity.error);
+  void error(messages) => log(messages, severity: MessageSeverity.error);
 
   void time(String? id) {
     id ??= _defaultTimerId;
     if (_tiks.containsKey(id)) {
-      warn('Timer \'$id\' already exists.');
+      warn("Timer '$id' already exists.");
     }
 
     _tiks[id] = DateTime.now().millisecondsSinceEpoch;
@@ -49,12 +47,12 @@ class Console {
     int? t;
     if (_tiks.containsKey(id)) {
       t = DateTime.now().millisecondsSinceEpoch - _tiks[id]!;
-      log('$id: $t ms');
+      log("$id: $t ms");
       if (endTimer) {
         _tiks.remove(id);
       }
     } else {
-      error('Timer \'$id\' does not exist.');
+      error("Timer '$id' does not exist.");
     }
     return t;
   }

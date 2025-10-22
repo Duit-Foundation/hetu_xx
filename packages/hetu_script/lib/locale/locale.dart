@@ -1,7 +1,7 @@
-import 'package:recase/recase.dart';
+import "package:recase/recase.dart";
 
-part 'locales/english.dart';
-part 'locales/simplified_chinese.dart';
+part "english.dart";
+part "simplified_chinese.dart";
 
 /// An abstract interface for a locale that contains error messages.
 abstract class HTLocale {

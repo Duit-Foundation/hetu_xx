@@ -1,7 +1,7 @@
-import 'dart:typed_data';
-import 'dart:convert';
+import "dart:typed_data";
+import "dart:convert";
 
-import 'op_code.dart';
+import "package:hetu_script/bytecode/index.dart";
 
 /// An utility class to read bytes and return the actual value.
 mixin BytecodeReader {
@@ -29,9 +29,7 @@ mixin BytecodeReader {
   }
 
   /// Fetch a bool value from the bytes list
-  bool readBool() {
-    return bytes[ip++] == 0 ? false : true;
-  }
+  bool readBool() => bytes[ip++] != 0;
 
   /// Fetch a uint8 from the bytes list
   int readUint8() {

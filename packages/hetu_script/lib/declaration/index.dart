@@ -1,0 +1,10 @@
+export "abstract_parameter.dart";
+export "abstract_type_declaration.dart";
+export "class_declaration.dart";
+export "declaration.dart";
+export "function_declaration.dart";
+export "generic_type_parameter.dart";
+export "parameter_declaration.dart";
+export "type_alias_declaration.dart";
+export "variable_declaration.dart";
+export "declaration_namespace.dart";

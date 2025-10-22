@@ -1,4 +1,4 @@
-import 'computer.dart';
+import "package:hetu_script/source/index.dart";
 
 /// The location of a character represented as a line and column pair.
 class CharacterLocation {
@@ -13,7 +13,7 @@ class CharacterLocation {
   CharacterLocation(this.line, this.column);
 
   @override
-  String toString() => '$line:$column';
+  String toString() => "$line:$column";
 }
 
 /// Information about line and column information within a source file.
@@ -30,7 +30,7 @@ class LineInfo {
   /// encoded in the given list of [lineStarts].
   LineInfo(this.lineStarts) {
     if (lineStarts.isEmpty) {
-      throw ArgumentError('lineStarts must be non-empty');
+      throw ArgumentError("lineStarts must be non-empty");
     }
   }
 
@@ -82,14 +82,14 @@ class LineInfo {
   int getOffsetOfLine(int lineNumber) {
     if (lineNumber < 0 || lineNumber >= lineCount) {
       throw ArgumentError(
-          'Invalid line number: $lineNumber; must be between 0 and ${lineCount - 1}');
+        "Invalid line number: $lineNumber; must be between 0 and ${lineCount - 1}",
+      );
     }
     return lineStarts[lineNumber];
   }
 
   /// Return the offset of the first character on the line following the line
   /// containing the given [offset].
-  int getOffsetOfLineAfter(int offset) {
-    return getOffsetOfLine(getLocation(offset).line);
-  }
+  int getOffsetOfLineAfter(int offset) =>
+      getOffsetOfLine(getLocation(offset).line);
 }

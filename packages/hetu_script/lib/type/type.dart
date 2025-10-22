@@ -1,5 +1,5 @@
-import '../value/object.dart';
-import '../declaration/namespace/declaration_namespace.dart';
+import "package:hetu_script/value/index.dart";
+import "package:hetu_script/declaration/index.dart";
 
 class HTTypeObject with HTObject {
   @override
@@ -47,8 +47,11 @@ class HTIntrinsicType extends HTType {
   @override
   final bool isBottom;
 
-  const HTIntrinsicType(super.id,
-      {required this.isTop, required this.isBottom});
+  const HTIntrinsicType(
+    super.id, {
+    required this.isTop,
+    required this.isBottom,
+  });
 
   @override
   bool isA(HTType? other) {

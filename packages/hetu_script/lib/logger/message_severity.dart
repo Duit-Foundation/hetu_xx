@@ -2,36 +2,36 @@
 class MessageSeverity implements Comparable<MessageSeverity> {
   /// The severity representing a non-error. This is never used for any error
   /// code, but is useful for clients.
-  static const none = MessageSeverity('NONE', 0, 'none');
+  static const none = MessageSeverity("NONE", 0, "none");
 
   /// The severity representing an debug message.
-  static const debug = MessageSeverity('DEBUG', 1, 'debug');
+  static const debug = MessageSeverity("DEBUG", 1, "debug");
 
   /// The severity representing an informational level analysis issue.
-  static const info = MessageSeverity('INFO', 2, 'info');
+  static const info = MessageSeverity("INFO", 2, "info");
 
   /// The severity representing a warning.
-  static const warn = MessageSeverity('WARN', 3, 'warn');
+  static const warn = MessageSeverity("WARN", 3, "warn");
 
   /// The severity representing an error.
-  static const error = MessageSeverity('ERROR', 4, 'error');
+  static const error = MessageSeverity("ERROR", 4, "error");
 
   static const List<MessageSeverity> values = [none, debug, info, warn, error];
 
   static MessageSeverity of(String name) {
     switch (name) {
-      case 'none':
+      case "none":
         return MessageSeverity.none;
-      case 'debug':
+      case "debug":
         return MessageSeverity.debug;
-      case 'info':
+      case "info":
         return MessageSeverity.info;
-      case 'warn':
+      case "warn":
         return MessageSeverity.warn;
-      case 'error':
+      case "error":
         return MessageSeverity.error;
       default:
-        throw 'Unrecognized message severity name: [$name]';
+        throw "Unrecognized message severity name: [$name]";
     }
   }
 

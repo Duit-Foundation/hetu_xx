@@ -1,9 +1,6 @@
-// import '../source/source.dart';
-import '../locale/locale.dart';
-
-import '../error/error.dart';
-// import '../error/error_handler.dart';
-import 'token.dart';
+import "package:hetu_script/locale/index.dart";
+import "package:hetu_script/error/index.dart";
+import "package:hetu_script/parser/index.dart";
 
 /// Mixin for handling a token list.
 mixin TokenReader {
@@ -28,7 +25,7 @@ mixin TokenReader {
     this.line = line ?? 0;
     this.column = column ?? 0;
 
-    Token cur = token;
+    var cur = token;
     while (cur.next != null) {
       cur = cur.next!;
     }
@@ -48,7 +45,7 @@ mixin TokenReader {
   /// Search for parentheses end that can close the current one, return the token next to it.
   Token seekGroupClosing(Map<String, String> groupClosings) {
     var current = curTok;
-    final List<String> closings = [];
+    final closings = <String>[];
     var distance = 0;
     var depth = 0;
 
@@ -156,12 +153,15 @@ mixin TokenReader {
   /// and return the original token. If not, generate an error.
   Token match(String lexeme) {
     if (curTok.lexeme != lexeme) {
-      final err = HTError.unexpectedToken(lexeme, curTok.lexeme,
-          filename: currrentFileName,
-          line: curTok.line,
-          column: curTok.column,
-          offset: curTok.offset,
-          length: curTok.length);
+      final err = HTError.unexpectedToken(
+        lexeme,
+        curTok.lexeme,
+        filename: currrentFileName,
+        line: curTok.line,
+        column: curTok.column,
+        offset: curTok.offset,
+        length: curTok.length,
+      );
       errors.add(err);
     }
 
@@ -171,12 +171,15 @@ mixin TokenReader {
   /// same with [match], with plural types provided.
   Token match2(Set<String> lexemes) {
     if (!lexemes.contains(curTok.lexeme)) {
-      final err = HTError.unexpectedToken(lexemes.toString(), curTok.lexeme,
-          filename: currrentFileName,
-          line: curTok.line,
-          column: curTok.column,
-          offset: curTok.offset,
-          length: curTok.length);
+      final err = HTError.unexpectedToken(
+        lexemes.toString(),
+        curTok.lexeme,
+        filename: currrentFileName,
+        line: curTok.line,
+        column: curTok.column,
+        offset: curTok.offset,
+        length: curTok.length,
+      );
       errors.add(err);
     }
 
