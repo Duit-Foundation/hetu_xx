@@ -1,17 +1,19 @@
-name: _hetu_script_dev
-description: Hetu Script Development
-version: 0.0.0
+name: _
 publish_to: none
-
 environment:
-  sdk: ^3.0.0
+  sdk: ^3.6.0
+workspace:
+ - packages/hetu_script
+ - packages/hetu_script_dev_tools
 
 dependencies:
+  benchmark_harness: ^2.3.1
   hetu_script:
     path: packages/hetu_script
   hetu_script_dev_tools:
     path: packages/hetu_script_dev_tools
 
 dev_dependencies:
-  lints: ^6.0.0
-  test: ^1.19.4
+  lints: ^5.1.0
+  test: ^1.26.0
+  analyzer: ^7.7.0
