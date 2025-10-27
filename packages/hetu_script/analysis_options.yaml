@@ -39,4 +39,3 @@ linter:
     - prefer_expression_function_bodies
     - avoid_function_literals_in_foreach_calls
     - use_function_type_syntax_for_parameters
-    - use_function_type_syntax_for_parameters
