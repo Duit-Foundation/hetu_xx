@@ -91,13 +91,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  hetu_script:
-    dependency: "direct main"
-    description:
-      path: "../../hetu_script"
-      relative: true
-    source: path
-    version: "0.6.2"
   hetu_script_flutter:
     dependency: "direct main"
     description:
@@ -105,6 +98,13 @@ packages:
       relative: true
     source: path
     version: "0.1.0+2"
+  hetu_xx:
+    dependency: "direct main"
+    description:
+      path: "../../hetu_xx"
+      relative: true
+    source: path
+    version: "0.6.2"
   leak_tracker:
     dependency: transitive
     description:

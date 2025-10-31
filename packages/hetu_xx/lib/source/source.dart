@@ -1,0 +1,89 @@
+import "dart:math" as math;
+
+import "package:hetu_xx/common/index.dart";
+import "package:path/path.dart" as path;
+
+import "package:hetu_xx/source/index.dart";
+import "package:hetu_xx/resource/index.dart";
+import "package:hetu_xx/utils/index.dart";
+
+/// A piece of code, with extra informations like:
+/// [fullName], [type], [lineInfo], etc.
+class HTSource {
+  static const _anonymousScriptNameLengthLimit = 18;
+
+  String get basename => path.basename(fullName);
+
+  late String fullName;
+
+  HTResourceType type;
+
+  String _content;
+  String get content => _content;
+  set content(String value) {
+    _content = value;
+    _lineInfo = LineInfo.fromContent(content);
+  }
+
+  LineInfo _lineInfo;
+  LineInfo get lineInfo => _lineInfo;
+
+  String? _crc;
+
+  @override
+  bool operator ==(Object other) {
+    if (other is HTSource) {
+      return hashCode == other.hashCode;
+    }
+    return false;
+  }
+
+  @override
+  int get hashCode => _crc != null ? _crc.hashCode : content.hashCode;
+
+  HTSource(
+    String content, {
+    String? filename,
+    this.type = HTResourceType.hetuModule,
+    bool hashContent = false,
+  })  : _content = content,
+        _lineInfo = LineInfo.fromContent(content) {
+    if (filename != null) {
+      fullName = filename;
+    } else {
+      final hash = crcString(content);
+      final nameBuilder = StringBuffer();
+      nameBuilder.write("${InternalIdentifier.anonymousScript}_$hash: ");
+      var firstLine =
+          content.trimLeft().replaceAll(RegExp(r"\s+"), " ").trimRight();
+      nameBuilder.write(
+        firstLine.substring(
+          0,
+          math.min(_anonymousScriptNameLengthLimit, firstLine.length),
+        ),
+      );
+      if (firstLine.length > _anonymousScriptNameLengthLimit) {
+        nameBuilder.write("...");
+      }
+      fullName = nameBuilder.toString();
+    }
+
+    if (hashContent) {
+      _crc = crcString(content);
+    }
+  }
+}
+
+/// A value, however it can be imported like a source.
+/// Typically a json file, which is a [HTStruct] value in Hetu Script.
+class HTJsonSource {
+  final String fullName;
+  final String module;
+  final dynamic value;
+
+  const HTJsonSource({
+    required this.fullName,
+    required this.module,
+    required this.value,
+  });
+}

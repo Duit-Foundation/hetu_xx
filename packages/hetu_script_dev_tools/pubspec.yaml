@@ -17,5 +17,5 @@ dependencies:
   http: ^1.2.0
   pub_semver: ^2.1.1
   # hetu_script: '^0.4.2+1'
-  hetu_script:
-    path: ../hetu_script
+  hetu_xx:
+    path: ../hetu_xx

@@ -14,8 +14,8 @@ dependencies:
 
   path: ^1.8.0
   # hetu_script: '^0.4.2+1'
-  hetu_script:
-    path: ../hetu_script
+  hetu_xx:
+    path: ../hetu_xx
 
 dev_dependencies:
   lints: ^5.1.0

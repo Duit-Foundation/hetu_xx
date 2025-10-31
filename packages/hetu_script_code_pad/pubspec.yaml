@@ -19,8 +19,8 @@ dependencies:
   highlight: ^0.7.0
   flutter_highlight: ^0.7.0
 
-  hetu_script:
-    path: ../hetu_script
+  hetu_xx:
+    path: ../hetu_xx
   hetu_script_flutter:
     path: ../hetu_script_flutter
 
