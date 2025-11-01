@@ -1,4 +1,4 @@
-import 'package:hetu_script/hetu_script.dart';
+import 'package:hetu_xx/hetu_xx.dart';
 
 const v1 = 'external static member of a script class';
 const v2 = 'external instance member of a script class';

@@ -1,6 +1,5 @@
 import 'package:test/test.dart';
-import 'package:hetu_script/hetu_script.dart';
-import 'package:hetu_script/binding.dart';
+import 'package:hetu_xx/hetu_xx.dart';
 
 class Name {
   final String familyName;

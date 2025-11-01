@@ -2,8 +2,7 @@ import 'dart:io';
 
 import 'package:path/path.dart' as path;
 
-import 'package:hetu_script/logger/logger.dart';
-import 'package:hetu_script/logger/message_severity.dart';
+import 'package:hetu_xx/hetu_xx.dart';
 
 import '../util/uid.dart';
 

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:path/path.dart' as path;
-import 'package:hetu_xx/hetu_script.dart';
+import 'package:hetu_xx/hetu_xx.dart';
 
 class HTAssetResourceContext extends HTResourceContext<HTSource> {
   @override

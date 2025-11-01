@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:hetu_xx/hetu_script.dart';
+import 'package:hetu_xx/hetu_xx.dart';
 import 'package:hetu_script_flutter/hetu_script_flutter.dart';
 
 void main() async {

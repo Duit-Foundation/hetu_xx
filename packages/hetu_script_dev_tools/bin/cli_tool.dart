@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:path/path.dart' as path;
 // import 'package:args/command_runner.dart';
 import 'package:pub_semver/pub_semver.dart';
-import 'package:hetu_script/hetu_script.dart';
+import 'package:hetu_xx/hetu_xx.dart';
 import 'package:args/args.dart';
 
 import 'common.dart';

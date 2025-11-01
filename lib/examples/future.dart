@@ -1,4 +1,4 @@
-import 'package:hetu_script/hetu_script.dart';
+import 'package:hetu_xx/hetu_xx.dart';
 
 Future<void> fetch() {
   // Imagine that this function is fetching user info from another service or database.

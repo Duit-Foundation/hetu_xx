@@ -1,4 +1,4 @@
-import 'package:hetu_script/hetu_script.dart';
+import 'package:hetu_xx/hetu_xx.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import 'binding/test_external_class.dart';

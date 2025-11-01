@@ -3,7 +3,7 @@
 import 'dart:async';
 import 'dart:isolate';
 
-import 'package:hetu_script/hetu_script.dart';
+import 'package:hetu_xx/hetu_xx.dart';
 
 late final ReceivePort mainToIsolatePort, isolateToMainPort;
 late final SendPort mainPort;

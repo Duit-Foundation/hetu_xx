@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:path/path.dart' as path;
 
-import 'package:hetu_script/hetu_script.dart';
+import 'package:hetu_xx/hetu_xx.dart';
 
 /// [HTResourceContext] are a set of files and folders under a folder or a path.
 class HTFileSystemResourceContext extends HTResourceContext<HTSource> {

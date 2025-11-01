@@ -1,4 +1,4 @@
-import 'package:hetu_script/hetu_script.dart';
+import 'package:hetu_xx/hetu_xx.dart';
 
 void main() {
   Map dartMapValue = {'greetings': 'greetings from Dart!'};

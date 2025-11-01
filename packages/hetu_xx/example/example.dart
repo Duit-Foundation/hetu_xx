@@ -1,4 +1,4 @@
-import "package:hetu_xx/hetu_script.dart";
+import "package:hetu_xx/hetu_xx.dart";
 
 void main() {
   final hetu = Hetu();

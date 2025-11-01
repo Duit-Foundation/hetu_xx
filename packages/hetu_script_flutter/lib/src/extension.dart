@@ -1,6 +1,4 @@
-import 'package:hetu_xx/hetu_script.dart';
-import 'package:hetu_xx/binding.dart';
-import 'package:hetu_xx/value/function/function.dart';
+import 'package:hetu_xx/hetu_xx.dart';
 
 import 'assets_resource_context.dart';
 
