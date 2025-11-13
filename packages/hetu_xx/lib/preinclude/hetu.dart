@@ -1,5 +1,6 @@
 import "dart:typed_data";
 
+import "package:hetu_xx/asset.dart";
 import "package:hetu_xx/lexicon/index.dart";
 import "package:pub_semver/pub_semver.dart";
 import "package:hetu_xx/version.dart";
@@ -447,7 +448,7 @@ class Hetu {
       // load precompiled core module.
       final coreModule = Uint8List.fromList(hetuCoreModule);
       interpreter.loadBytecode(
-        bytes: coreModule,
+        bytes: stdLib,
         module: "hetu",
         globallyImport: true,
       );
