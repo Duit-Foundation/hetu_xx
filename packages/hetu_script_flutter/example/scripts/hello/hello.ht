@@ -1,7 +1,0 @@
-import '../utils.ht'
-
-const msg = kGreetings + '!!!'
-
-function hello {
-  return msg
-}
